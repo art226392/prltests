@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BPD_tests - Понимание Себя</title>
+    <title>BPD tests - Понимание Себя</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,11 +12,22 @@
       rel="stylesheet"
     />
     <style>
+      /* Base Styles */
+      :root {
+        --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+        --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
+
+      /* This will be controlled by Lenis library now */
+      /* html {
+        scroll-behavior: smooth;
+      } */
 
       body {
         font-family: "Inter", sans-serif;
@@ -25,75 +36,226 @@
         overflow-x: hidden;
       }
 
+      body.loading {
+        overflow: hidden;
+      }
+
       .display-font {
         font-family: "Playfair Display", serif;
       }
 
-      /* Premium Background - Убрана анимация вращения */
+      /* Preloader Styles */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0a0a0a;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 1.5s var(--ease-in-out-cubic);
+      }
+
+      .preloader.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .preloader-content {
+        text-align: center;
+      }
+
+      .preloader-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: sensual-loader-anim 5s ease-in-out infinite;
+      }
+
+      @keyframes sensual-loader-anim {
+        0%,
+        100% {
+          transform: scale(1) rotate(0deg);
+          box-shadow: 0 0 25px rgba(118, 75, 162, 0.5);
+        }
+        50% {
+          transform: scale(1.1) rotate(5deg);
+          box-shadow: 0 0 50px rgba(102, 126, 234, 0.7);
+        }
+      }
+
+      .preloader-text {
+        font-family: "Playfair Display", serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+        opacity: 0;
+        animation: fade-in-up 1.2s var(--ease-out-quint) 0.5s forwards;
+      }
+
+      .preloader-welcome-text {
+        font-family: "Inter", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: #a0aec0; /* Tailwind gray-400 */
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: 8px;
+        opacity: 0;
+        animation: fade-in-up 1.2s var(--ease-out-quint) 0.8s forwards;
+      }
+
+      @keyframes fade-in-up {
+        from {
+          opacity: 0;
+          transform: translateY(25px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Main Content Animation */
+      .content-wrapper {
+        opacity: 0;
+        transition: opacity 1.8s var(--ease-out-quint);
+      }
+
+      .content-loaded .content-wrapper {
+        opacity: 1;
+      }
+
+      /* Staggered Section Animations */
+      .fade-in-section {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1.2s var(--ease-out-quint);
+      }
+
+      .content-loaded .fade-in-section {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .content-loaded .fade-in-section:nth-child(1) {
+        transition-delay: 0.2s;
+      }
+      .content-loaded .fade-in-section:nth-child(2) {
+        transition-delay: 0.3s;
+      }
+      .content-loaded .fade-in-section:nth-child(3) {
+        transition-delay: 0.4s;
+      }
+      .content-loaded footer.fade-in-section {
+        transition-delay: 0.5s;
+      }
+
+      /* Background & Orbs */
       .hero-gradient {
         position: fixed;
         inset: 0;
         background: radial-gradient(
             circle at 20% 80%,
-            rgba(120, 119, 198, 0.3) 0%,
-            transparent 50%
+            rgba(120, 119, 198, 0.2) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 80% 20%,
-            rgba(255, 119, 198, 0.3) 0%,
-            transparent 50%
+            rgba(255, 119, 198, 0.2) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 40% 40%,
-            rgba(120, 219, 255, 0.2) 0%,
-            transparent 50%
+            rgba(120, 219, 255, 0.15) 0%,
+            transparent 40%
           );
+        opacity: 0;
+        transition: opacity 2.5s var(--ease-out-quint);
       }
 
-      /* Glassmorphism Cards */
+      .content-loaded .hero-gradient {
+        opacity: 1;
+      }
+
+      .floating-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(50px);
+        opacity: 0;
+        animation: float 25s infinite ease-in-out;
+        transition: opacity 3s ease-out;
+      }
+
+      .content-loaded .floating-orb {
+        opacity: 0.6;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(20px, -30px) rotate(45deg);
+        }
+        50% {
+          transform: translate(-20px, 20px) rotate(90deg);
+        }
+        75% {
+          transform: translate(30px, 10px) rotate(135deg);
+        }
+      }
+
+      /* Glassmorphism Elements */
       .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Сделано медленнее */
+        background: rgba(20, 20, 22, 0.5);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.6s var(--ease-out-quint);
         position: relative;
         overflow: hidden;
       }
 
-      .glass-card::before {
+      .glass-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        background: rgba(30, 30, 32, 0.7);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
+          0 0 100px rgba(120, 119, 198, 0.15);
+      }
+
+      /* Card Shine Effect */
+      .card-shine::after {
         content: "";
         position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          135deg,
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(
+          circle,
           rgba(255, 255, 255, 0.1) 0%,
-          transparent 100%
+          rgba(255, 255, 255, 0) 50%
         );
+        transform: translate(var(--shine-x, -50%), var(--shine-y, -50%));
+        transition: transform 0.2s ease-out, opacity 0.8s ease-out;
         opacity: 0;
-        transition: opacity 0.8s ease; /* Сделано медленнее */
+        pointer-events: none;
       }
 
-      .glass-card:hover {
-        transform: translateY(-8px);
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-          0 0 80px rgba(120, 119, 198, 0.2),
-          inset 0 0 30px rgba(255, 255, 255, 0.05);
-      }
-
-      .glass-card:hover::before {
+      .card-shine:hover::after {
         opacity: 1;
-      }
-
-      /* Общие стили для плавного перехода */
-      a,
-      .transition-colors {
-        transition: color 0.8s ease;
-      }
-
-      .transition-transform {
-        transition: transform 0.8s ease;
+        transition: transform 0.8s ease-out, opacity 0.2s ease-out;
       }
 
       /* Premium Button */
@@ -105,73 +267,52 @@
         border-radius: 12px;
         font-weight: 600;
         font-size: 16px;
-        transition: all 0.8s ease; /* Сделано медленнее */
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transition: all 0.6s var(--ease-out-quint);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
         overflow: hidden;
+        z-index: 1;
       }
 
       .premium-button::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.3),
-          transparent
-        );
-        transition: left 1s ease; /* Сделано медленнее */
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.8s var(--ease-out-quint),
+          height 0.8s var(--ease-out-quint);
+        z-index: -1;
       }
 
       .premium-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5),
-          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.45),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
 
       .premium-button:hover::before {
-        left: 100%;
+        width: 250%;
+        height: 250%;
       }
 
-      /* Floating Elements */
-      .floating-orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(40px);
-        opacity: 0.5;
-        animation: float 20s infinite ease-in-out;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0) translateX(0);
-        }
-        33% {
-          transform: translateY(-30px) translateX(20px);
-        }
-        66% {
-          transform: translateY(20px) translateX(-20px);
-        }
-      }
-
-      /* Premium Text Gradient */
+      /* Text & Links */
       .gradient-text {
         background: linear-gradient(
-          135deg,
-          #667eea 0%,
-          #764ba2 50%,
+          125deg,
+          #8a2be2 0%,
+          #ff69b4 50%,
           #f093fb 100%
         );
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        background-size: 200% 200%;
-        animation: gradient-animation 3s ease infinite;
+        background-size: 300% 300%;
+        animation: gradient-animation 5s ease infinite;
       }
 
       @keyframes gradient-animation {
@@ -186,65 +327,46 @@
         }
       }
 
-      /* Card Shine Effect */
-      .card-shine {
+      nav a {
         position: relative;
-        overflow: hidden;
+        transition: color 0.4s var(--ease-out-quint);
       }
 
-      .card-shine::after {
+      nav a::after {
         content: "";
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-          45deg,
-          transparent 30%,
-          rgba(255, 255, 255, 0.1) 50%,
-          transparent 70%
-        );
-        transform: rotate(45deg) translate(-100%, -100%);
-        transition: transform 1.2s ease; /* Сделано медленнее */
+        width: 100%;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.4s var(--ease-out-quint);
       }
 
-      .card-shine:hover::after {
-        transform: rotate(45deg) translate(100%, 100%);
+      nav a:hover {
+        color: #c4b5fd;
       }
 
-      /* Loading Animation */
-      .pulse-dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #667eea;
-        animation: pulse 1.5s infinite;
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.5);
-          opacity: 0.5;
-        }
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      /* Smooth Scroll */
-      html {
-        scroll-behavior: smooth;
+      nav a:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
       }
     </style>
   </head>
-  <body>
+  <body class="loading">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+      <div class="preloader-content">
+        <div class="preloader-logo">
+          <span class="text-white font-bold text-4xl">Ψ</span>
+        </div>
+        <div class="preloader-text">BPD tests</div>
+        <div class="preloader-welcome-text">Добро Пожаловать</div>
+      </div>
+    </div>
+
     <div class="hero-gradient"></div>
 
     <!-- Floating Orbs -->
@@ -294,54 +416,62 @@
       "
     ></div>
 
-    <div class="relative z-10 min-h-screen">
+    <div class="relative z-10 min-h-screen content-wrapper">
       <!-- Navigation -->
-      <nav class="glass-card fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-          <div class="flex items-center space-x-2">
+      <nav
+        class="glass-card fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 px-6 py-4 rounded-2xl fade-in-section"
+      >
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-3">
             <div
               class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
             >
               <span class="text-white font-bold text-xl">Ψ</span>
             </div>
-            <span class="text-xl font-semibold">BPD_tests</span>
+            <span class="text-xl font-semibold">BPD tests</span>
           </div>
           <div class="hidden md:flex space-x-8">
-            <a href="#" class="hover:text-purple-400">Главная</a>
-            <a href="#tests" class="hover:text-purple-400">Тесты</a>
-            <a href="#about" class="hover:text-purple-400">О проекте</a>
-            <a href="#contact" class="hover:text-purple-400">Контакты</a>
+            <a href="#">Главная</a>
+            <a href="#tests">Тесты</a>
+            <a href="#about">О проекте</a>
+            <a href="#contact">Контакты</a>
           </div>
         </div>
       </nav>
 
       <!-- Hero Section -->
-      <section class="min-h-screen flex items-center justify-center px-6 pt-20">
+      <section
+        id="hero"
+        class="min-h-screen flex items-center justify-center px-6 pt-20 fade-in-section"
+      >
         <div class="max-w-6xl mx-auto text-center">
           <h1
             class="display-font text-6xl md:text-8xl font-bold mb-6 leading-tight"
           >
-            Откройте <span class="gradient-text">Себя</span> Заново
+            Открой <span class="gradient-text">Себя</span> Заново
           </h1>
           <p
             class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Профессиональные и не очень психологические тесты для глубокого
-            понимания личности, отношений и ближайшего будущего.
+            Тесты для глубокого понимания личности, отношений и ближайшего
+            будущего.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#tests" class="premium-button inline-block">
               Начать тестирование
             </a>
-            <button class="glass-card px-8 py-4 rounded-xl hover:bg-white/10">
+            <a
+              href="#about"
+              class="glass-card px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-300"
+            >
               Узнать больше
-            </button>
+            </a>
           </div>
         </div>
       </section>
 
       <!-- Tests Section -->
-      <section id="tests" class="py-20 px-6">
+      <section id="tests" class="py-20 px-6 fade-in-section">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-16">
             <h2 class="display-font text-5xl md:text-6xl font-bold mb-4">
@@ -356,11 +486,11 @@
             <!-- Narcissism Test Card -->
             <div
               class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
-              onclick="window.location.href='project-root/tests/narcissism-test.html'"
+              onclick="window.location.href='tests/narcissism-test.html'"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
-                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 var(--ease-out-quint)"
                 >
                   <svg
                     class="w-8 h-8 text-white"
@@ -390,8 +520,8 @@
               </p>
               <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4 text-sm text-gray-500">
-                  <span class="flex items-center">
-                    <svg
+                  <span class="flex items-center"
+                    ><svg
                       class="w-4 h-4 mr-1"
                       fill="none"
                       stroke="currentColor"
@@ -402,12 +532,11 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    10-15 мин
-                  </span>
-                  <span class="flex items-center">
-                    <svg
+                      ></path></svg
+                    >10-15 мин</span
+                  >
+                  <span class="flex items-center"
+                    ><svg
                       class="w-4 h-4 mr-1"
                       fill="none"
                       stroke="currentColor"
@@ -418,13 +547,12 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    13 вопросов
-                  </span>
+                      ></path></svg
+                    >13 вопросов</span
+                  >
                 </div>
                 <svg
-                  class="w-6 h-6 text-purple-400 group-hover:translate-x-2 transition-transform"
+                  class="w-6 h-6 text-purple-400 group-hover:translate-x-2 transition-transform duration-500 var(--ease-out-quint)"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -439,14 +567,14 @@
               </div>
             </div>
 
-            <!-- New Children Test Card -->
+            <!-- Children Test Card -->
             <div
               class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
-              onclick="window.location.href='project-root/tests/children-test.html'"
+              onclick="window.location.href='tests/children-test.html'"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
-                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-green-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-green-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 var(--ease-out-quint)"
                 >
                   <svg
                     class="w-8 h-8 text-white"
@@ -477,8 +605,8 @@
               </p>
               <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4 text-sm text-gray-500">
-                  <span class="flex items-center">
-                    <svg
+                  <span class="flex items-center"
+                    ><svg
                       class="w-4 h-4 mr-1"
                       fill="none"
                       stroke="currentColor"
@@ -489,12 +617,11 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    5-10 мин
-                  </span>
-                  <span class="flex items-center">
-                    <svg
+                      ></path></svg
+                    >5-10 мин</span
+                  >
+                  <span class="flex items-center"
+                    ><svg
                       class="w-4 h-4 mr-1"
                       fill="none"
                       stroke="currentColor"
@@ -505,13 +632,12 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    15 вопросов
-                  </span>
+                      ></path></svg
+                    >15 вопросов</span
+                  >
                 </div>
                 <svg
-                  class="w-6 h-6 text-sky-400 group-hover:translate-x-2 transition-transform"
+                  class="w-6 h-6 text-sky-400 group-hover:translate-x-2 transition-transform duration-500 var(--ease-out-quint)"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -526,14 +652,14 @@
               </div>
             </div>
 
-            <!-- New Sex Test Card -->
+            <!-- Sex Test Card -->
             <div
               class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
-              onclick="window.location.href='project-root/tests/sex-test.html'"
+              onclick="window.location.href='tests/sex-test.html'"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
-                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 var(--ease-out-quint)"
                 >
                   <svg
                     class="w-8 h-8 text-white"
@@ -546,13 +672,7 @@
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                    ></path>
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zM5 10v4c0 3.9 3.1 7 7 7s7-3.1 7-7v-4M5 10c0-3.9 3.1-7 7-7s7 3.1 7 7"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     ></path>
                   </svg>
                 </div>
@@ -570,8 +690,8 @@
               </p>
               <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4 text-sm text-gray-500">
-                  <span class="flex items-center">
-                    <svg
+                  <span class="flex items-center"
+                    ><svg
                       class="w-4 h-4 mr-1"
                       fill="none"
                       stroke="currentColor"
@@ -582,12 +702,11 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    5 мин
-                  </span>
-                  <span class="flex items-center">
-                    <svg
+                      ></path></svg
+                    >5 мин</span
+                  >
+                  <span class="flex items-center"
+                    ><svg
                       class="w-4 h-4 mr-1"
                       fill="none"
                       stroke="currentColor"
@@ -598,13 +717,12 @@
                         stroke-linejoin="round"
                         stroke-width="2"
                         d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    15 вопросов
-                  </span>
+                      ></path></svg
+                    >15 вопросов</span
+                  >
                 </div>
                 <svg
-                  class="w-6 h-6 text-orange-400 group-hover:translate-x-2 transition-transform"
+                  class="w-6 h-6 text-orange-400 group-hover:translate-x-2 transition-transform duration-500 var(--ease-out-quint)"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -623,12 +741,14 @@
       </section>
     </div>
 
-    <!-- Footer with Analytics -->
-    <footer class="glass-card mt-20 py-8 px-6">
+    <!-- Footer -->
+    <footer
+      class="glass-card mt-20 py-8 px-6 fade-in-section relative z-10 mx-4"
+    >
       <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-center">
           <div class="text-center md:text-left mb-4 md:mb-0">
-            <p class="text-gray-400">© 2024 BPD_tests. Все права защищены.</p>
+            <p class="text-gray-400">© 2025 BPD-tests. Все права защищены.</p>
             <p class="text-sm text-gray-500 mt-1">
               Создано с заботой о ментальном здоровье
             </p>
@@ -655,68 +775,71 @@
       </div>
     </footer>
 
-    <!-- Umami Analytics Script -->
-    <script
-      async
-      src="https://analytics.umami.is/script.js"
-      data-website-id="YOUR_UMAMI_WEBSITE_ID"
-    ></script>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
-      // Smooth scroll for navigation
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- Preloader Logic ---
+        const preloader = document.getElementById("preloader");
+        window.addEventListener(
+          "load",
+          () => {
+            document.body.classList.add("content-loaded");
+            document.body.classList.remove("loading");
+            preloader.classList.add("fade-out");
+          },
+          { once: true }
+        );
+
+        // --- Lenis Smooth Scroll Initialization ---
+        const lenis = new Lenis({
+          lerp: 0.07, // Lower values create a smoother, more 'floaty' scroll
+          smoothWheel: true,
         });
+
+        // Handle anchor links to scroll smoothly
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            // Lenis has a built-in method for this
+            lenis.scrollTo(targetId);
+          });
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        // --- End of Lenis Initialization ---
+
+        // --- Card Shine Effect ---
+        const cards = document.querySelectorAll(".card-shine");
+        cards.forEach((card) => {
+          card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty("--shine-x", `${x}px`);
+            card.style.setProperty("--shine-y", `${y}px`);
+          });
+        });
+
+        // --- Analytics Placeholder ---
+        function updateAnalytics() {
+          const currentVisitorsEl = document.getElementById("current-visitors");
+          const totalVisitorsEl = document.getElementById("total-visitors");
+          if (currentVisitorsEl && totalVisitorsEl) {
+            currentVisitorsEl.textContent = Math.floor(Math.random() * 50) + 10;
+            totalVisitorsEl.textContent = (
+              Math.floor(Math.random() * 5000) + 1000
+            ).toLocaleString("ru-RU");
+          }
+        }
+        updateAnalytics();
+        setInterval(updateAnalytics, 30000);
       });
-
-      // Umami Analytics Integration
-      async function updateAnalytics() {
-        const websiteId = document
-          .querySelector("[data-website-id]")
-          .getAttribute("data-website-id");
-        if (websiteId === "YOUR_UMAMI_WEBSITE_ID") {
-          // Display mock data if Umami is not configured
-          document.getElementById("current-visitors").textContent =
-            Math.floor(Math.random() * 50) + 10;
-          document.getElementById("total-visitors").textContent = (
-            Math.floor(Math.random() * 5000) + 1000
-          ).toLocaleString("ru-RU");
-          return;
-        }
-
-        try {
-          // Fetch active visitors
-          const activeResponse = await fetch(
-            `https://analytics.umami.is/api/websites/${websiteId}/active`
-          );
-          const activeData = await activeResponse.json();
-          document.getElementById("current-visitors").textContent =
-            activeData[0].x;
-
-          // Fetch total visitors (pageviews)
-          const statsResponse = await fetch(
-            `https://analytics.umami.is/api/websites/${websiteId}/stats?start_at=${new Date(
-              0
-            ).getTime()}&end_at=${Date.now()}`
-          );
-          const statsData = await statsResponse.json();
-          document.getElementById("total-visitors").textContent =
-            statsData.pageviews.value.toLocaleString("ru-RU");
-        } catch (error) {
-          console.error("Error fetching Umami analytics:", error);
-          // Fallback to mock data on error
-          document.getElementById("current-visitors").textContent = "N/A";
-          document.getElementById("total-visitors").textContent = "N/A";
-        }
-      }
-
-      // Update analytics on load and periodically
-      updateAnalytics();
-      setInterval(updateAnalytics, 30000); // Update every 30 seconds
     </script>
   </body>
 </html>

@@ -11,7 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
       rel="stylesheet"
     />
-    <!-- Chart.js больше не нужен -->
     <style>
       * {
         margin: 0;
@@ -81,7 +80,8 @@
       .option-card {
         background: rgba(255, 255, 255, 0.03);
         border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Сделано медленнее */
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 80px;
       }
 
       .option-card:hover {
@@ -111,7 +111,7 @@
         border-radius: 16px;
         font-weight: 700;
         font-size: 18px;
-        transition: all 0.8s ease; /* Сделано медленнее */
+        transition: all 0.8s ease;
       }
 
       .progress-container {
@@ -138,7 +138,7 @@
         height: 100%;
         background: linear-gradient(90deg, #8b5cf6, #ec4899);
         border-radius: 3px;
-        transition: width 1s ease; /* Сделано медленнее */
+        transition: width 1s ease;
       }
 
       .gradient-text {
@@ -168,7 +168,7 @@
       }
 
       .fade-in {
-        animation: fadeIn 0.8s ease-out; /* Сделано медленнее */
+        animation: fadeIn 0.8s ease-out;
       }
 
       @keyframes fadeIn {
@@ -182,7 +182,7 @@
         }
       }
 
-      /* Стили для нового дизайна результатов */
+      /* Updated styles for results */
       .gauge-container {
         width: 250px;
         height: 250px;
@@ -235,8 +235,25 @@
       .criterion-bar-fill {
         height: 100%;
         border-radius: 8px;
-        transition: width 1.5s ease-out; /* Сделано медленнее */
+        transition: width 1.5s ease-out;
         box-shadow: 0 0 15px var(--bar-color);
+      }
+
+      .result-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+
+      .warning-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
       }
     </style>
   </head>
@@ -244,7 +261,6 @@
     <div class="dynamic-bg"></div>
 
     <div class="relative z-10 min-h-screen flex flex-col">
-      <!-- Navigation -->
       <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
           <a href="../../index.html" class="flex items-center space-x-2 group">
@@ -263,11 +279,9 @@
         </div>
       </nav>
 
-      <!-- Main Content -->
       <div
         class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
       >
-        <!-- Test Header -->
         <header class="text-center mb-12 fade-in" style="margin-top: 80px">
           <h1
             class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
@@ -276,9 +290,7 @@
           </h1>
         </header>
 
-        <!-- Test Container -->
         <main id="test-container" class="fade-in">
-          <!-- Progress Bar Container -->
           <div class="progress-container" id="progress-container">
             <div class="progress-bar" id="progress-bar">
               <div
@@ -301,7 +313,6 @@
           </div>
         </main>
 
-        <!-- Results Container - ПОЛНОСТЬЮ ПЕРЕРАБОТАН -->
         <div id="results-container" class="hidden mt-16 fade-in">
           <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
             <div class="text-center mb-12">
@@ -311,9 +322,7 @@
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
-              <div id="gauge-wrapper" class="mx-auto">
-                <!-- Сюда будет вставлен измеритель -->
-              </div>
+              <div id="gauge-wrapper" class="mx-auto"></div>
               <div class="flex-1 text-center md:text-left">
                 <div
                   id="overall-verdict"
@@ -329,8 +338,14 @@
             <h3 class="text-2xl font-bold text-center mb-8">
               Детальная разбивка по критериям
             </h3>
-            <div id="detailed-interpretation" class="space-y-6">
-              <!-- Сюда будут вставлены шкалы критериев -->
+            <div id="detailed-interpretation" class="space-y-6"></div>
+
+            <div id="detailed-analysis" class="mt-12">
+              <div id="analysis-content" class="space-y-4"></div>
+            </div>
+
+            <div id="recommendations" class="mt-12">
+              <div id="recommendations-content" class="space-y-4"></div>
             </div>
           </div>
 
@@ -350,111 +365,181 @@
         </div>
       </div>
 
-      <!-- Footer with Analytics -->
       <footer class="glass-panel mt-auto py-8 px-6">
         <div class="max-w-7xl mx-auto">
           <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
               <p class="text-gray-400">© 2024 BPD_tests. Все права защищены.</p>
             </div>
-            <div class="text-center md:text-right">
-              <div
-                class="text-xs text-gray-500 space-y-1"
-                id="analytics-display"
-              >
-                <div>
-                  Сейчас онлайн:
-                  <span
-                    id="current-visitors"
-                    class="text-purple-400 font-semibold"
-                    >—</span
-                  >
-                </div>
-                <div>
-                  Всего посетителей:
-                  <span
-                    id="total-visitors"
-                    class="text-purple-400 font-semibold"
-                    >—</span
-                  >
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </footer>
     </div>
 
-    <!-- Umami Analytics Script с вашим тестовым ID -->
-    <script
-      async
-      src="https://analytics.umami.is/script.js"
-      data-website-id="api_L4JLoiOjV7N8ScYNQETOlRuJx2sTsqqS"
-    ></script>
-
     <script>
       const questions = [
         {
-          criterion: 1,
-          text: "Преувеличивает ли партнер свои достижения, ожидая восхищения без реальных на то оснований?",
+          c: 1,
+          q: "Когда вы делитесь своими достижениями, партнер:",
+          a: "reaction_to_success",
         },
         {
-          criterion: 1,
-          text: "Считает ли он/она себя уникальным и особенным, понятным только избранным людям?",
+          c: 1,
+          q: "Как партнер описывает свои прошлые отношения или неудачи на работе?",
+          a: "past_failures",
         },
         {
-          criterion: 2,
-          text: "Требует ли партнер постоянного внимания и восхищения от вас и окружающих?",
+          c: 2,
+          q: "Если вы проводите время с друзьями без него/нее, как он(а) реагирует?",
+          a: "reaction_to_absence",
         },
         {
-          criterion: 2,
-          text: "Расстраивается или злится ли он/она, если не получает достаточного количества комплиментов или похвалы?",
+          c: 2,
+          q: "Как партнер реагирует, если вы не сразу отвечаете на его/ее сообщения?",
+          a: "reaction_to_text",
         },
         {
-          criterion: 3,
-          text: "Проявляет ли партнер нежелание или неспособность понимать и разделять ваши чувства?",
+          c: 3,
+          q: "Когда вы делитесь своими переживаниями, партнер:",
+          a: "reaction_to_feelings",
         },
         {
-          criterion: 3,
-          text: "Обесценивает ли он/она ваши переживания, называя их 'слишком эмоциональными' или 'незначительными'?",
+          c: 3,
+          q: "Замечает ли партнер, когда у вас плохое настроение, без ваших слов?",
+          a: "notice_mood",
         },
         {
-          criterion: 4,
-          text: "Ожидает ли партнер особого отношения и автоматического выполнения своих желаний?",
+          c: 4,
+          q: "Как партнер ведет себя в очередях или в пробках?",
+          a: "patience_in_line",
         },
         {
-          criterion: 4,
-          text: "Считает ли он/она, что правила созданы для других, но не для него/нее?",
+          c: 4,
+          q: "Когда вы в чем-то не согласны, как партнер доказывает свою правоту?",
+          a: "argument_style",
         },
         {
-          criterion: 5,
-          text: "Использует ли партнер других людей для достижения собственных целей без зазрения совести?",
+          c: 5,
+          q: "Как партнер просит о помощи или услуге?",
+          a: "asking_for_help",
         },
         {
-          criterion: 5,
-          text: "Манипулирует ли он/она вашими чувствами (например, виной), чтобы получить желаемое?",
+          c: 5,
+          q: "После ссоры, кто обычно делает первый шаг к примирению?",
+          a: "making_up",
         },
         {
-          criterion: 6,
-          text: "Часто ли он/она завидует успехам других или считает, что другие завидуют ему/ей?",
+          c: 6,
+          q: "Как партнер комментирует внешность или успех других людей?",
+          a: "commenting_on_others",
         },
         {
-          criterion: 6,
-          text: "Демонстрирует ли партнер высокомерное, надменное поведение или отношение к окружающим?",
+          c: 6,
+          q: "Как партнер реагирует на конструктивную критику в свой адрес?",
+          a: "reaction_to_criticism",
         },
         {
-          criterion: 7,
-          text: "Поглощен ли партнер фантазиями о безграничном успехе, власти, блеске или идеальной любви?",
+          c: 7,
+          q: "Как часто вы слышите о грандиозных планах партнера, которые так и не реализуются?",
+          a: "grand_plans",
         },
       ];
 
-      const answerOptions = [
-        { text: "Никогда", value: 0 },
-        { text: "Редко", value: 1 },
-        { text: "Иногда", value: 2 },
-        { text: "Часто", value: 3 },
-        { text: "Постоянно", value: 4 },
-      ];
+      const answerOptions = {
+        reaction_to_success: [
+          { text: "Искренне радуется и гордится мной", value: 0 },
+          { text: "Поздравляет, но быстро переводит тему на себя", value: 2 },
+          {
+            text: "Находит способ обесценить: 'Ну, это же легко было'",
+            value: 3,
+          },
+          { text: "Игнорирует или злится", value: 4 },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        past_failures: [
+          { text: "Признает свои ошибки и извлекает уроки", value: 0 },
+          { text: "Рассказывает, но с юмором", value: 1 },
+          { text: "Всегда виноваты другие (бывшие, начальники)", value: 3 },
+          {
+            text: "Никогда не говорит о неудачах, у него(нее) их нет",
+            value: 4,
+          },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        reaction_to_absence: [
+          { text: "Радуется, что я хорошо провожу время", value: 0 },
+          { text: "Немного ревнует, но в шутку", value: 1 },
+          { text: "Требует постоянных отчетов и фото", value: 3 },
+          { text: "Устраивает скандал или наказывает молчанием", value: 4 },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        reaction_to_text: [
+          { text: "Спокойно, понимает, что я могу быть занят(а)", value: 0 },
+          { text: "Спрашивает, все ли в порядке", value: 1 },
+          { text: "Отправляет много сообщений и звонит", value: 3 },
+          { text: "Обвиняет в игнорировании", value: 4 },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        reaction_to_feelings: [
+          { text: "Внимательно слушает и поддерживает", value: 0 },
+          { text: "Пытается дать совет, не вникая в суть", value: 2 },
+          { text: "Говорит 'не драматизируй' или 'успокойся'", value: 3 },
+          { text: "Начинает рассказывать, как ему(ей) хуже", value: 4 },
+        ],
+        notice_mood: [
+          { text: "Да, почти всегда", value: 0 },
+          { text: "Иногда, если все очевидно", value: 1 },
+          { text: "Редко, нужно прямо говорить", value: 3 },
+          { text: "Никогда, он(а) слишком занят(а) собой", value: 4 },
+        ],
+        patience_in_line: [
+          { text: "Спокойно ждет, как и все", value: 0 },
+          { text: "Заметно нервничает и вздыхает", value: 2 },
+          { text: "Пытается найти способ пройти без очереди", value: 3 },
+          { text: "Громко возмущается и требует особого отношения", value: 4 },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        argument_style: [
+          { text: "Приводит факты и готов(а) к компромиссу", value: 0 },
+          { text: "Давит авторитетом и громкостью", value: 2 },
+          { text: "Переходит на личности и оскорбления", value: 3 },
+          { text: "Искажает мои слова и факты (газлайтинг)", value: 4 },
+          { text: "Мы не спорим", value: 0 },
+        ],
+        asking_for_help: [
+          { text: "Просит вежливо и всегда благодарит", value: 0 },
+          { text: "Формулирует как приказ, но благодарит", value: 2 },
+          { text: "Требует немедленно, злится при отказе", value: 3 },
+          { text: "Манипулирует: 'Если любишь, то сделаешь'", value: 4 },
+        ],
+        making_up: [
+          { text: "Тот, кто был неправ, извиняется первым", value: 0 },
+          { text: "Чаще всего я", value: 2 },
+          { text: "Всегда я, иначе будет молчать неделями", value: 3 },
+          { text: "Он(а) никогда не извиняется", value: 4 },
+          { text: "Мы не ссоримся", value: 0 },
+        ],
+        commenting_on_others: [
+          { text: "Делает комплименты или нейтрален(льна)", value: 0 },
+          { text: "Часто критикует и находит недостатки", value: 2 },
+          { text: "Отпускает злые и завистливые комментарии", value: 3 },
+          { text: "Сравнивает меня с другими (не в мою пользу)", value: 4 },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        reaction_to_criticism: [
+          { text: "Прислушивается и благодарит за обратную связь", value: 0 },
+          { text: "Оправдывается и ищет виноватых", value: 2 },
+          { text: "Обижается и замыкается в себе", value: 3 },
+          { text: "Впадает в ярость и контратакует", value: 4 },
+          { text: "Ко мне не относится", value: 0 },
+        ],
+        grand_plans: [
+          { text: "Никогда или очень редко", value: 0 },
+          { text: "Иногда мечтает вслух", value: 1 },
+          { text: "Довольно часто, но ничего не делает", value: 3 },
+          { text: "Постоянно, и злится, что мир его/ее не ценит", value: 4 },
+        ],
+      };
 
       const criterionData = {
         1: { label: "Грандиозность", emoji: "👑", color: "#8b5cf6" },
@@ -477,23 +562,25 @@
       }
 
       function renderQuestions() {
-        questions.forEach((q, index) => {
+        questions.forEach((qData, index) => {
           const block = document.createElement("div");
           block.className = "question-block fade-in";
 
           const questionText = document.createElement("p");
           questionText.className = "font-medium text-lg text-gray-100 mb-4";
-          questionText.textContent = `${index + 1}. ${q.text}`;
+          questionText.textContent = `${index + 1}. ${qData.q}`;
           block.appendChild(questionText);
 
           const optionsContainer = document.createElement("div");
           optionsContainer.className =
-            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3";
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3";
 
-          answerOptions.forEach((opt) => {
+          const currentAnswerSet = answerOptions[qData.a];
+
+          currentAnswerSet.forEach((opt) => {
             const label = document.createElement("label");
             label.className =
-              "option-card p-4 rounded-xl text-center cursor-pointer";
+              "option-card p-4 rounded-xl text-center cursor-pointer flex items-center justify-center min-h-[60px]";
             const radio = document.createElement("input");
             radio.type = "radio";
             radio.name = `q${index}`;
@@ -553,8 +640,8 @@
 
         questions.forEach((q, index) => {
           const value = parseInt(formData.get(`q${index}`), 10) || 0;
-          criterionScores[q.criterion].sum += value;
-          criterionScores[q.criterion].count++;
+          criterionScores[q.c].sum += value;
+          criterionScores[q.c].count++;
         });
 
         let finalScores = {};
@@ -564,16 +651,18 @@
         Object.keys(criterionData).forEach((key) => {
           const { sum, count } = criterionScores[key];
           const maxScore = 4 * count;
-          finalScores[key] = { percentage: (sum / maxScore) * 100 };
+          finalScores[key] = {
+            percentage: maxScore > 0 ? (sum / maxScore) * 100 : 0,
+          };
           totalScore += sum;
           maxPossibleScore += maxScore;
         });
 
-        finalScores.overallPercentage = (totalScore / maxPossibleScore) * 100;
+        finalScores.overallPercentage =
+          maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
         return finalScores;
       }
 
-      // Новая функция для отображения результатов
       function renderResults(scores) {
         testContainer.classList.add("hidden");
         resultsContainer.classList.remove("hidden");
@@ -608,14 +697,12 @@
         }
         verdictEl.classList.add(verdictColorClass);
 
-        // Создание измерителя
         gaugeWrapper.innerHTML = `
               <div class="gauge-container">
                 <div class="gauge-value">${overallPercentage}</div>
               </div>
             `;
 
-        // Создание детальных шкал
         Object.keys(criterionData).forEach((key, index) => {
           const data = criterionData[key];
           const scoreData = scores[key];
@@ -639,7 +726,6 @@
           interpretationDiv.appendChild(criterionEl);
         });
 
-        // Анимация шкал после их отрисовки
         setTimeout(() => {
           document
             .querySelectorAll(".criterion-bar-fill")
@@ -651,45 +737,7 @@
         }, 100);
       }
 
-      async function updateAnalytics() {
-        const websiteId = document
-          .querySelector("[data-website-id]")
-          .getAttribute("data-website-id");
-        if (!websiteId || websiteId === "YOUR_UMAMI_WEBSITE_ID") {
-          document.getElementById("current-visitors").textContent =
-            Math.floor(Math.random() * 50) + 10;
-          document.getElementById("total-visitors").textContent = (
-            Math.floor(Math.random() * 5000) + 1000
-          ).toLocaleString("ru-RU");
-          return;
-        }
-
-        try {
-          const activeResponse = await fetch(
-            `https://analytics.umami.is/api/websites/${websiteId}/active`
-          );
-          const activeData = await activeResponse.json();
-          document.getElementById("current-visitors").textContent =
-            activeData[0].x;
-
-          const statsResponse = await fetch(
-            `https://analytics.umami.is/api/websites/${websiteId}/stats?start_at=${new Date(
-              0
-            ).getTime()}&end_at=${Date.now()}`
-          );
-          const statsData = await statsResponse.json();
-          document.getElementById("total-visitors").textContent =
-            statsData.pageviews.value.toLocaleString("ru-RU");
-        } catch (error) {
-          console.error("Error fetching Umami analytics:", error);
-          document.getElementById("current-visitors").textContent = "N/A";
-          document.getElementById("total-visitors").textContent = "N/A";
-        }
-      }
-
       renderQuestions();
-      updateAnalytics();
-      setInterval(updateAnalytics, 30000);
     </script>
   </body>
 </html>

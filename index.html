@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Психологические Тесты - Понимание Себя</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      /* Premium Background - Убрана анимация вращения */
+      .hero-gradient {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+            circle at 20% 80%,
+            rgba(120, 119, 198, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 119, 198, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(120, 219, 255, 0.2) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Glassmorphism Cards */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .glass-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 100%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+          0 0 80px rgba(120, 119, 198, 0.2),
+          inset 0 0 30px rgba(255, 255, 255, 0.05);
+      }
+
+      .glass-card:hover::before {
+        opacity: 1;
+      }
+
+      /* Premium Button */
+      .premium-button {
+        position: relative;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 18px 40px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+      }
+
+      .premium-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .premium-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      .premium-button:hover::before {
+        left: 100%;
+      }
+
+      /* Floating Elements */
+      .floating-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.5;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0);
+        }
+        33% {
+          transform: translateY(-30px) translateX(20px);
+        }
+        66% {
+          transform: translateY(20px) translateX(-20px);
+        }
+      }
+
+      /* Premium Text Gradient */
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 50%,
+          #f093fb 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-animation 3s ease infinite;
+      }
+
+      @keyframes gradient-animation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Card Shine Effect */
+      .card-shine {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-shine::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.1) 50%,
+          transparent 70%
+        );
+        transform: rotate(45deg) translate(-100%, -100%);
+        transition: transform 0.6s;
+      }
+
+      .card-shine:hover::after {
+        transform: rotate(45deg) translate(100%, 100%);
+      }
+
+      /* Loading Animation */
+      .pulse-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #667eea;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.5);
+          opacity: 0.5;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Smooth Scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero-gradient"></div>
+
+    <!-- Floating Orbs -->
+    <div
+      class="floating-orb"
+      style="
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(102, 126, 234, 0.3),
+          transparent
+        );
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+      "
+    ></div>
+    <div
+      class="floating-orb"
+      style="
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(240, 147, 251, 0.3),
+          transparent
+        );
+        top: 60%;
+        right: 10%;
+        animation-delay: 5s;
+      "
+    ></div>
+    <div
+      class="floating-orb"
+      style="
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(
+          circle,
+          rgba(120, 219, 255, 0.3),
+          transparent
+        );
+        bottom: 10%;
+        left: 50%;
+        animation-delay: 10s;
+      "
+    ></div>
+
+    <div class="relative z-10 min-h-screen">
+      <!-- Navigation -->
+      <nav class="glass-card fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <div class="flex items-center space-x-2">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">PsyTests</span>
+          </div>
+          <div class="hidden md:flex space-x-8">
+            <a href="#" class="hover:text-purple-400 transition-colors"
+              >Главная</a
+            >
+            <a href="#tests" class="hover:text-purple-400 transition-colors"
+              >Тесты</a
+            >
+            <a href="#about" class="hover:text-purple-400 transition-colors"
+              >О проекте</a
+            >
+            <a href="#contact" class="hover:text-purple-400 transition-colors"
+              >Контакты</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <section class="min-h-screen flex items-center justify-center px-6 pt-20">
+        <div class="max-w-6xl mx-auto text-center">
+          <h1
+            class="display-font text-6xl md:text-8xl font-bold mb-6 leading-tight"
+          >
+            Откройте <span class="gradient-text">Себя</span> Заново
+          </h1>
+          <p
+            class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+          >
+            Профессиональные психологические тесты для глубокого понимания
+            личности, отношений и эмоционального состояния
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#tests" class="premium-button inline-block">
+              Начать тестирование
+            </a>
+            <button
+              class="glass-card px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
+            >
+              Узнать больше
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tests Section -->
+      <section id="tests" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="display-font text-5xl md:text-6xl font-bold mb-4">
+              Доступные <span class="gradient-text">Тесты</span>
+            </h2>
+            <p class="text-xl text-gray-400">
+              Выберите тест для начала анализа
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <!-- Narcissism Test Card -->
+            <div
+              class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
+              onclick="window.location.href='project-root/tests/narcissism-test.html'"
+            >
+              <div class="flex items-start justify-between mb-6">
+                <div
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+                >
+                  <svg
+                    class="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm"
+                  >Доступен</span
+                >
+              </div>
+              <h3 class="text-2xl font-bold mb-3">
+                Тест: Мой Партнер Нарцисс?
+              </h3>
+              <p class="text-gray-400 mb-6">
+                Комплексная оценка нарциссических черт в отношениях. Анализ по 7
+                ключевым критериям с детальной интерпретацией результатов.
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span class="flex items-center">
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    10-15 мин
+                  </span>
+                  <span class="flex items-center">
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    20 вопросов
+                  </span>
+                </div>
+                <svg
+                  class="w-6 h-6 text-purple-400 group-hover:translate-x-2 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Coming Soon Card -->
+            <div
+              class="glass-card rounded-2xl p-8 opacity-60 cursor-not-allowed"
+            >
+              <div class="flex items-start justify-between mb-6">
+                <div
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-8 h-8 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  class="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-sm"
+                  >Скоро</span
+                >
+              </div>
+              <h3 class="text-2xl font-bold mb-3 text-gray-400">
+                Новые тесты в разработке
+              </h3>
+              <p class="text-gray-600 mb-6">
+                Мы работаем над созданием новых психологических тестов.
+              </p>
+              <div class="flex items-center space-x-2">
+                <div class="pulse-dot"></div>
+                <span class="text-sm text-gray-500">В активной разработке</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer with Analytics -->
+    <footer class="glass-card mt-20 py-8 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="text-center md:text-left mb-4 md:mb-0">
+            <p class="text-gray-400">© 2024 PsyTests. Все права защищены.</p>
+            <p class="text-sm text-gray-500 mt-1">
+              Создано с заботой о ментальном здоровье
+            </p>
+          </div>
+          <div class="text-center md:text-right">
+            <div class="text-xs text-gray-500 space-y-1" id="analytics-display">
+              <div>
+                Сейчас онлайн:
+                <span
+                  id="current-visitors"
+                  class="text-purple-400 font-semibold"
+                  >—</span
+                >
+              </div>
+              <div>
+                Всего посетителей:
+                <span id="total-visitors" class="text-purple-400 font-semibold"
+                  >—</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Umami Analytics Script -->
+    <script
+      async
+      src="https://analytics.umami.is/script.js"
+      data-website-id="YOUR_UMAMI_WEBSITE_ID"
+    ></script>
+    <script>
+      // Smooth scroll for navigation
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      });
+
+      // Umami Analytics Integration
+      async function updateAnalytics() {
+        const websiteId = document
+          .querySelector("[data-website-id]")
+          .getAttribute("data-website-id");
+        if (websiteId === "YOUR_UMAMI_WEBSITE_ID") {
+          // Display mock data if Umami is not configured
+          document.getElementById("current-visitors").textContent =
+            Math.floor(Math.random() * 50) + 10;
+          document.getElementById("total-visitors").textContent = (
+            Math.floor(Math.random() * 5000) + 1000
+          ).toLocaleString("ru-RU");
+          return;
+        }
+
+        try {
+          // Fetch active visitors
+          const activeResponse = await fetch(
+            `https://analytics.umami.is/api/websites/${websiteId}/active`
+          );
+          const activeData = await activeResponse.json();
+          document.getElementById("current-visitors").textContent =
+            activeData[0].x;
+
+          // Fetch total visitors (pageviews)
+          const statsResponse = await fetch(
+            `https://analytics.umami.is/api/websites/${websiteId}/stats?start_at=${new Date(
+              0
+            ).getTime()}&end_at=${Date.now()}`
+          );
+          const statsData = await statsResponse.json();
+          document.getElementById("total-visitors").textContent =
+            statsData.pageviews.value.toLocaleString("ru-RU");
+        } catch (error) {
+          console.error("Error fetching Umami analytics:", error);
+          // Fallback to mock data on error
+          document.getElementById("current-visitors").textContent = "N/A";
+          document.getElementById("total-visitors").textContent = "N/A";
+        }
+      }
+
+      // Update analytics on load and periodically
+      updateAnalytics();
+      setInterval(updateAnalytics, 30000); // Update every 30 seconds
+    </script>
+  </body>
+</html>

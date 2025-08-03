@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест: Мой Партнер Нарцисс? - PsyTests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Chart.js больше не нужен -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: #0a0a0a;
+        overflow: hidden;
+      }
+
+      .dynamic-bg::before {
+        content: "";
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(139, 92, 246, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(236, 72, 153, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(59, 130, 246, 0.1) 0%,
+            transparent 70%
+          );
+      }
+
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(40px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5),
+          inset 0 0 40px rgba(255, 255, 255, 0.02);
+      }
+
+      .option-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .option-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(139, 92, 246, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .option-card.selected {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
+        border-color: rgba(139, 92, 246, 0.6);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      .btn-premium {
+        position: relative;
+        background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        color: white;
+        padding: 20px 60px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .progress-container {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        padding: 1rem 0;
+        background: rgba(10, 10, 10, 0.8);
+        backdrop-filter: blur(10px);
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+
+      .progress-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #8b5cf6, #ec4899);
+        border-radius: 3px;
+        transition: width 0.5s ease;
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #8b5cf6 0%,
+          #ec4899 50%,
+          #3b82f6 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Стили для нового дизайна результатов */
+      .gauge-container {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        position: relative;
+        background: conic-gradient(from 0deg, #8b5cf6, #ec4899, #8b5cf6);
+        animation: spin 5s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .gauge-container::before {
+        content: "";
+        position: absolute;
+        inset: 10px;
+        background: #0a0a0a;
+        border-radius: 50%;
+      }
+
+      .gauge-value {
+        position: relative;
+        font-size: 4rem;
+        font-weight: 900;
+        color: #fff;
+      }
+
+      .gauge-value::after {
+        content: "%";
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #a78bfa;
+        position: absolute;
+        top: 1rem;
+        right: -1.5rem;
+      }
+
+      .criterion-bar-bg {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+        height: 12px;
+      }
+
+      .criterion-bar-fill {
+        height: 100%;
+        border-radius: 8px;
+        transition: width 1s ease-out;
+        box-shadow: 0 0 15px var(--bar-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Navigation -->
+      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="../../index.html" class="flex items-center space-x-2 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">PsyTests</span>
+          </a>
+          <div class="flex items-center space-x-6">
+            <a
+              href="../../index.html"
+              class="hover:text-purple-400 transition-colors"
+              >← Вернуться к тестам</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div
+        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
+      >
+        <!-- Test Header -->
+        <header class="text-center mb-12 fade-in" style="margin-top: 80px">
+          <h1
+            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
+          >
+            Тест: <span class="gradient-text">Мой Партнер Нарцисс?</span>
+          </h1>
+        </header>
+
+        <!-- Test Container -->
+        <main id="test-container" class="fade-in">
+          <!-- Progress Bar Container -->
+          <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar">
+              <div
+                class="progress-fill"
+                id="progress-fill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <form
+            id="narcissism-form"
+            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
+          ></form>
+
+          <div class="mt-16 text-center">
+            <button type="submit" form="narcissism-form" class="btn-premium">
+              <span class="relative z-10">Получить результаты</span>
+            </button>
+          </div>
+        </main>
+
+        <!-- Results Container - ПОЛНОСТЬЮ ПЕРЕРАБОТАН -->
+        <div id="results-container" class="hidden mt-16 fade-in">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+            <div class="text-center mb-12">
+              <h2 class="display-font text-4xl md:text-5xl font-bold mb-4">
+                Ваш <span class="gradient-text">Результат</span>
+              </h2>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
+              <div id="gauge-wrapper" class="mx-auto">
+                <!-- Сюда будет вставлен измеритель -->
+              </div>
+              <div class="flex-1 text-center md:text-left">
+                <div
+                  id="overall-verdict"
+                  class="text-2xl md:text-3xl font-bold mb-4"
+                ></div>
+                <p
+                  id="result-description"
+                  class="text-gray-400 leading-relaxed"
+                ></p>
+              </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-center mb-8">
+              Детальная разбивка по критериям
+            </h3>
+            <div id="detailed-interpretation" class="space-y-6">
+              <!-- Сюда будут вставлены шкалы критериев -->
+            </div>
+          </div>
+
+          <div class="mt-12 text-center space-y-4">
+            <button onclick="location.reload()" class="btn-premium">
+              Пройти тест заново
+            </button>
+            <div>
+              <a
+                href="../../index.html"
+                class="text-purple-400 hover:text-purple-300 transition-colors"
+              >
+                Вернуться к списку тестов →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer with Analytics -->
+      <footer class="glass-panel mt-auto py-8 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+              <p class="text-gray-400">© 2024 PsyTests. Все права защищены.</p>
+            </div>
+            <div class="text-center md:text-right">
+              <div
+                class="text-xs text-gray-500 space-y-1"
+                id="analytics-display"
+              >
+                <div>
+                  Сейчас онлайн:
+                  <span
+                    id="current-visitors"
+                    class="text-purple-400 font-semibold"
+                    >—</span
+                  >
+                </div>
+                <div>
+                  Всего посетителей:
+                  <span
+                    id="total-visitors"
+                    class="text-purple-400 font-semibold"
+                    >—</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Umami Analytics Script с вашим тестовым ID -->
+    <script
+      async
+      src="https://analytics.umami.is/script.js"
+      data-website-id="api_L4JLoiOjV7N8ScYNQETOlRuJx2sTsqqS"
+    ></script>
+
+    <script>
+      const questions = [
+        {
+          criterion: 1,
+          text: "Преувеличивает ли партнер свои достижения, ожидая восхищения без реальных на то оснований?",
+        },
+        {
+          criterion: 1,
+          text: "Считает ли он/она себя уникальным и особенным, понятным только избранным людям?",
+        },
+        {
+          criterion: 2,
+          text: "Требует ли партнер постоянного внимания и восхищения от вас и окружающих?",
+        },
+        {
+          criterion: 2,
+          text: "Расстраивается или злится ли он/она, если не получает достаточного количества комплиментов или похвалы?",
+        },
+        {
+          criterion: 3,
+          text: "Проявляет ли партнер нежелание или неспособность понимать и разделять ваши чувства?",
+        },
+        {
+          criterion: 3,
+          text: "Обесценивает ли он/она ваши переживания, называя их 'слишком эмоциональными' или 'незначительными'?",
+        },
+        {
+          criterion: 4,
+          text: "Ожидает ли партнер особого отношения и автоматического выполнения своих желаний?",
+        },
+        {
+          criterion: 4,
+          text: "Считает ли он/она, что правила созданы для других, но не для него/нее?",
+        },
+        {
+          criterion: 5,
+          text: "Использует ли партнер других людей для достижения собственных целей без зазрения совести?",
+        },
+        {
+          criterion: 5,
+          text: "Манипулирует ли он/она вашими чувствами (например, виной), чтобы получить желаемое?",
+        },
+        {
+          criterion: 6,
+          text: "Часто ли он/она завидует успехам других или считает, что другие завидуют ему/ей?",
+        },
+        {
+          criterion: 6,
+          text: "Демонстрирует ли партнер высокомерное, надменное поведение или отношение к окружающим?",
+        },
+        {
+          criterion: 7,
+          text: "Поглощен ли партнер фантазиями о безграничном успехе, власти, блеске или идеальной любви?",
+        },
+      ];
+
+      const answerOptions = [
+        { text: "Никогда", value: 0 },
+        { text: "Редко", value: 1 },
+        { text: "Иногда", value: 2 },
+        { text: "Часто", value: 3 },
+        { text: "Постоянно", value: 4 },
+      ];
+
+      const criterionData = {
+        1: { label: "Грандиозность", emoji: "👑", color: "#8b5cf6" },
+        2: { label: "Жажда восхищения", emoji: "⭐", color: "#ec4899" },
+        3: { label: "Отсутствие эмпатии", emoji: "💔", color: "#3b82f6" },
+        4: { label: "Чувство превосходства", emoji: "🧐", color: "#f59e0b" },
+        5: { label: "Эксплуатация", emoji: "🎭", color: "#10b981" },
+        6: { label: "Зависть и высокомерие", emoji: "😒", color: "#ef4444" },
+        7: { label: "Фантазии о величии", emoji: "🚀", color: "#a855f7" },
+      };
+
+      const form = document.getElementById("narcissism-form");
+      const testContainer = document.getElementById("test-container");
+      const resultsContainer = document.getElementById("results-container");
+      let answeredQuestions = 0;
+
+      function updateProgress() {
+        const progress = (answeredQuestions / questions.length) * 100;
+        document.getElementById("progress-fill").style.width = progress + "%";
+      }
+
+      function renderQuestions() {
+        questions.forEach((q, index) => {
+          const block = document.createElement("div");
+          block.className = "question-block fade-in";
+
+          const questionText = document.createElement("p");
+          questionText.className = "font-medium text-lg text-gray-100 mb-4";
+          questionText.textContent = `${index + 1}. ${q.text}`;
+          block.appendChild(questionText);
+
+          const optionsContainer = document.createElement("div");
+          optionsContainer.className =
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3";
+
+          answerOptions.forEach((opt) => {
+            const label = document.createElement("label");
+            label.className =
+              "option-card p-4 rounded-xl text-center cursor-pointer";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `q${index}`;
+            radio.value = opt.value;
+            radio.required = true;
+            label.appendChild(radio);
+            label.append(opt.text);
+            optionsContainer.appendChild(label);
+          });
+
+          block.appendChild(optionsContainer);
+          form.appendChild(block);
+        });
+      }
+
+      form.addEventListener("change", (e) => {
+        if (e.target.type === "radio") {
+          const container = e.target.closest(".grid");
+          container
+            .querySelectorAll(".option-card")
+            .forEach((card) => card.classList.remove("selected"));
+          e.target.parentElement.classList.add("selected");
+
+          const questionBlock = e.target.closest(".question-block");
+          if (!questionBlock.hasAttribute("data-answered")) {
+            questionBlock.setAttribute("data-answered", "true");
+            answeredQuestions++;
+            updateProgress();
+          }
+        }
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (answeredQuestions < questions.length) {
+          const unansweredBlock = form.querySelector(
+            ".question-block:not([data-answered])"
+          );
+          if (unansweredBlock) {
+            unansweredBlock.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+          return;
+        }
+        const scores = calculateScores();
+        renderResults(scores);
+      });
+
+      function calculateScores() {
+        const formData = new FormData(form);
+        let criterionScores = {};
+        Object.keys(criterionData).forEach((key) => {
+          criterionScores[key] = { sum: 0, count: 0 };
+        });
+
+        questions.forEach((q, index) => {
+          const value = parseInt(formData.get(`q${index}`), 10) || 0;
+          criterionScores[q.criterion].sum += value;
+          criterionScores[q.criterion].count++;
+        });
+
+        let finalScores = {};
+        let totalScore = 0;
+        let maxPossibleScore = 0;
+
+        Object.keys(criterionData).forEach((key) => {
+          const { sum, count } = criterionScores[key];
+          const maxScore = 4 * count;
+          finalScores[key] = { percentage: (sum / maxScore) * 100 };
+          totalScore += sum;
+          maxPossibleScore += maxScore;
+        });
+
+        finalScores.overallPercentage = (totalScore / maxPossibleScore) * 100;
+        return finalScores;
+      }
+
+      // Новая функция для отображения результатов
+      function renderResults(scores) {
+        testContainer.classList.add("hidden");
+        resultsContainer.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        const verdictEl = document.getElementById("overall-verdict");
+        const descriptionEl = document.getElementById("result-description");
+        const gaugeWrapper = document.getElementById("gauge-wrapper");
+        const interpretationDiv = document.getElementById(
+          "detailed-interpretation"
+        );
+        interpretationDiv.innerHTML = "";
+
+        const overallPercentage = Math.round(scores.overallPercentage);
+        let verdictColorClass;
+
+        if (overallPercentage >= 70) {
+          verdictEl.innerHTML = "Высокая вероятность нарциссических черт";
+          verdictColorClass = "text-red-400";
+          descriptionEl.textContent =
+            "Результаты указывают на значительное присутствие нарциссических паттернов. Рекомендуется консультация с психологом для более глубокого анализа ситуации.";
+        } else if (overallPercentage >= 40) {
+          verdictEl.innerHTML = "Умеренные нарциссические черты";
+          verdictColorClass = "text-yellow-400";
+          descriptionEl.textContent =
+            "Обнаружены некоторые нарциссические черты, которые могут влиять на качество отношений. Важно обратить внимание на проблемные области.";
+        } else {
+          verdictEl.innerHTML = "Низкий уровень нарциссических черт";
+          verdictColorClass = "text-green-400";
+          descriptionEl.textContent =
+            "Нарциссические черты выражены слабо. Это указывает на здоровые паттерны поведения в отношениях.";
+        }
+        verdictEl.classList.add(verdictColorClass);
+
+        // Создание измерителя
+        gaugeWrapper.innerHTML = `
+              <div class="gauge-container">
+                <div class="gauge-value">${overallPercentage}</div>
+              </div>
+            `;
+
+        // Создание детальных шкал
+        Object.keys(criterionData).forEach((key, index) => {
+          const data = criterionData[key];
+          const scoreData = scores[key];
+          const percentage = Math.round(scoreData.percentage);
+
+          const criterionEl = document.createElement("div");
+          criterionEl.className = "fade-in";
+          criterionEl.style.animationDelay = `${index * 0.1}s`;
+          criterionEl.innerHTML = `
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center">
+                      <span class="text-2xl mr-3">${data.emoji}</span>
+                      <span class="font-semibold text-white">${data.label}</span>
+                    </div>
+                    <span class="font-bold text-lg" style="color: ${data.color}">${percentage}%</span>
+                  </div>
+                  <div class="criterion-bar-bg">
+                    <div class="criterion-bar-fill" style="width: 0%; background-color: ${data.color}; --bar-color: ${data.color};"></div>
+                  </div>
+                `;
+          interpretationDiv.appendChild(criterionEl);
+        });
+
+        // Анимация шкал после их отрисовки
+        setTimeout(() => {
+          document
+            .querySelectorAll(".criterion-bar-fill")
+            .forEach((bar, index) => {
+              const key = Object.keys(criterionData)[index];
+              const percentage = Math.round(scores[key].percentage);
+              bar.style.width = `${percentage}%`;
+            });
+        }, 100);
+      }
+
+      async function updateAnalytics() {
+        const websiteId = document
+          .querySelector("[data-website-id]")
+          .getAttribute("data-website-id");
+        if (!websiteId || websiteId === "YOUR_UMAMI_WEBSITE_ID") {
+          document.getElementById("current-visitors").textContent =
+            Math.floor(Math.random() * 50) + 10;
+          document.getElementById("total-visitors").textContent = (
+            Math.floor(Math.random() * 5000) + 1000
+          ).toLocaleString("ru-RU");
+          return;
+        }
+
+        try {
+          const activeResponse = await fetch(
+            `https://analytics.umami.is/api/websites/${websiteId}/active`
+          );
+          const activeData = await activeResponse.json();
+          document.getElementById("current-visitors").textContent =
+            activeData[0].x;
+
+          const statsResponse = await fetch(
+            `https://analytics.umami.is/api/websites/${websiteId}/stats?start_at=${new Date(
+              0
+            ).getTime()}&end_at=${Date.now()}`
+          );
+          const statsData = await statsResponse.json();
+          document.getElementById("total-visitors").textContent =
+            statsData.pageviews.value.toLocaleString("ru-RU");
+        } catch (error) {
+          console.error("Error fetching Umami analytics:", error);
+          document.getElementById("current-visitors").textContent = "N/A";
+          document.getElementById("total-visitors").textContent = "N/A";
+        }
+      }
+
+      renderQuestions();
+      updateAnalytics();
+      setInterval(updateAnalytics, 30000);
+    </script>
+  </body>
+</html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Психологические Тесты - Понимание Себя</title>
+    <title>BPD_tests - Понимание Себя</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -55,7 +55,7 @@
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Сделано медленнее */
         position: relative;
         overflow: hidden;
       }
@@ -70,7 +70,7 @@
           transparent 100%
         );
         opacity: 0;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.8s ease; /* Сделано медленнее */
       }
 
       .glass-card:hover {
@@ -86,6 +86,16 @@
         opacity: 1;
       }
 
+      /* Общие стили для плавного перехода */
+      a,
+      .transition-colors {
+        transition: color 0.8s ease;
+      }
+
+      .transition-transform {
+        transition: transform 0.8s ease;
+      }
+
       /* Premium Button */
       .premium-button {
         position: relative;
@@ -95,7 +105,7 @@
         border-radius: 12px;
         font-weight: 600;
         font-size: 16px;
-        transition: all 0.3s ease;
+        transition: all 0.8s ease; /* Сделано медленнее */
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
           inset 0 1px 0 rgba(255, 255, 255, 0.2);
         overflow: hidden;
@@ -114,7 +124,7 @@
           rgba(255, 255, 255, 0.3),
           transparent
         );
-        transition: left 0.5s ease;
+        transition: left 1s ease; /* Сделано медленнее */
       }
 
       .premium-button:hover {
@@ -196,7 +206,7 @@
           transparent 70%
         );
         transform: rotate(45deg) translate(-100%, -100%);
-        transition: transform 0.6s;
+        transition: transform 1.2s ease; /* Сделано медленнее */
       }
 
       .card-shine:hover::after {
@@ -294,21 +304,13 @@
             >
               <span class="text-white font-bold text-xl">Ψ</span>
             </div>
-            <span class="text-xl font-semibold">PsyTests</span>
+            <span class="text-xl font-semibold">BPD_tests</span>
           </div>
           <div class="hidden md:flex space-x-8">
-            <a href="#" class="hover:text-purple-400 transition-colors"
-              >Главная</a
-            >
-            <a href="#tests" class="hover:text-purple-400 transition-colors"
-              >Тесты</a
-            >
-            <a href="#about" class="hover:text-purple-400 transition-colors"
-              >О проекте</a
-            >
-            <a href="#contact" class="hover:text-purple-400 transition-colors"
-              >Контакты</a
-            >
+            <a href="#" class="hover:text-purple-400">Главная</a>
+            <a href="#tests" class="hover:text-purple-400">Тесты</a>
+            <a href="#about" class="hover:text-purple-400">О проекте</a>
+            <a href="#contact" class="hover:text-purple-400">Контакты</a>
           </div>
         </div>
       </nav>
@@ -324,16 +326,14 @@
           <p
             class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Профессиональные психологические тесты для глубокого понимания
-            личности, отношений и эмоционального состояния
+            Профессиональные и не очень психологические тесты для глубокого
+            понимания личности, отношений и ближайшего будущего.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#tests" class="premium-button inline-block">
               Начать тестирование
             </a>
-            <button
-              class="glass-card px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
-            >
+            <button class="glass-card px-8 py-4 rounded-xl hover:bg-white/10">
               Узнать больше
             </button>
           </div>
@@ -352,7 +352,7 @@
             </p>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-8">
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Narcissism Test Card -->
             <div
               class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
@@ -420,7 +420,7 @@
                         d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       ></path>
                     </svg>
-                    20 вопросов
+                    13 вопросов
                   </span>
                 </div>
                 <svg
@@ -439,42 +439,183 @@
               </div>
             </div>
 
-            <!-- Coming Soon Card -->
+            <!-- New Children Test Card -->
             <div
-              class="glass-card rounded-2xl p-8 opacity-60 cursor-not-allowed"
+              class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
+              onclick="window.location.href='project-root/tests/children-test.html'"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
-                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center"
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-green-500 flex items-center justify-center group-hover:scale-110 transition-transform"
                 >
                   <svg
-                    class="w-8 h-8 text-gray-400"
+                    class="w-8 h-8 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6h6a6 6 0 016 6v1h-3M15 21a3 3 0 11-6 0M12 4.354V1M6 21a3 3 0 11-6 0"
                     ></path>
                   </svg>
                 </div>
                 <span
-                  class="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-sm"
-                  >Скоро</span
+                  class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm"
+                  >Новый</span
                 >
               </div>
-              <h3 class="text-2xl font-bold mb-3 text-gray-400">
-                Новые тесты в разработке
+              <h3 class="text-2xl font-bold mb-3">
+                Тест: Сколько у меня будет детей?
               </h3>
-              <p class="text-gray-600 mb-6">
-                Мы работаем над созданием новых психологических тестов.
+              <p class="text-gray-400 mb-6">
+                Шутливый, но проницательный тест, который на основе ваших
+                взглядов на жизнь и ценностей предскажет ваше семейное будущее.
               </p>
-              <div class="flex items-center space-x-2">
-                <div class="pulse-dot"></div>
-                <span class="text-sm text-gray-500">В активной разработке</span>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span class="flex items-center">
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    5-10 мин
+                  </span>
+                  <span class="flex items-center">
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    15 вопросов
+                  </span>
+                </div>
+                <svg
+                  class="w-6 h-6 text-sky-400 group-hover:translate-x-2 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- New Sex Test Card -->
+            <div
+              class="glass-card card-shine rounded-2xl p-8 group cursor-pointer"
+              onclick="window.location.href='project-root/tests/sex-test.html'"
+            >
+              <div class="flex items-start justify-between mb-6">
+                <div
+                  class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+                >
+                  <svg
+                    class="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                    ></path>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2zM5 10v4c0 3.9 3.1 7 7 7s7-3.1 7-7v-4M5 10c0-3.9 3.1-7 7-7s7 3.1 7 7"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm"
+                  >18+</span
+                >
+              </div>
+              <h3 class="text-2xl font-bold mb-3">
+                Тест: Как скоро у меня будет s*x?
+              </h3>
+              <p class="text-gray-400 mb-6">
+                Узнай свой любовный прогноз! Ответь на 15 вопросов и получи
+                предсказание, основанное на твоей энергетике и вайбе.
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span class="flex items-center">
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    5 мин
+                  </span>
+                  <span class="flex items-center">
+                    <svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    15 вопросов
+                  </span>
+                </div>
+                <svg
+                  class="w-6 h-6 text-orange-400 group-hover:translate-x-2 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
               </div>
             </div>
           </div>
@@ -487,7 +628,7 @@
       <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row justify-between items-center">
           <div class="text-center md:text-left mb-4 md:mb-0">
-            <p class="text-gray-400">© 2024 PsyTests. Все права защищены.</p>
+            <p class="text-gray-400">© 2024 BPD_tests. Все права защищены.</p>
             <p class="text-sm text-gray-500 mt-1">
               Создано с заботой о ментальном здоровье
             </p>

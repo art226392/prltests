@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест: Сколько у меня будет детей? - BPD_tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: #0a0a0a;
+        overflow: hidden;
+      }
+
+      .dynamic-bg::before {
+        content: "";
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(59, 130, 246, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(16, 185, 129, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(236, 72, 153, 0.1) 0%,
+            transparent 70%
+          );
+      }
+
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(40px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5),
+          inset 0 0 40px rgba(255, 255, 255, 0.02);
+      }
+
+      a,
+      .transition-colors {
+        transition: color 0.8s ease;
+      }
+
+      .transition-transform {
+        transition: transform 0.8s ease;
+      }
+
+      .option-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .option-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(59, 130, 246, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .option-card.selected {
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.2),
+          rgba(16, 185, 129, 0.2)
+        );
+        border-color: rgba(59, 130, 246, 0.6);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      .btn-premium {
+        position: relative;
+        background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+        color: white;
+        padding: 20px 60px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 18px;
+        transition: all 0.8s ease;
+      }
+
+      .progress-container {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        padding: 1rem 0;
+        background: rgba(10, 10, 10, 0.8);
+        backdrop-filter: blur(10px);
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+
+      .progress-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #3b82f6, #10b981);
+        border-radius: 3px;
+        transition: width 1s ease;
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #3b82f6 0%,
+          #10b981 50%,
+          #f59e0b 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .fade-out {
+        animation: fadeOut 0.8s ease-in forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+          visibility: hidden;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Navigation -->
+      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="../../index.html" class="flex items-center space-x-2 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-500 to-green-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">BPD_tests</span>
+          </a>
+          <div class="flex items-center space-x-6">
+            <a href="../../index.html" class="hover:text-purple-400"
+              >← Вернуться к тестам</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div
+        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
+      >
+        <!-- Test Header -->
+        <header class="text-center mb-12 fade-in" style="margin-top: 80px">
+          <h1
+            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
+          >
+            Тест: <span class="gradient-text">Сколько у меня будет детей?</span>
+          </h1>
+          <p class="text-center text-gray-500 -mt-4 mb-8">
+            Анализ основан на вашем поведении и ощущениях за последние 2 недели.
+          </p>
+        </header>
+
+        <!-- Gender Selection -->
+        <main id="gender-selection" class="fade-in text-center">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+            <h2 class="display-font text-3xl md:text-4xl font-bold mb-8">
+              Для начала, выберите ваш пол
+            </h2>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+              <button id="select-male" class="btn-premium flex-1">
+                Я мужчина
+              </button>
+              <button id="select-female" class="btn-premium flex-1">
+                Я женщина
+              </button>
+            </div>
+          </div>
+        </main>
+
+        <!-- Test Container -->
+        <main id="test-container" class="hidden">
+          <!-- Progress Bar Container -->
+          <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar">
+              <div
+                class="progress-fill"
+                id="progress-fill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <form
+            id="children-test-form"
+            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
+          ></form>
+
+          <div class="mt-16 text-center">
+            <button type="submit" form="children-test-form" class="btn-premium">
+              <span class="relative z-10">Узнать своё будущее</span>
+            </button>
+          </div>
+        </main>
+
+        <!-- Results Container -->
+        <div id="results-container" class="hidden mt-16">
+          <div
+            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl text-center"
+          >
+            <div id="result-icon" class="mb-6"></div>
+            <h2
+              class="display-font text-4xl md:text-5xl font-bold mb-4"
+              id="result-title"
+            ></h2>
+            <p
+              id="result-description"
+              class="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto"
+            ></p>
+          </div>
+
+          <div class="mt-12 text-center space-y-4">
+            <button onclick="location.reload()" class="btn-premium">
+              Пройти тест заново
+            </button>
+            <div>
+              <a
+                href="../../index.html"
+                class="text-purple-400 hover:text-purple-300"
+              >
+                Вернуться к списку тестов →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="glass-panel mt-auto py-8 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+              <p class="text-gray-400">© 2024 BPD_tests. Все права защищены.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const questionsMale = [
+        {
+          q: "Мысль о том, что кто-то будет называть тебя 'папа', вызывает у тебя...",
+          a: "emotion",
+        },
+        {
+          q: "Ты готов променять спонтанные вылазки с друзьями на вечер с детскими сказками?",
+          a: "sacrifice",
+        },
+        {
+          q: "Ты видишь себя человеком, который сможет собрать кроватку из Икеи, не сойдя с ума?",
+          a: "skills",
+        },
+        {
+          q: "Тебя умиляют детские рисунки, даже если это просто каляка-маляка?",
+          a: "reaction",
+        },
+        {
+          q: "Ты готов к тому, что твой бюджет на гаджеты превратится в бюджет на подгузники?",
+          a: "finance",
+        },
+        {
+          q: "Идея провести выходные в детском парке развлечений кажется тебе...",
+          a: "weekend",
+        },
+        {
+          q: "Ты спокойно относишься к детскому плачу в общественных местах?",
+          a: "patience",
+        },
+        {
+          q: "Ты считаешь, что мужчина должен уметь менять подгузники?",
+          a: "duty",
+        },
+        {
+          q: "Ты готов делить свое личное пространство с кучей игрушек?",
+          a: "space",
+        },
+        {
+          q: "Мысль о родительских собраниях вгоняет тебя в тоску?",
+          a: "meetings",
+        },
+        {
+          q: "Ты считаешь, что твое терпение можно назвать 'ангельским'?",
+          a: "patience",
+        },
+        { q: "Ты видишь продолжение себя в детях?", a: "legacy" },
+        {
+          q: "Ты готов не спать ночами, потому что у ребенка режутся зубки?",
+          a: "sacrifice",
+        },
+        { q: "Твоя партнерша говорит о детях с восторгом?", a: "partner" },
+        {
+          q: "Ты мечтаешь научить своего ребенка кататься на велосипеде?",
+          a: "dream",
+        },
+      ];
+
+      const questionsFemale = [
+        {
+          q: "Ты готова к тому, что твой инстаграм заполнится не селфи, а фото маленьких пяточек?",
+          a: "social_media",
+        },
+        {
+          q: "Мысль о 9 месяцах без *игристого* и суши тебя...",
+          a: "abstinence",
+        },
+        {
+          q: "Ты можешь представить, что обсуждаешь с подругами не парней, а успехи в приучении к горшку?",
+          a: "topics",
+        },
+        {
+          q: "Тебя умиляет вид беременных женщин или вызывает сочувствие?",
+          a: "reaction",
+        },
+        {
+          q: "Ты готова делить внимание своего мужчины с маленьким кричащим конкурентом?",
+          a: "jealousy",
+        },
+        {
+          q: "Ты спокойно относишься к перспективе изменения своей фигуры после родов?",
+          a: "body",
+        },
+        {
+          q: "Ты чувствуешь в себе силы успокоить плачущего младенца?",
+          a: "skills",
+        },
+        { q: "Идея 'яжемать' вызывает у тебя ужас?", a: "stereotype" },
+        {
+          q: "Ты готова пожертвовать карьерным ростом ради нескольких лет в декрете?",
+          a: "career",
+        },
+        {
+          q: "Ты с нежностью смотришь на детскую одежду в магазинах?",
+          a: "shopping",
+        },
+        { q: "Ты считаешь, что беспорядок от игрушек - это уютно?", a: "mess" },
+        {
+          q: "Ты готова к тому, что твои любимые сериалы заменят мультики?",
+          a: "entertainment",
+        },
+        {
+          q: "Твой 'материнский инстинкт' уже дает о себе знать?",
+          a: "instinct",
+        },
+        { q: "Твой партнер кажется тебе хорошим будущим отцом?", a: "partner" },
+        { q: "Ты видишь себя в роли главы 'маленькой банды'?", a: "dream" },
+      ];
+
+      const answerOptions = {
+        emotion: [
+          { text: "Тепло и радость", points: 2 },
+          { text: "Любопытство", points: 1 },
+          { text: "Легкое беспокойство", points: -1 },
+          { text: "Панику", points: -2 },
+        ],
+        sacrifice: [
+          { text: "Легко, это новый этап", points: 2 },
+          { text: "Готов, но буду скучать", points: 1 },
+          { text: "Это будет сложно", points: -1 },
+          { text: "Нет, это моя свобода", points: -2 },
+        ],
+        skills: [
+          { text: "Конечно, я мастер на все руки", points: 2 },
+          { text: "С инструкцией справлюсь", points: 1 },
+          { text: "Скорее вызову мастера", points: -1 },
+          { text: "Я и молоток - вещи несовместные", points: -2 },
+        ],
+        reaction: [
+          { text: "Да, это очень мило", points: 2 },
+          { text: "Иногда, зависит от настроения", points: 1 },
+          { text: "Скорее сочувствие", points: -1 },
+          { text: "Раздражение", points: -2 },
+        ],
+        finance: [
+          { text: "Да, я финансово готов", points: 2 },
+          { text: "Придется пересмотреть бюджет", points: 1 },
+          { text: "Это серьезный удар по кошельку", points: -1 },
+          { text: "Абсолютно не готов", points: -2 },
+        ],
+        weekend: [
+          { text: "Отличной идеей!", points: 2 },
+          { text: "Нормальным вариантом", points: 1 },
+          { text: "Пыткой", points: -1 },
+          { text: "Худшим кошмаром", points: -2 },
+        ],
+        patience: [
+          { text: "Да, я очень терпеливый", points: 2 },
+          { text: "Стараюсь быть спокойным", points: 1 },
+          { text: "Меня это немного напрягает", points: -1 },
+          { text: "Я начинаю нервничать", points: -2 },
+        ],
+        duty: [
+          { text: "Безусловно, это общая обязанность", points: 2 },
+          { text: "Если придется, то да", points: 1 },
+          { text: "Предпочел бы избежать этого", points: -1 },
+          { text: "Это женская работа", points: -2 },
+        ],
+        space: [
+          { text: "Да, это создаст уют", points: 2 },
+          { text: "Придется привыкнуть", points: 1 },
+          { text: "Мой минимализм пострадает", points: -1 },
+          { text: "Нет, я ценю порядок", points: -2 },
+        ],
+        meetings: [
+          { text: "Нет, это важная часть родительства", points: 2 },
+          { text: "Не очень, но что поделать", points: 1 },
+          { text: "Да, звучит уныло", points: -1 },
+          { text: "Это мой личный ад", points: -2 },
+        ],
+        legacy: [
+          { text: "Да, это смысл жизни", points: 2 },
+          { text: "Отчасти, это приятно", points: 1 },
+          { text: "Не задумывался(ась)", points: 0 },
+          { text: "Нет, я живу для себя", points: -2 },
+        ],
+        partner: [
+          { text: "Да, постоянно и с восторгом", points: 2 },
+          { text: "Иногда затрагивает эту тему", points: 1 },
+          { text: "Избегает этой темы", points: -1 },
+          { text: "Категорически против", points: -2 },
+        ],
+        dream: [
+          { text: "Да, это мечта!", points: 2 },
+          { text: "Это было бы мило", points: 1 },
+          { text: "Не думал(а) об этом", points: 0 },
+          { text: "Звучит как большая ответственность", points: -1 },
+        ],
+        social_media: [
+          { text: "Конечно, это новый этап жизни!", points: 2 },
+          { text: "Будет баланс", points: 1 },
+          { text: "Постараюсь этого избежать", points: -1 },
+          { text: "Мой инстаграм - моя крепость", points: -2 },
+        ],
+        abstinence: [
+          { text: "Не пугает, есть вещи важнее", points: 2 },
+          { text: "Немного расстраивает", points: 1 },
+          { text: "Сильно пугает", points: -1 },
+          { text: "Это причина не рожать", points: -2 },
+        ],
+        topics: [
+          { text: "Легко, это будет актуально", points: 2 },
+          { text: "Думаю, да", points: 1 },
+          { text: "Надеюсь, темы будут и другие", points: -1 },
+          { text: "Ни за что!", points: -2 },
+        ],
+        jealousy: [
+          { text: "Это не конкурент, а наше счастье", points: 2 },
+          { text: "Думаю, я справлюсь", points: 1 },
+          { text: "Это будет испытанием", points: -1 },
+          { text: "Я не готова делить его ни с кем", points: -2 },
+        ],
+        body: [
+          { text: "Абсолютно, это естественно", points: 2 },
+          { text: "Немного беспокоюсь, но готова", points: 1 },
+          { text: "Очень переживаю по этому поводу", points: -1 },
+          { text: "Это мой главный страх", points: -2 },
+        ],
+        stereotype: [
+          { text: "Нет, это глупый ярлык", points: 2 },
+          { text: "Немного, но я буду другой", points: 1 },
+          { text: "Да, боюсь стать такой", points: -1 },
+          { text: "Все мамы такие", points: -2 },
+        ],
+        career: [
+          { text: "Да, семья важнее", points: 2 },
+          { text: "Это сложный выбор, но я готова", points: 1 },
+          { text: "Постараюсь совмещать", points: -1 },
+          { text: "Нет, карьера на первом месте", points: -2 },
+        ],
+        shopping: [
+          { text: "Да, это так мило!", points: 2 },
+          { text: "Иногда", points: 1 },
+          { text: "Прохожу мимо", points: -1 },
+          { text: "Меня это не интересует", points: -2 },
+        ],
+        mess: [
+          { text: "Да, это 'живой' дом", points: 2 },
+          { text: "Придется смириться", points: 1 },
+          { text: "Буду бороться за порядок", points: -1 },
+          { text: "Ненавижу беспорядок", points: -2 },
+        ],
+        entertainment: [
+          { text: "Да, буду смотреть вместе с ними", points: 2 },
+          { text: "Найду время и для своего", points: 1 },
+          { text: "Это будет тяжело", points: -1 },
+          { text: "Мои сериалы - это святое", points: -2 },
+        ],
+        instinct: [
+          { text: "Да, очень сильно", points: 2 },
+          { text: "Иногда просыпается", points: 1 },
+          { text: "Пока спит", points: 0 },
+          { text: "Думаю, у меня его нет", points: -2 },
+        ],
+      };
+
+      const genderSelection = document.getElementById("gender-selection");
+      const testContainer = document.getElementById("test-container");
+      const resultsContainer = document.getElementById("results-container");
+      const form = document.getElementById("children-test-form");
+
+      let currentQuestions = [];
+      let answeredQuestions = 0;
+
+      document
+        .getElementById("select-male")
+        .addEventListener("click", () => startTest(questionsMale));
+      document
+        .getElementById("select-female")
+        .addEventListener("click", () => startTest(questionsFemale));
+
+      function startTest(questions) {
+        currentQuestions = questions;
+        genderSelection.classList.add("fade-out");
+        genderSelection.addEventListener(
+          "animationend",
+          () => {
+            genderSelection.classList.add("hidden");
+            testContainer.classList.remove("hidden");
+            testContainer.classList.add("fade-in");
+            renderQuestions();
+          },
+          { once: true }
+        );
+      }
+
+      function updateProgress() {
+        const progress = (answeredQuestions / currentQuestions.length) * 100;
+        document.getElementById("progress-fill").style.width = progress + "%";
+      }
+
+      function renderQuestions() {
+        form.innerHTML = "";
+        currentQuestions.forEach((qData, index) => {
+          const block = document.createElement("div");
+          block.className = "question-block fade-in";
+          block.style.animationDelay = `${index * 0.05}s`;
+
+          const questionText = document.createElement("p");
+          questionText.className = "font-medium text-lg text-gray-100 mb-4";
+          questionText.textContent = `${index + 1}. ${qData.q}`;
+          block.appendChild(questionText);
+
+          const optionsContainer = document.createElement("div");
+          optionsContainer.className =
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3";
+
+          const currentAnswerSet = answerOptions[qData.a];
+
+          currentAnswerSet.forEach((opt) => {
+            const label = document.createElement("label");
+            label.className =
+              "option-card p-4 rounded-xl text-center cursor-pointer flex items-center justify-center min-h-[60px]";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `q${index}`;
+            radio.value = opt.points;
+            radio.required = true;
+            label.appendChild(radio);
+            label.append(opt.text);
+            optionsContainer.appendChild(label);
+          });
+
+          block.appendChild(optionsContainer);
+          form.appendChild(block);
+        });
+      }
+
+      form.addEventListener("change", (e) => {
+        if (e.target.type === "radio") {
+          const container = e.target.closest(".grid");
+          container
+            .querySelectorAll(".option-card")
+            .forEach((card) => card.classList.remove("selected"));
+          e.target.parentElement.classList.add("selected");
+
+          const questionBlock = e.target.closest(".question-block");
+          if (!questionBlock.hasAttribute("data-answered")) {
+            questionBlock.setAttribute("data-answered", "true");
+            answeredQuestions++;
+            updateProgress();
+          }
+        }
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (answeredQuestions < currentQuestions.length) {
+          const unansweredBlock = form.querySelector(
+            ".question-block:not([data-answered])"
+          );
+          if (unansweredBlock) {
+            unansweredBlock.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          }
+          return;
+        }
+        const score = calculateScore();
+        renderResults(score);
+      });
+
+      function calculateScore() {
+        const formData = new FormData(form);
+        let totalScore = 0;
+        for (let i = 0; i < currentQuestions.length; i++) {
+          const value = formData.get(`q${i}`);
+          if (value !== null) {
+            totalScore += parseInt(value, 10);
+          }
+        }
+        return totalScore;
+      }
+
+      function renderResults(score) {
+        testContainer.classList.add("fade-out");
+        testContainer.addEventListener(
+          "animationend",
+          () => {
+            testContainer.classList.add("hidden");
+            resultsContainer.classList.remove("hidden");
+            resultsContainer.classList.add("fade-in");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          },
+          { once: true }
+        );
+
+        const titleEl = document.getElementById("result-title");
+        const descriptionEl = document.getElementById("result-description");
+        const iconEl = document.getElementById("result-icon");
+
+        let resultData;
+
+        if (score > 15) {
+          resultData = {
+            title: "Большая и дружная семья (3+ детей)",
+            description:
+              "Вы обладаете огромным запасом любви, терпения и энергии. Ваше призвание — быть в центре большой, шумной и веселой семьи. Вас ждут множество счастливых моментов, связанных с детским смехом и топотом маленьких ножек.",
+            icon: '<svg class="w-24 h-24 mx-auto text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>',
+          };
+        } else if (score > -5) {
+          resultData = {
+            title: "Идеальный баланс (1-2 ребенка)",
+            description:
+              "Вы подходите к созданию семьи взвешенно и рационально. Для вас важен баланс между родительством, карьерой и личными интересами. Вы сможете дать своим детям прекрасное воспитание, не теряя при этом себя. Вас ждет гармоничная и счастливая семейная жизнь.",
+            icon: '<svg class="w-24 h-24 mx-auto text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6h6a6 6 0 016 6v1h-3M15 21a3 3 0 11-6 0M12 4.354V1M6 21a3 3 0 11-6 0"></path></svg>',
+          };
+        } else {
+          resultData = {
+            title: "Свобода и саморазвитие (0-1 ребенок)",
+            description:
+              "На данном этапе жизни вы больше сфокусированы на самореализации, карьере и познании мира. Дети могут не быть вашим главным приоритетом, и это абсолютно нормально. Возможно, вы найдете свое счастье в путешествиях, творчестве или станете прекрасным родителем для пушистого питомца.",
+            icon: '<svg class="w-24 h-24 mx-auto text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>',
+          };
+        }
+
+        titleEl.textContent = resultData.title;
+        descriptionEl.textContent = resultData.description;
+        iconEl.innerHTML = resultData.icon;
+      }
+    </script>
+  </body>
+</html>

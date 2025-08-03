@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Тест: Мой Партнер Нарцисс? - PsyTests</title>
+    <title>Тест: Мой Партнер Нарцисс? - BPD_tests</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -69,10 +69,19 @@
           inset 0 0 40px rgba(255, 255, 255, 0.02);
       }
 
+      a,
+      .transition-colors {
+        transition: color 0.8s ease;
+      }
+
+      .transition-transform {
+        transition: transform 0.8s ease;
+      }
+
       .option-card {
         background: rgba(255, 255, 255, 0.03);
         border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Сделано медленнее */
       }
 
       .option-card:hover {
@@ -102,7 +111,7 @@
         border-radius: 16px;
         font-weight: 700;
         font-size: 18px;
-        transition: all 0.3s ease;
+        transition: all 0.8s ease; /* Сделано медленнее */
       }
 
       .progress-container {
@@ -129,7 +138,7 @@
         height: 100%;
         background: linear-gradient(90deg, #8b5cf6, #ec4899);
         border-radius: 3px;
-        transition: width 0.5s ease;
+        transition: width 1s ease; /* Сделано медленнее */
       }
 
       .gradient-text {
@@ -159,7 +168,7 @@
       }
 
       .fade-in {
-        animation: fadeIn 0.6s ease-out;
+        animation: fadeIn 0.8s ease-out; /* Сделано медленнее */
       }
 
       @keyframes fadeIn {
@@ -226,7 +235,7 @@
       .criterion-bar-fill {
         height: 100%;
         border-radius: 8px;
-        transition: width 1s ease-out;
+        transition: width 1.5s ease-out; /* Сделано медленнее */
         box-shadow: 0 0 15px var(--bar-color);
       }
     </style>
@@ -244,12 +253,10 @@
             >
               <span class="text-white font-bold text-xl">Ψ</span>
             </div>
-            <span class="text-xl font-semibold">PsyTests</span>
+            <span class="text-xl font-semibold">BPD_tests</span>
           </a>
           <div class="flex items-center space-x-6">
-            <a
-              href="../../index.html"
-              class="hover:text-purple-400 transition-colors"
+            <a href="../../index.html" class="hover:text-purple-400"
               >← Вернуться к тестам</a
             >
           </div>
@@ -334,7 +341,7 @@
             <div>
               <a
                 href="../../index.html"
-                class="text-purple-400 hover:text-purple-300 transition-colors"
+                class="text-purple-400 hover:text-purple-300"
               >
                 Вернуться к списку тестов →
               </a>
@@ -348,7 +355,7 @@
         <div class="max-w-7xl mx-auto">
           <div class="flex flex-col md:flex-row justify-between items-center">
             <div class="text-center md:text-left mb-4 md:mb-0">
-              <p class="text-gray-400">© 2024 PsyTests. Все права защищены.</p>
+              <p class="text-gray-400">© 2024 BPD_tests. Все права защищены.</p>
             </div>
             <div class="text-center md:text-right">
               <div

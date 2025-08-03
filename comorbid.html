@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест: Спектр Личности - BPD tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: #0a0a0a;
+        overflow: hidden;
+        z-index: -1;
+      }
+      .dynamic-bg::before {
+        content: "";
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(217, 70, 239, 0.1) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(14, 165, 233, 0.1) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(79, 70, 229, 0.1) 0%,
+            transparent 60%
+          );
+      }
+      .glass-panel {
+        background: rgba(20, 20, 22, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+      .option-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s var(--ease-gentle);
+        will-change: transform, background, border-color;
+      }
+      .option-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(14, 165, 233, 0.5);
+        transform: translateY(-2px);
+      }
+      .option-card.selected {
+        background: linear-gradient(
+          135deg,
+          rgba(14, 165, 233, 0.2),
+          rgba(217, 70, 239, 0.2)
+        );
+        border-color: rgba(14, 165, 233, 0.6);
+      }
+      input[type="radio"] {
+        display: none;
+      }
+      .btn-premium {
+        position: relative;
+        background: linear-gradient(135deg, #0ea5e9 0%, #d946ef 100%);
+        color: white;
+        padding: 20px 60px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 18px;
+        transition: all 0.5s var(--ease-gentle);
+        will-change: transform, box-shadow;
+      }
+      .btn-premium:hover {
+        transform: translateY(-4px) scale(1.03);
+        box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+      }
+      .progress-container {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        padding: 1rem 0;
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(8px);
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+      .progress-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 auto;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #0ea5e9, #d946ef);
+        border-radius: 3px;
+        transition: width 0.5s ease;
+      }
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #0ea5e9 0%,
+          #d946ef 50%,
+          #f59e0b 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-shift 4s ease infinite;
+      }
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+      .fade-out {
+        animation: fadeOut 0.8s ease-in forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+          visibility: hidden;
+        }
+      }
+      @media (max-width: 768px) {
+        .glass-panel,
+        .progress-container {
+          backdrop-filter: none;
+          background: rgba(20, 20, 22, 0.9);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+        .dynamic-bg {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="../../index.html" class="flex items-center space-x-2 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-sky-500 to-fuchsia-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">BPD tests</span>
+          </a>
+          <div class="flex items-center space-x-6">
+            <a href="../../index.html" class="hover:text-sky-400"
+              >← Вернуться к тестам</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <div
+        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
+      >
+        <header class="text-center mb-12 fade-in" style="margin-top: 80px">
+          <h1
+            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
+          >
+            <span class="gradient-text">Спектр Личности</span>
+          </h1>
+          <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            Клинически-ориентированный анализ сопутствующих расстройств
+          </p>
+        </header>
+
+        <main id="test-container" class="fade-in">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl mb-12">
+            <h2 class="text-2xl font-bold text-center mb-4">
+              Важное примечание
+            </h2>
+            <p class="text-center text-gray-400 mb-6">
+              Этот опросник основан на работах ведущих специалистов в области
+              расстройств личности, включая исследования доктора
+              <strong>Марши М. Линехан</strong>, создательницы диалектической
+              поведенческой терапии, и <strong>Отто Ф. Кернберга</strong>, чьи
+              труды посвящены пограничной организации личности. Тест не является
+              диагностическим инструментом, а служит для саморефлексии. Для
+              постановки диагноза обратитесь к специалисту.
+            </p>
+            <div class="text-center">
+              <button id="start-test-btn" class="btn-premium">
+                Начать тест
+              </button>
+            </div>
+          </div>
+
+          <div id="test-content" class="hidden">
+            <div class="progress-container" id="progress-container">
+              <div class="progress-bar" id="progress-bar">
+                <div
+                  class="progress-fill"
+                  id="progress-fill"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+
+            <form
+              id="comorbidity-form"
+              class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
+            ></form>
+
+            <div class="mt-16 text-center">
+              <button type="submit" form="comorbidity-form" class="btn-premium">
+                <span class="relative z-10">Показать результаты</span>
+              </button>
+            </div>
+          </div>
+        </main>
+
+        <div id="results-container" class="hidden mt-16">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+            <h2
+              class="display-font text-4xl md:text-5xl font-bold mb-8 text-center"
+            >
+              Ваш Спектр Личности
+            </h2>
+            <div class="max-w-2xl mx-auto">
+              <canvas id="results-chart"></canvas>
+            </div>
+            <div id="results-interpretation" class="mt-12 space-y-6"></div>
+          </div>
+          <div class="mt-12 text-center space-y-4">
+            <button onclick="location.reload()" class="btn-premium">
+              Пройти тест заново
+            </button>
+            <div>
+              <a href="../../index.html" class="text-sky-400 hover:text-sky-300"
+                >Вернуться к списку тестов →</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="glass-panel mt-auto py-8 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+              <p class="text-gray-400">© 2025 BPD tests. Все права защищены.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const testData = {
+          categories: {
+            mdd: {
+              label: "Депрессия",
+              color: "#3B82F6",
+              interpretation:
+                "Характеризуется стойким подавленным настроением, ангедонией (потерей удовольствия), нарушениями сна и аппетита, чувством вины и суицидальными мыслями.",
+            },
+            bipolar: {
+              label: "Биполярные черты",
+              color: "#8B5CF6",
+              interpretation:
+                "Проявляются в виде резких колебаний настроения от депрессивных эпизодов до гипоманиакальных/маниакальных состояний (эйфория, повышенная энергия, снижение потребности во сне).",
+            },
+            ptsd: {
+              label: "ПТСР",
+              color: "#10B981",
+              interpretation:
+                "Возникает после травматического события и включает навязчивые воспоминания (флешбэки), избегание триггеров, негативные изменения в мышлении и настроении, повышенную возбудимость.",
+            },
+            gad: {
+              label: "ГТР",
+              color: "#F59E0B",
+              interpretation:
+                "Хроническое, чрезмерное беспокойство по разным поводам, которое трудно контролировать и которое сопровождается мышечным напряжением, усталостью и раздражительностью.",
+            },
+            sad: {
+              label: "Социофобия",
+              color: "#14B8A6",
+              interpretation:
+                "Интенсивный страх социальных ситуаций из-за боязни негативной оценки со стороны других, что ведет к избеганию публичных выступлений, знакомств и общения.",
+            },
+            panic: {
+              label: "Панические атаки",
+              color: "#6366F1",
+              interpretation:
+                "Характеризуется внезапными и повторяющимися паническими атаками — приступами сильного страха, сопровождающимися сердцебиением, удушьем и страхом смерти.",
+            },
+            ocd: {
+              label: "ОКР",
+              color: "#D946EF",
+              interpretation:
+                "Навязчивые мысли (обсессии), вызывающие тревогу, и повторяющиеся действия (компульсии), которые человек совершает, чтобы эту тревогу уменьшить.",
+            },
+            eating: {
+              label: "РПП",
+              color: "#EC4899",
+              interpretation:
+                "Нарушения пищевого поведения, такие как анорексия (ограничение еды), булимия (переедание с последующей компенсацией) или компульсивное переедание.",
+            },
+            substance: {
+              label: "Зависимости",
+              color: "#EF4444",
+              interpretation:
+                "Пагубное употребление алкоголя, наркотиков или лекарств, которое приводит к значительным проблемам в жизни.",
+            },
+            adhd: {
+              label: "СДВГ",
+              color: "#F97316",
+              interpretation:
+                "Трудности с концентрацией внимания, гиперактивность и импульсивность, которые мешают в учебе, работе и межличностных отношениях.",
+            },
+          },
+          questions: [
+            // MDD
+            {
+              q: "Чувствуете ли вы себя опустошенным и безразличным к будущему большую часть времени?",
+              category: "mdd",
+            },
+            {
+              q: "Замечаете ли вы значительные изменения в аппетите или весе без специальных диет?",
+              category: "mdd",
+            },
+            {
+              q: "Посещают ли вас мысли о том, что жизнь не стоит того, чтобы ее продолжать?",
+              category: "mdd",
+            },
+            // Bipolar
+            {
+              q: "Бывают ли у вас периоды, когда вы чувствуете себя на вершине мира, полны идей и почти не нуждаетесь во сне?",
+              category: "bipolar",
+            },
+            {
+              q: "Сменяются ли эти периоды подъема днями или неделями глубокой тоски и апатии?",
+              category: "bipolar",
+            },
+            {
+              q: "Говорят ли вам близкие, что ваше настроение меняется слишком резко и непредсказуемо?",
+              category: "bipolar",
+            },
+            // PTSD
+            {
+              q: "Возвращаетесь ли вы мысленно к травмирующему событию так, будто оно происходит снова?",
+              category: "ptsd",
+            },
+            {
+              q: "Чувствуете ли вы себя отстраненным от близких и избегаете разговоров о своем прошлом?",
+              category: "ptsd",
+            },
+            {
+              q: "Вы постоянно начеку, легко пугаетесь и испытываете вспышки гнева?",
+              category: "ptsd",
+            },
+            // GAD
+            {
+              q: "Беспокоитесь ли вы чрезмерно о повседневных вещах (работа, деньги, здоровье) до такой степени, что это мешает жить?",
+              category: "gad",
+            },
+            {
+              q: "Вам трудно расслабиться и 'отключить' поток тревожных мыслей?",
+              category: "gad",
+            },
+            // SAD
+            {
+              q: "Вызывает ли у вас сильный страх необходимость выступать перед аудиторией или быть в центре внимания?",
+              category: "sad",
+            },
+            {
+              q: "Избегаете ли вы вечеринок или встреч с новыми людьми из-за страха сказать что-то не то?",
+              category: "sad",
+            },
+            // Panic
+            {
+              q: "Случаются ли у вас внезапные приступы удушья, головокружения и учащенного сердцебиения, которые вы принимаете за сердечный приступ?",
+              category: "panic",
+            },
+            {
+              q: "Живете ли вы в постоянном страхе перед следующей панической атакой?",
+              category: "panic",
+            },
+            // OCD
+            {
+              q: "Есть ли у вас навязчивые, пугающие мысли, которые вы пытаетесь подавить с помощью определенных ритуалов?",
+              category: "ocd",
+            },
+            {
+              q: "Тратите ли вы много времени на перепроверку (дверей, выключателей) или наведение идеального порядка?",
+              category: "ocd",
+            },
+            {
+              q: "Вызывает ли у вас сильный дискомфорт асимметрия или нарушение привычного расположения вещей?",
+              category: "ocd",
+            },
+            // Eating Disorders
+            {
+              q: "Зациклены ли вы на подсчете калорий, весе и форме своего тела?",
+              category: "eating",
+            },
+            {
+              q: "Скрываете ли вы от других эпизоды переедания или, наоборот, отказа от пищи?",
+              category: "eating",
+            },
+            {
+              q: "Используете ли вы рвоту, слабительные или изнурительные тренировки для контроля веса?",
+              category: "eating",
+            },
+            // Substance Abuse
+            {
+              q: "Употребляете ли вы алкоголь или другие вещества, чтобы 'заглушить' эмоциональную боль или пустоту?",
+              category: "substance",
+            },
+            {
+              q: "Говорили ли вам близкие, что ваше употребление веществ выходит из-под контроля?",
+              category: "substance",
+            },
+            {
+              q: "Продолжаете ли вы употреблять вещества, несмотря на очевидные негативные последствия для вашей жизни?",
+              category: "substance",
+            },
+            // ADHD
+            {
+              q: "Вам трудно сосредоточиться на одной задаче, вы легко отвлекаетесь?",
+              category: "adhd",
+            },
+            {
+              q: "Вам сложно сидеть на месте, вы постоянно ерзаете или барабаните пальцами?",
+              category: "adhd",
+            },
+            {
+              q: "Часто ли вы перебиваете других, не дослушав вопрос, или принимаете поспешные решения?",
+              category: "adhd",
+            },
+            // Mixed Personality
+            {
+              q: "Вам жизненно необходимо быть в центре внимания и получать комплименты, чтобы чувствовать себя хорошо?",
+              category: "personality",
+            },
+            {
+              q: "Вы склонны избегать любой критики и ситуаций, где вас могут оценить негативно?",
+              category: "personality",
+            },
+            {
+              q: "Вам трудно принимать решения самостоятельно, и вы ищете одобрения и поддержки у других?",
+              category: "personality",
+            },
+          ],
+          answerOptions: [
+            { text: "Никогда или почти никогда", value: 0 },
+            { text: "Редко", value: 1 },
+            { text: "Иногда", value: 2 },
+            { text: "Часто", value: 3 },
+            { text: "Почти всегда", value: 4 },
+          ],
+        };
+
+        const startBtn = document.getElementById("start-test-btn");
+        const testContainer = document.getElementById("test-container");
+        const testContent = document.getElementById("test-content");
+        const resultsContainer = document.getElementById("results-container");
+        const form = document.getElementById("comorbidity-form");
+        let answeredQuestions = 0;
+        let chartInstance = null;
+
+        const lenis = new Lenis({
+          lerp: 0.07,
+          smoothWheel: true,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        startBtn.addEventListener("click", () => {
+          startBtn.parentElement.parentElement.classList.add("fade-out");
+          startBtn.parentElement.parentElement.addEventListener(
+            "animationend",
+            () => {
+              startBtn.parentElement.parentElement.classList.add("hidden");
+              testContent.classList.remove("hidden");
+              testContent.classList.add("fade-in");
+              renderQuestions();
+            },
+            { once: true }
+          );
+        });
+
+        function updateProgress() {
+          const progress =
+            (answeredQuestions / testData.questions.length) * 100;
+          document.getElementById("progress-fill").style.width = `${progress}%`;
+        }
+
+        function renderQuestions() {
+          form.innerHTML = "";
+          testData.questions.forEach((qData, index) => {
+            const block = document.createElement("div");
+            block.className = "question-block fade-in";
+            block.style.animationDelay = `${index * 0.05}s`;
+
+            const questionText = document.createElement("p");
+            questionText.className = "font-medium text-lg text-gray-100 mb-4";
+            questionText.textContent = `${index + 1}. ${qData.q}`;
+            block.appendChild(questionText);
+
+            const optionsContainer = document.createElement("div");
+            optionsContainer.className =
+              "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3";
+
+            testData.answerOptions.forEach((opt) => {
+              const label = document.createElement("label");
+              label.className =
+                "option-card p-4 rounded-xl text-center cursor-pointer flex items-center justify-center min-h-[60px]";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = `q${index}`;
+              radio.value = opt.value;
+              radio.required = true;
+              label.appendChild(radio);
+              label.append(opt.text);
+              optionsContainer.appendChild(label);
+            });
+
+            block.appendChild(optionsContainer);
+            form.appendChild(block);
+          });
+        }
+
+        form.addEventListener("change", (e) => {
+          if (e.target.type === "radio") {
+            const container = e.target.closest(".grid");
+            container
+              .querySelectorAll(".option-card")
+              .forEach((card) => card.classList.remove("selected"));
+            e.target.parentElement.classList.add("selected");
+
+            const questionBlock = e.target.closest(".question-block");
+            if (!questionBlock.hasAttribute("data-answered")) {
+              questionBlock.setAttribute("data-answered", "true");
+              answeredQuestions++;
+              updateProgress();
+            }
+          }
+        });
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (answeredQuestions < testData.questions.length) {
+            const unansweredBlock = form.querySelector(
+              ".question-block:not([data-answered])"
+            );
+            if (unansweredBlock) {
+              lenis.scrollTo(unansweredBlock, { offset: -150 });
+            }
+            return;
+          }
+          const scores = calculateScores();
+          renderResults(scores);
+        });
+
+        function calculateScores() {
+          const formData = new FormData(form);
+          const categoryScores = {};
+
+          for (const key in testData.categories) {
+            categoryScores[key] = { sum: 0, count: 0 };
+          }
+
+          testData.questions.forEach((q, index) => {
+            const value = parseInt(formData.get(`q${index}`), 10) || 0;
+            if (categoryScores[q.category]) {
+              categoryScores[q.category].sum += value;
+              categoryScores[q.category].count++;
+            }
+          });
+
+          const finalScores = {};
+          for (const key in categoryScores) {
+            const { sum, count } = categoryScores[key];
+            const maxScore = 4 * count;
+            finalScores[key] = maxScore > 0 ? (sum / maxScore) * 100 : 0;
+          }
+          return finalScores;
+        }
+
+        function renderResults(scores) {
+          testContainer.classList.add("fade-out");
+          testContainer.addEventListener(
+            "animationend",
+            () => {
+              testContainer.classList.add("hidden");
+              resultsContainer.classList.remove("hidden");
+              resultsContainer.classList.add("fade-in");
+              lenis.scrollTo(0);
+              renderChart(scores);
+              renderInterpretation(scores);
+            },
+            { once: true }
+          );
+        }
+
+        function renderChart(scores) {
+          const ctx = document.getElementById("results-chart").getContext("2d");
+          const labels = Object.values(testData.categories).map((c) =>
+            c.label.split(" ")
+          );
+          const data = Object.keys(testData.categories).map(
+            (key) => scores[key]
+          );
+
+          if (chartInstance) {
+            chartInstance.destroy();
+          }
+
+          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, "rgba(139, 92, 246, 0.4)");
+          gradient.addColorStop(1, "rgba(14, 165, 233, 0.4)");
+
+          chartInstance = new Chart(ctx, {
+            type: "radar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Выраженность черт",
+                  data: data,
+                  backgroundColor: gradient,
+                  borderColor: "#A78BFA",
+                  borderWidth: 3,
+                  pointBackgroundColor: "#fff",
+                  pointBorderColor: "#A78BFA",
+                  pointHoverBackgroundColor: "#A78BFA",
+                  pointHoverBorderColor: "#fff",
+                  pointRadius: 5,
+                  pointHoverRadius: 8,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                r: {
+                  angleLines: { color: "rgba(255, 255, 255, 0.2)" },
+                  grid: { color: "rgba(255, 255, 255, 0.2)" },
+                  pointLabels: {
+                    color: "#fff",
+                    font: {
+                      size: 13,
+                      family: "'Inter', sans-serif",
+                    },
+                  },
+                  ticks: {
+                    color: "#0a0a0a",
+                    backdropColor: "rgba(255, 255, 255, 0.8)",
+                    borderRadius: 4,
+                    stepSize: 25,
+                    font: {
+                      weight: "bold",
+                    },
+                  },
+                  suggestedMin: 0,
+                  suggestedMax: 100,
+                },
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                tooltip: {
+                  enabled: true,
+                  backgroundColor: "rgba(10, 10, 10, 0.8)",
+                  titleFont: { size: 16, weight: "bold" },
+                  bodyFont: { size: 14 },
+                  padding: 12,
+                  cornerRadius: 8,
+                  callbacks: {
+                    label: function (context) {
+                      let label = context.dataset.label || "";
+                      if (label) {
+                        label += ": ";
+                      }
+                      if (context.parsed.r !== null) {
+                        label += Math.round(context.parsed.r) + "%";
+                      }
+                      return label;
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
+
+        function renderInterpretation(scores) {
+          const interpretationDiv = document.getElementById(
+            "results-interpretation"
+          );
+          interpretationDiv.innerHTML = "";
+
+          const sortedScores = Object.entries(scores).sort(
+            (a, b) => b[1] - a[1]
+          );
+
+          sortedScores.forEach(([key, score], index) => {
+            if (score < 25) return;
+
+            const category = testData.categories[key];
+            const scoreRounded = Math.round(score);
+
+            let levelText = "";
+            if (scoreRounded >= 75) {
+              levelText = `<span class="font-bold text-red-400">Очень высокий уровень</span>`;
+            } else if (scoreRounded >= 50) {
+              levelText = `<span class="font-bold text-yellow-400">Повышенный уровень</span>`;
+            } else {
+              levelText = `<span class="font-bold text-sky-400">Заметный уровень</span>`;
+            }
+
+            const element = document.createElement("div");
+            element.className = "fade-in glass-panel rounded-2xl p-6";
+            element.style.animationDelay = `${index * 0.15}s`;
+            element.style.borderColor = category.color;
+
+            element.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-2" style="color: ${category.color.replace(
+                      "0.5",
+                      "1"
+                    )}">${category.label}</h3>
+                    <p class="text-lg mb-2">Ваш результат: ${scoreRounded}% (${levelText})</p>
+                    <p class="text-gray-400">${category.interpretation}</p>
+                `;
+            interpretationDiv.appendChild(element);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

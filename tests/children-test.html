@@ -45,42 +45,47 @@
         left: -25%;
         background: radial-gradient(
             circle at 25% 25%,
-            rgba(59, 130, 246, 0.15) 0%,
-            transparent 50%
+            rgba(59, 130, 246, 0.1) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 75% 75%,
-            rgba(16, 185, 129, 0.15) 0%,
-            transparent 50%
+            rgba(16, 185, 129, 0.1) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 50% 50%,
-            rgba(236, 72, 153, 0.1) 0%,
-            transparent 70%
+            rgba(236, 72, 153, 0.05) 0%,
+            transparent 60%
           );
       }
 
       .glass-panel {
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(40px) saturate(180%);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px) saturate(150%);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5),
-          inset 0 0 40px rgba(255, 255, 255, 0.02);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
       }
 
       a,
       .transition-colors {
-        transition: color 0.8s ease;
+        transition: color 0.4s ease;
       }
 
       .transition-transform {
-        transition: transform 0.8s ease;
+        transition: transform 0.4s ease;
+      }
+
+      .option-card,
+      .btn-premium {
+        /* Performance hint for the browser */
+        will-change: transform, background, border-color;
       }
 
       .option-card {
         background: rgba(255, 255, 255, 0.03);
         border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .option-card:hover {
@@ -110,7 +115,7 @@
         border-radius: 16px;
         font-weight: 700;
         font-size: 18px;
-        transition: all 0.8s ease;
+        transition: all 0.4s ease;
       }
 
       .progress-container {
@@ -118,8 +123,8 @@
         top: 80px;
         z-index: 40;
         padding: 1rem 0;
-        background: rgba(10, 10, 10, 0.8);
-        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(8px);
         margin-bottom: 2rem;
         border-radius: 1rem;
       }
@@ -137,7 +142,7 @@
         height: 100%;
         background: linear-gradient(90deg, #3b82f6, #10b981);
         border-radius: 3px;
-        transition: width 1s ease;
+        transition: width 0.5s ease;
       }
 
       .gradient-text {
@@ -167,11 +172,11 @@
       }
 
       .fade-in {
-        animation: fadeIn 0.8s ease-out;
+        animation: fadeIn 0.5s ease-out;
       }
 
       .fade-out {
-        animation: fadeOut 0.8s ease-in forwards;
+        animation: fadeOut 0.5s ease-in forwards;
       }
 
       @keyframes fadeIn {
@@ -200,7 +205,27 @@
       .timeline-item {
         opacity: 0;
         transform: translateY(20px);
-        animation: fadeIn 0.8s ease-out forwards;
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* --- Mobile Optimizations --- */
+      @media (max-width: 768px) {
+        .glass-panel,
+        .progress-container {
+          /* Remove the most expensive properties on mobile */
+          backdrop-filter: none;
+          background: rgba(
+            20,
+            20,
+            22,
+            0.85
+          ); /* Use a solid background instead */
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .dynamic-bg {
+          display: none; /* Disable the animated background on mobile */
+        }
       }
     </style>
   </head>
@@ -243,25 +268,8 @@
           </p>
         </header>
 
-        <!-- Gender Selection -->
-        <main id="gender-selection" class="fade-in text-center">
-          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
-            <h2 class="display-font text-3xl md:text-4xl font-bold mb-8">
-              Для начала, выберите ваш пол
-            </h2>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
-              <button id="select-male" class="btn-premium flex-1">
-                Я мужчина
-              </button>
-              <button id="select-female" class="btn-premium flex-1">
-                Я женщина
-              </button>
-            </div>
-          </div>
-        </main>
-
         <!-- Test Container -->
-        <main id="test-container" class="hidden">
+        <main id="test-container" class="fade-in">
           <!-- Progress Bar Container -->
           <div class="progress-container" id="progress-container">
             <div class="progress-bar" id="progress-bar">
@@ -335,18 +343,19 @@
       </footer>
     </div>
 
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
-      const questionsMale = [
+      const questions = [
         {
-          q: "Мысль о том, что кто-то будет называть тебя 'папа', вызывает у тебя...",
+          q: "Мысль о том, что кто-то будет называть тебя 'родитель', вызывает у тебя...",
           a: "emotion",
         },
         {
-          q: "Ты готов променять спонтанные вылазки с друзьями на вечер с детскими сказками?",
+          q: "Готов(а) ли ты променять спонтанные вылазки с друзьями на вечер с детскими сказками?",
           a: "sacrifice",
         },
         {
-          q: "Ты видишь себя человеком, который сможет собрать кроватку из Икеи, не сойдя с ума?",
+          q: "Видишь ли ты себя человеком, который сможет собрать детскую мебель, не сойдя с ума?",
           a: "skills",
         },
         {
@@ -354,7 +363,7 @@
           a: "reaction",
         },
         {
-          q: "Ты готов к тому, что твой бюджет на гаджеты превратится в бюджет на подгузники?",
+          q: "Готов(а) ли ты к тому, что бюджет на хобби превратится в бюджет на подгузники?",
           a: "finance",
         },
         {
@@ -362,15 +371,15 @@
           a: "weekend",
         },
         {
-          q: "Ты спокойно относишься к детскому плачу в общественных местах?",
+          q: "Спокойно ли ты относишься к детскому плачу в общественных местах?",
           a: "patience",
         },
         {
-          q: "Ты считаешь, что мужчина должен уметь менять подгузники?",
+          q: "Считаешь ли ты, что уход за ребенком - это общая обязанность партнеров?",
           a: "duty",
         },
         {
-          q: "Ты готов делить свое личное пространство с кучей игрушек?",
+          q: "Готов(а) ли ты делить свое личное пространство с кучей игрушек?",
           a: "space",
         },
         {
@@ -378,76 +387,26 @@
           a: "meetings",
         },
         {
-          q: "Ты считаешь, что твое терпение можно назвать 'ангельским'?",
-          a: "patience",
+          q: "Считаешь ли ты свое терпение 'ангельским'?",
+          a: "patience_level",
         },
-        { q: "Ты видишь продолжение себя в детях?", a: "legacy" },
+        { q: "Видишь ли ты продолжение себя в детях?", a: "legacy" },
         {
-          q: "Ты готов не спать ночами, потому что у ребенка режутся зубки?",
-          a: "sacrifice",
+          q: "Готов(а) ли ты не спать ночами из-за ребенка?",
+          a: "sacrifice_sleep",
         },
         {
-          q: "Как ты обсуждаешь тему детей со своей партнершей?",
+          q: "Обсуждаешь ли ты тему детей с партнером (если он есть)?",
           a: "partner_kids",
         },
         {
-          q: "Ты мечтаешь научить своего ребенка кататься на велосипеде?",
+          q: "Мечтаешь ли ты научить своего ребенка чему-то важному для тебя?",
           a: "dream",
         },
-      ];
-
-      const questionsFemale = [
         {
-          q: "Ты готова к тому, что твой инстаграм заполнится не селфи, а фото маленьких пяточек?",
-          a: "social_media",
-        },
-        {
-          q: "Мысль о 9 месяцах без *игристого* и суши тебя...",
-          a: "abstinence",
-        },
-        {
-          q: "Ты можешь представить, что обсуждаешь с подругами не парней, а успехи в приучении к горшку?",
-          a: "topics",
-        },
-        {
-          q: "Тебя умиляет вид беременных женщин или вызывает сочувствие?",
-          a: "reaction",
-        },
-        {
-          q: "Ты готова делить внимание своего мужчины с маленьким кричащим конкурентом?",
-          a: "jealousy",
-        },
-        {
-          q: "Ты спокойно относишься к перспективе изменения своей фигуры после родов?",
-          a: "body",
-        },
-        {
-          q: "Ты чувствуешь в себе силы успокоить плачущего младенца?",
-          a: "skills",
-        },
-        { q: "Идея 'яжемать' вызывает у тебя ужас?", a: "stereotype" },
-        {
-          q: "Ты готова пожертвовать карьерным ростом ради нескольких лет в декрете?",
+          q: "Готов(а) ли ты пожертвовать карьерным ростом ради нескольких лет в декрете?",
           a: "career",
         },
-        {
-          q: "Ты с нежностью смотришь на детскую одежду в магазинах?",
-          a: "shopping",
-        },
-        { q: "Ты считаешь, что беспорядок от игрушек - это уютно?", a: "mess" },
-        {
-          q: "Ты готова к тому, что твои любимые сериалы заменят мультики?",
-          a: "entertainment",
-        },
-        {
-          q: "Твой 'материнский инстинкт' уже дает о себе знать?",
-          a: "instinct",
-        },
-        {
-          q: "Твой партнер кажется тебе хорошим будущим отцом?",
-          a: "partner_kids",
-        },
-        { q: "Ты видишь себя в роли главы 'маленькой банды'?", a: "dream" },
       ];
 
       const answerOptions = {
@@ -459,30 +418,27 @@
         ],
         sacrifice: [
           { text: "Легко, это новый этап", points: 2 },
-          { text: "Готов, но буду скучать", points: 1 },
+          { text: "Готов(а), но буду скучать", points: 1 },
           { text: "Это будет сложно", points: -1 },
           { text: "Нет, это моя свобода", points: -2 },
-          { text: "Ко мне не относится", points: 0 },
         ],
         skills: [
           { text: "Конечно, я мастер на все руки", points: 2 },
           { text: "С инструкцией справлюсь", points: 1 },
           { text: "Скорее вызову мастера", points: -1 },
           { text: "Я и молоток - вещи несовместные", points: -2 },
-          { text: "Ко мне не относится", points: 0 },
         ],
         reaction: [
           { text: "Да, это очень мило", points: 2 },
           { text: "Иногда, зависит от настроения", points: 1 },
-          { text: "Скорее сочувствие", points: -1 },
+          { text: "Скорее безразличие", points: -1 },
           { text: "Раздражение", points: -2 },
         ],
         finance: [
-          { text: "Да, я финансово готов", points: 2 },
+          { text: "Да, я финансово готов(а)", points: 2 },
           { text: "Придется пересмотреть бюджет", points: 1 },
           { text: "Это серьезный удар по кошельку", points: -1 },
-          { text: "Абсолютно не готов", points: -2 },
-          { text: "Ко мне не относится", points: 0 },
+          { text: "Абсолютно не готов(а)", points: -2 },
         ],
         weekend: [
           { text: "Отличной идеей!", points: 2 },
@@ -491,16 +447,16 @@
           { text: "Худшим кошмаром", points: -2 },
         ],
         patience: [
-          { text: "Да, я очень терпеливый", points: 2 },
-          { text: "Стараюсь быть спокойным", points: 1 },
+          { text: "Да, я очень терпеливый(ая)", points: 2 },
+          { text: "Стараюсь быть спокойным(ой)", points: 1 },
           { text: "Меня это немного напрягает", points: -1 },
           { text: "Я начинаю нервничать", points: -2 },
         ],
         duty: [
           { text: "Безусловно, это общая обязанность", points: 2 },
           { text: "Если придется, то да", points: 1 },
-          { text: "Предпочел бы избежать этого", points: -1 },
-          { text: "Это женская работа", points: -2 },
+          { text: "Предпочел(ла) бы избежать этого", points: -1 },
+          { text: "Это не моя забота", points: -2 },
         ],
         space: [
           { text: "Да, это создаст уют", points: 2 },
@@ -514,18 +470,29 @@
           { text: "Да, звучит уныло", points: -1 },
           { text: "Это мой личный ад", points: -2 },
         ],
+        patience_level: [
+          { text: "Да, определенно", points: 2 },
+          { text: "50/50, зависит от ситуации", points: 1 },
+          { text: "Скорее нет, я вспыльчивый(ая)", points: -1 },
+          { text: "Точно нет", points: -2 },
+        ],
         legacy: [
           { text: "Да, это смысл жизни", points: 2 },
           { text: "Отчасти, это приятно", points: 1 },
           { text: "Не задумывался(ась)", points: 0 },
           { text: "Нет, я живу для себя", points: -2 },
         ],
+        sacrifice_sleep: [
+          { text: "Да, я готов(а) к этому", points: 2 },
+          { text: "Будет тяжело, но я справлюсь", points: 1 },
+          { text: "Надеюсь, этого не случится", points: -1 },
+          { text: "Нет, сон для меня святое", points: -2 },
+        ],
         partner_kids: [
           { text: "Да, мы оба этого хотим", points: 2 },
           { text: "Иногда обсуждаем, но без конкретики", points: 1 },
           { text: "У меня сейчас нет партнера", points: 0 },
           { text: "У нас разные взгляды на это", points: -1 },
-          { text: "Мой партнер категорически против", points: -2 },
         ],
         dream: [
           { text: "Да, это мечта!", points: 2 },
@@ -533,115 +500,45 @@
           { text: "Не думал(а) об этом", points: 0 },
           { text: "Звучит как большая ответственность", points: -1 },
         ],
-        social_media: [
-          { text: "Конечно, это новый этап жизни!", points: 2 },
-          { text: "Будет баланс", points: 1 },
-          { text: "Постараюсь этого избежать", points: -1 },
-          { text: "Мой инстаграм - моя крепость", points: -2 },
-          { text: "Ко мне не относится", points: 0 },
-        ],
-        abstinence: [
-          { text: "Не пугает, есть вещи важнее", points: 2 },
-          { text: "Немного расстраивает", points: 1 },
-          { text: "Сильно пугает", points: -1 },
-          { text: "Это причина не рожать", points: -2 },
-        ],
-        topics: [
-          { text: "Легко, это будет актуально", points: 2 },
-          { text: "Думаю, да", points: 1 },
-          { text: "Надеюсь, темы будут и другие", points: -1 },
-          { text: "Ни за что!", points: -2 },
-        ],
-        jealousy: [
-          { text: "Это не конкурент, а наше счастье", points: 2 },
-          { text: "Думаю, я справлюсь", points: 1 },
-          { text: "Это будет испытанием", points: -1 },
-          { text: "Я не готова делить его ни с кем", points: -2 },
-          { text: "Ко мне не относится", points: 0 },
-        ],
-        body: [
-          { text: "Абсолютно, это естественно", points: 2 },
-          { text: "Немного беспокоюсь, но готова", points: 1 },
-          { text: "Очень переживаю по этому поводу", points: -1 },
-          { text: "Это мой главный страх", points: -2 },
-        ],
-        stereotype: [
-          { text: "Нет, это глупый ярлык", points: 2 },
-          { text: "Немного, но я буду другой", points: 1 },
-          { text: "Да, боюсь стать такой", points: -1 },
-          { text: "Все мамы такие", points: -2 },
-        ],
         career: [
           { text: "Да, семья важнее", points: 2 },
-          { text: "Это сложный выбор, но я готова", points: 1 },
+          { text: "Это сложный выбор, но я готов(а)", points: 1 },
           { text: "Постараюсь совмещать", points: -1 },
           { text: "Нет, карьера на первом месте", points: -2 },
-          { text: "Ко мне не относится", points: 0 },
-        ],
-        shopping: [
-          { text: "Да, это так мило!", points: 2 },
-          { text: "Иногда", points: 1 },
-          { text: "Прохожу мимо", points: -1 },
-          { text: "Меня это не интересует", points: -2 },
-        ],
-        mess: [
-          { text: "Да, это 'живой' дом", points: 2 },
-          { text: "Придется смириться", points: 1 },
-          { text: "Буду бороться за порядок", points: -1 },
-          { text: "Ненавижу беспорядок", points: -2 },
-        ],
-        entertainment: [
-          { text: "Да, буду смотреть вместе с ними", points: 2 },
-          { text: "Найду время и для своего", points: 1 },
-          { text: "Это будет тяжело", points: -1 },
-          { text: "Мои сериалы - это святое", points: -2 },
-        ],
-        instinct: [
-          { text: "Да, очень сильно", points: 2 },
-          { text: "Иногда просыпается", points: 1 },
-          { text: "Пока спит", points: 0 },
-          { text: "Думаю, у меня его нет", points: -2 },
         ],
       };
 
-      const genderSelection = document.getElementById("gender-selection");
       const testContainer = document.getElementById("test-container");
       const resultsContainer = document.getElementById("results-container");
       const form = document.getElementById("children-test-form");
 
-      let currentQuestions = [];
       let answeredQuestions = 0;
 
-      document
-        .getElementById("select-male")
-        .addEventListener("click", () => startTest(questionsMale));
-      document
-        .getElementById("select-female")
-        .addEventListener("click", () => startTest(questionsFemale));
+      // --- Lenis Smooth Scroll Initialization ---
+      const lenis = new Lenis({
+        lerp: 0.07,
+        smoothWheel: true,
+      });
 
-      function startTest(questions) {
-        currentQuestions = questions;
-        genderSelection.classList.add("fade-out");
-        genderSelection.addEventListener(
-          "animationend",
-          () => {
-            genderSelection.classList.add("hidden");
-            testContainer.classList.remove("hidden");
-            testContainer.classList.add("fade-in");
-            renderQuestions();
-          },
-          { once: true }
-        );
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      function startTest() {
+        testContainer.classList.add("fade-in");
+        renderQuestions();
       }
 
       function updateProgress() {
-        const progress = (answeredQuestions / currentQuestions.length) * 100;
+        const progress = (answeredQuestions / questions.length) * 100;
         document.getElementById("progress-fill").style.width = progress + "%";
       }
 
       function renderQuestions() {
         form.innerHTML = "";
-        currentQuestions.forEach((qData, index) => {
+        questions.forEach((qData, index) => {
           const block = document.createElement("div");
           block.className = "question-block fade-in";
           block.style.animationDelay = `${index * 0.05}s`;
@@ -653,7 +550,7 @@
 
           const optionsContainer = document.createElement("div");
           optionsContainer.className =
-            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3";
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3";
 
           const currentAnswerSet = answerOptions[qData.a];
 
@@ -695,15 +592,12 @@
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (answeredQuestions < currentQuestions.length) {
+        if (answeredQuestions < questions.length) {
           const unansweredBlock = form.querySelector(
             ".question-block:not([data-answered])"
           );
           if (unansweredBlock) {
-            unansweredBlock.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
+            lenis.scrollTo(unansweredBlock, { offset: -150 });
           }
           return;
         }
@@ -714,7 +608,7 @@
       function calculateScore() {
         const formData = new FormData(form);
         let totalScore = 0;
-        for (let i = 0; i < currentQuestions.length; i++) {
+        for (let i = 0; i < questions.length; i++) {
           const value = formData.get(`q${i}`);
           if (value !== null) {
             totalScore += parseInt(value, 10);
@@ -731,7 +625,7 @@
             testContainer.classList.add("hidden");
             resultsContainer.classList.remove("hidden");
             resultsContainer.classList.add("fade-in");
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            lenis.scrollTo(0);
           },
           { once: true }
         );
@@ -800,6 +694,8 @@
           timelineContainer.appendChild(timelineItem);
         });
       }
+
+      document.addEventListener("DOMContentLoaded", startTest);
     </script>
   </body>
 </html>

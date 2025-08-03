@@ -45,42 +45,46 @@
         left: -25%;
         background: radial-gradient(
             circle at 25% 25%,
-            rgba(239, 68, 68, 0.15) 0%,
-            transparent 50%
+            rgba(239, 68, 68, 0.1) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 75% 75%,
-            rgba(249, 115, 22, 0.15) 0%,
-            transparent 50%
+            rgba(249, 115, 22, 0.1) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 50% 50%,
-            rgba(236, 72, 153, 0.1) 0%,
-            transparent 70%
+            rgba(236, 72, 153, 0.05) 0%,
+            transparent 60%
           );
       }
 
       .glass-panel {
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(40px) saturate(180%);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px) saturate(150%);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5),
-          inset 0 0 40px rgba(255, 255, 255, 0.02);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
       }
 
       a,
       .transition-colors {
-        transition: color 0.8s ease;
+        transition: color 0.4s ease;
       }
 
       .transition-transform {
-        transition: transform 0.8s ease;
+        transition: transform 0.4s ease;
+      }
+
+      .option-card,
+      .btn-premium {
+        will-change: transform, background, border-color;
       }
 
       .option-card {
         background: rgba(255, 255, 255, 0.03);
         border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
       .option-card:hover {
@@ -110,13 +114,13 @@
         border-radius: 16px;
         font-weight: 700;
         font-size: 18px;
-        transition: all 0.8s ease;
-        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
       }
 
       .btn-premium:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(249, 115, 22, 0.5);
+        box-shadow: 0 12px 30px rgba(249, 115, 22, 0.4);
       }
 
       .progress-container {
@@ -124,8 +128,8 @@
         top: 80px;
         z-index: 40;
         padding: 1rem 0;
-        background: rgba(10, 10, 10, 0.8);
-        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(8px);
         margin-bottom: 2rem;
         border-radius: 1rem;
       }
@@ -143,7 +147,7 @@
         height: 100%;
         background: linear-gradient(90deg, #ef4444, #f97316);
         border-radius: 3px;
-        transition: width 1s ease;
+        transition: width 0.5s ease;
       }
 
       .gradient-text {
@@ -173,11 +177,11 @@
       }
 
       .fade-in {
-        animation: fadeIn 0.8s ease-out;
+        animation: fadeIn 0.5s ease-out;
       }
 
       .fade-out {
-        animation: fadeOut 0.8s ease-in forwards;
+        animation: fadeOut 0.5s ease-in forwards;
       }
 
       @keyframes fadeIn {
@@ -203,7 +207,6 @@
         }
       }
 
-      /* Passion Meter Styles */
       .passion-meter-bg {
         width: 80px;
         height: 300px;
@@ -220,10 +223,9 @@
         background: linear-gradient(to top, #f97316, #ef4444, #eab308);
         transform-origin: bottom;
         transform: scaleY(0);
-        transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
       }
 
-      /* Fireworks Styles */
       .fireworks-container {
         position: absolute;
         top: 0;
@@ -239,7 +241,7 @@
         height: 5px;
         border-radius: 50%;
         background-color: var(--color);
-        animation: explode 1.2s ease-out forwards;
+        animation: explode 1s ease-out forwards;
       }
 
       @keyframes explode {
@@ -250,6 +252,19 @@
         to {
           transform: var(--transform);
           opacity: 0;
+        }
+      }
+
+      /* --- Mobile Optimizations --- */
+      @media (max-width: 768px) {
+        .glass-panel,
+        .progress-container {
+          backdrop-filter: none;
+          background: rgba(20, 20, 22, 0.85);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+        .dynamic-bg {
+          display: none;
         }
       }
     </style>
@@ -290,25 +305,8 @@
           </h1>
         </header>
 
-        <!-- Gender Selection -->
-        <main id="gender-selection" class="fade-in text-center">
-          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
-            <h2 class="display-font text-3xl md:text-4xl font-bold mb-8">
-              Кто ты, воин? ⚔️
-            </h2>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
-              <button id="select-male" class="btn-premium flex-1">
-                Я парень 😈
-              </button>
-              <button id="select-female" class="btn-premium flex-1">
-                Я девушка 😇
-              </button>
-            </div>
-          </div>
-        </main>
-
         <!-- Test Container -->
-        <main id="test-container" class="hidden">
+        <main id="test-container" class="fade-in">
           <!-- Progress Bar Container -->
           <div class="progress-container" id="progress-container">
             <div class="progress-bar" id="progress-bar">
@@ -392,44 +390,40 @@
       </footer>
     </div>
 
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
-      // --- ВОПРОСЫ И ОТВЕТЫ ---
-
-      const questionsMale = [
+      const questions = [
         {
-          q: "За последнюю неделю, как часто ты ловил себя на том, что мысленно раздеваешь кого-то?",
+          q: "За последнюю неделю, как часто ты ловил(а) себя на том, что мысленно раздеваешь кого-то?",
           a: "frequency",
         },
         {
-          q: "Сколько раз за 7 дней ты отправлял двусмысленные мемы/сообщения, проверяя реакцию?",
+          q: "Сколько раз за 7 дней ты отправлял(а) двусмысленные мемы/сообщения, проверяя реакцию?",
           a: "quantity_high",
         },
         {
-          q: "Оцени свой уровень 'голода' по 5-балльной шкале за последнюю неделю.",
+          q: "Оцени свой уровень желания по 5-балльной шкале за последнюю неделю.",
           a: "intensity",
         },
         {
-          q: "Сколько раз за неделю ты был в одном шаге от того, чтобы пригласить кого-то к себе, но что-то останавливало?",
-          a: "quantity_low_reversed",
+          q: "Твои сторис за неделю: эстетика и котики или 'случайные' ракурсы, подчеркивающие фигуру?",
+          a: "choice_seductive",
         },
         {
-          q: "Твоя история браузера за неделю: больше рабочих вкладок или тех, что чистят перед приходом гостей?",
-          a: "choice_dirty_male",
+          q: "Надевал(а) ли ты 'ту самую' одежду/белье за последнюю неделю просто так, для настроения?",
+          a: "frequency_reversed",
         },
         {
-          q: "Твой парфюм за последнюю неделю: для офиса или для того, чтобы оставлять след на ее подушке?",
-          a: "choice_seductive_male",
+          q: "Твой плейлист для душа: грустные баллады или что-то, под что хочется зажигать?",
+          a: "choice_dirty",
         },
         {
-          q: "Сколько раз ты 'случайно' касался кого-то, чтобы почувствовать искру?",
+          q: "Сколько раз ты 'случайно' касался(ась) кого-то, чтобы почувствовать искру?",
           a: "quantity_high",
         },
+        { q: "Твоя реакция на 'скучаю' в час ночи?", a: "reaction_hot" },
         {
-          q: "Твоя реакция на ее 'я одна дома' в 11 вечера?",
-          a: "reaction_hot",
-        },
-        {
-          q: "Насколько твоя спальня готова к приему гостей прямо сейчас?",
+          q: "Насколько твое жилье готово к приему гостя(и) прямо сейчас?",
           a: "readiness",
         },
         {
@@ -437,84 +431,24 @@
           a: "quantity_low_reversed",
         },
         {
-          q: "Ты обсуждал с друзьями ее инстаграм или свои рабочие проекты?",
-          a: "choice_her",
+          q: "Обсуждения с друзьями чаще касаются интересного тебе человека или рабочих/учебных проектов?",
+          a: "choice_person",
         },
         {
-          q: "Насколько ты уверен, что сможешь доставить ей удовольствие?",
+          q: "Насколько ты уверен(а), что сможешь доставить удовольствие партнеру?",
           a: "confidence",
         },
         {
-          q: "Последний раз, когда ты покупал презервативы, был...",
+          q: "Последний раз, когда ты думал(а) о покупке средств контрацепции, был...",
           a: "time_ago",
         },
         {
-          q: "Твой взгляд при общении: дружелюбный или ты уже знаешь, как она выглядит без одежды?",
-          a: "choice_look_male",
+          q: "Твой взгляд при общении: дружелюбный или ты уже знаешь, как этот человек выглядит без одежды?",
+          a: "choice_look",
         },
         {
-          q: "Если бы секс был валютой, насколько ты богат прямо сейчас?",
+          q: "Если бы секс был валютой, насколько ты богат(а) прямо сейчас?",
           a: "richness",
-        },
-      ];
-
-      const questionsFemale = [
-        {
-          q: "Сколько раз за неделю ты ловила на себе взгляд, от которого по телу бежали мурашки?",
-          a: "quantity_high",
-        },
-        {
-          q: "Твои сторис за неделю: эстетика и котики или 'случайные' ракурсы, подчеркивающие фигуру?",
-          a: "choice_seductive_female",
-        },
-        {
-          q: "Оцени свой уровень желания по 5-балльной шкале за последнюю неделю.",
-          a: "intensity",
-        },
-        {
-          q: "Сколько раз за неделю ты отправляла сообщение, которое можно было трактовать двояко?",
-          a: "quantity_high",
-        },
-        {
-          q: "Ты надевала 'то самое' белье за последнюю неделю просто так, для настроения?",
-          a: "frequency_reversed",
-        },
-        {
-          q: "Твой плейлист для душа: грустные баллады или что-то, под что хочется танцевать стриптиз?",
-          a: "choice_dirty_female",
-        },
-        {
-          q: "Сколько раз ты представляла ваш первый поцелуй в деталях?",
-          a: "frequency",
-        },
-        { q: "Твоя реакция на его 'скучаю' в час ночи?", a: "reaction_hot" },
-        {
-          q: "Сколько раз ты 'случайно' лайкала его старые фото, чтобы напомнить о себе?",
-          a: "quantity_high",
-        },
-        {
-          q: "Твой взгляд при встрече: 'интересно, о чем он думает' или 'я знаю, о чем он думает'?",
-          a: "choice_look_female",
-        },
-        {
-          q: "Насколько ты готова к спонтанной ночевке у него?",
-          a: "readiness",
-        },
-        {
-          q: "Сколько бокалов *игристого* тебе нужно, чтобы намекнуть на продолжение?",
-          a: "quantity_low_reversed",
-        },
-        {
-          q: "Ты обсуждала с подругами его или новый сериал?",
-          a: "choice_her",
-        },
-        {
-          q: "Насколько ты уверена, что знаешь, как свести его с ума?",
-          a: "confidence",
-        },
-        {
-          q: "Последний раз, когда ты делала эпиляцию 'на всякий случай', был...",
-          a: "time_ago",
         },
       ];
 
@@ -554,25 +488,13 @@
           { text: "2/5, спящий режим", points: -1 },
           { text: "1/5, ледниковый период", points: -2 },
         ],
-        choice_dirty_male: [
-          { text: "Тех, что чистят", points: 2 },
-          { text: "Примерно поровну", points: 1 },
-          { text: "Рабочих", points: -1 },
-          { text: "Только сериалы", points: -2 },
-        ],
-        choice_dirty_female: [
-          { text: "Для соблазнения", points: 2 },
+        choice_dirty: [
+          { text: "Что-то, под что хочется зажигать", points: 2 },
           { text: "Примерно поровну", points: 1 },
           { text: "Грустные баллады", points: -1 },
           { text: "Лекции по истории", points: -2 },
         ],
-        choice_seductive_male: [
-          { text: "Для подушки", points: 2 },
-          { text: "Универсальный", points: 1 },
-          { text: "Для офиса", points: -1 },
-          { text: "Я не пользуюсь", points: -2 },
-        ],
-        choice_seductive_female: [
+        choice_seductive: [
           { text: "'Случайные' ракурсы", points: 2 },
           { text: "Примерно поровну", points: 1 },
           { text: "Эстетика и котики", points: -1 },
@@ -592,10 +514,10 @@
           { text: "Нет, там хаос", points: -1 },
           { text: "Мне некуда приглашать", points: -2 },
         ],
-        choice_her: [
-          { text: "Его/ее, конечно", points: 2 },
+        choice_person: [
+          { text: "Этого человека, конечно", points: 2 },
           { text: "Примерно 50/50", points: 1 },
-          { text: "Работу/сериал", points: -1 },
+          { text: "Работу/учебу", points: -1 },
           { text: "Политику", points: -2 },
         ],
         confidence: [
@@ -612,70 +534,52 @@
           { text: "Больше года назад", points: -1 },
           { text: "Не помню/никогда", points: -2 },
         ],
-        choice_look_male: [
+        choice_look: [
           { text: "Знаю, как без одежды", points: 2 },
           { text: "Смесь того и другого", points: 1 },
           { text: "Дружелюбный", points: 0 },
           { text: "Стараюсь не смотреть", points: -1 },
         ],
-        choice_look_female: [
-          { text: "Я знаю, о чем он думает", points: 2 },
-          { text: "Смесь того и другого", points: 1 },
-          { text: "Дружелюбный", points: 0 },
-          { text: "Стараюсь не смотреть", points: -1 },
-        ],
         richness: [
-          { text: "Миллионер", points: 2 },
-          { text: "Обеспеченный", points: 1 },
+          { text: "Миллионер(ша)", points: 2 },
+          { text: "Обеспеченный(ая)", points: 1 },
           { text: "Средний класс", points: 0 },
           { text: "На мели", points: -1 },
           { text: "Банкрот", points: -2 },
         ],
       };
 
-      // --- ЛОГИКА ТЕСТА ---
-
-      const genderSelection = document.getElementById("gender-selection");
       const testContainer = document.getElementById("test-container");
       const resultsContainer = document.getElementById("results-container");
       const form = document.getElementById("sex-test-form");
-      let isMale;
 
-      let currentQuestions = [];
       let answeredQuestions = 0;
 
-      document.getElementById("select-male").addEventListener("click", () => {
-        isMale = true;
-        startTest(questionsMale);
-      });
-      document.getElementById("select-female").addEventListener("click", () => {
-        isMale = false;
-        startTest(questionsFemale);
+      // --- Lenis Smooth Scroll Initialization ---
+      const lenis = new Lenis({
+        lerp: 0.07,
+        smoothWheel: true,
       });
 
-      function startTest(questions) {
-        currentQuestions = questions;
-        genderSelection.classList.add("fade-out");
-        genderSelection.addEventListener(
-          "animationend",
-          () => {
-            genderSelection.classList.add("hidden");
-            testContainer.classList.remove("hidden");
-            testContainer.classList.add("fade-in");
-            renderQuestions();
-          },
-          { once: true }
-        );
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      function startTest() {
+        testContainer.classList.add("fade-in");
+        renderQuestions();
       }
 
       function updateProgress() {
-        const progress = (answeredQuestions / currentQuestions.length) * 100;
+        const progress = (answeredQuestions / questions.length) * 100;
         document.getElementById("progress-fill").style.width = progress + "%";
       }
 
       function renderQuestions() {
         form.innerHTML = "";
-        currentQuestions.forEach((qData, index) => {
+        questions.forEach((qData, index) => {
           const block = document.createElement("div");
           block.className = "question-block fade-in";
           block.style.animationDelay = `${index * 0.05}s`;
@@ -729,15 +633,12 @@
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (answeredQuestions < currentQuestions.length) {
+        if (answeredQuestions < questions.length) {
           const unansweredBlock = form.querySelector(
             ".question-block:not([data-answered])"
           );
           if (unansweredBlock) {
-            unansweredBlock.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
+            lenis.scrollTo(unansweredBlock, { offset: -150 });
           }
           return;
         }
@@ -748,7 +649,7 @@
       function calculateScore() {
         const formData = new FormData(form);
         let totalScore = 0;
-        for (let i = 0; i < currentQuestions.length; i++) {
+        for (let i = 0; i < questions.length; i++) {
           const value = formData.get(`q${i}`);
           if (value !== null) {
             totalScore += parseInt(value, 10);
@@ -765,7 +666,7 @@
             testContainer.classList.add("hidden");
             resultsContainer.classList.remove("hidden");
             resultsContainer.classList.add("fade-in");
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            lenis.scrollTo(0);
           },
           { once: true }
         );
@@ -851,6 +752,8 @@
           }, i * 400); // Slower bursts
         }
       }
+
+      document.addEventListener("DOMContentLoaded", startTest);
     </script>
   </body>
 </html>

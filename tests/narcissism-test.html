@@ -45,42 +45,46 @@
         left: -25%;
         background: radial-gradient(
             circle at 25% 25%,
-            rgba(139, 92, 246, 0.15) 0%,
-            transparent 50%
+            rgba(139, 92, 246, 0.1) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 75% 75%,
-            rgba(236, 72, 153, 0.15) 0%,
-            transparent 50%
+            rgba(236, 72, 153, 0.1) 0%,
+            transparent 40%
           ),
           radial-gradient(
             circle at 50% 50%,
-            rgba(59, 130, 246, 0.1) 0%,
-            transparent 70%
+            rgba(59, 130, 246, 0.05) 0%,
+            transparent 60%
           );
       }
 
       .glass-panel {
-        background: rgba(255, 255, 255, 0.02);
-        backdrop-filter: blur(40px) saturate(180%);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px) saturate(150%);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5),
-          inset 0 0 40px rgba(255, 255, 255, 0.02);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
       }
 
       a,
       .transition-colors {
-        transition: color 0.8s ease;
+        transition: color 0.4s ease;
       }
 
       .transition-transform {
-        transition: transform 0.8s ease;
+        transition: transform 0.4s ease;
+      }
+
+      .option-card,
+      .btn-premium {
+        will-change: transform, background, border-color;
       }
 
       .option-card {
         background: rgba(255, 255, 255, 0.03);
         border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         min-height: 80px;
       }
 
@@ -111,7 +115,7 @@
         border-radius: 16px;
         font-weight: 700;
         font-size: 18px;
-        transition: all 0.8s ease;
+        transition: all 0.4s ease;
       }
 
       .progress-container {
@@ -119,8 +123,8 @@
         top: 80px;
         z-index: 40;
         padding: 1rem 0;
-        background: rgba(10, 10, 10, 0.8);
-        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(8px);
         margin-bottom: 2rem;
         border-radius: 1rem;
       }
@@ -138,7 +142,7 @@
         height: 100%;
         background: linear-gradient(90deg, #8b5cf6, #ec4899);
         border-radius: 3px;
-        transition: width 1s ease;
+        transition: width 0.5s ease;
       }
 
       .gradient-text {
@@ -168,7 +172,7 @@
       }
 
       .fade-in {
-        animation: fadeIn 0.8s ease-out;
+        animation: fadeIn 0.5s ease-out;
       }
 
       @keyframes fadeIn {
@@ -182,7 +186,6 @@
         }
       }
 
-      /* Updated styles for results */
       .gauge-container {
         width: 250px;
         height: 250px;
@@ -235,7 +238,7 @@
       .criterion-bar-fill {
         height: 100%;
         border-radius: 8px;
-        transition: width 1.5s ease-out;
+        transition: width 1s ease-out;
         box-shadow: 0 0 15px var(--bar-color);
       }
 
@@ -254,6 +257,19 @@
         font-size: 12px;
         font-weight: 600;
         text-transform: uppercase;
+      }
+
+      /* --- Mobile Optimizations --- */
+      @media (max-width: 768px) {
+        .glass-panel,
+        .progress-container {
+          backdrop-filter: none;
+          background: rgba(20, 20, 22, 0.85);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+        .dynamic-bg {
+          display: none;
+        }
       }
     </style>
   </head>
@@ -376,6 +392,7 @@
       </footer>
     </div>
 
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
       const questions = [
         {
@@ -556,6 +573,18 @@
       const resultsContainer = document.getElementById("results-container");
       let answeredQuestions = 0;
 
+      // --- Lenis Smooth Scroll Initialization ---
+      const lenis = new Lenis({
+        lerp: 0.07,
+        smoothWheel: true,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
       function updateProgress() {
         const progress = (answeredQuestions / questions.length) * 100;
         document.getElementById("progress-fill").style.width = progress + "%";
@@ -620,10 +649,7 @@
             ".question-block:not([data-answered])"
           );
           if (unansweredBlock) {
-            unansweredBlock.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
+            lenis.scrollTo(unansweredBlock, { offset: -150 });
           }
           return;
         }
@@ -666,7 +692,7 @@
       function renderResults(scores) {
         testContainer.classList.add("hidden");
         resultsContainer.classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        lenis.scrollTo(0);
 
         const verdictEl = document.getElementById("overall-verdict");
         const descriptionEl = document.getElementById("result-description");

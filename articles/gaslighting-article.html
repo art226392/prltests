@@ -10,20 +10,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Roboto+Slab:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <style>
       body {
         font-family: "Inter", sans-serif;
-        background: #111111; /* Darker, softer background */
+        background-color: #000000; /* Глубокий черный для космоса */
         color: #e5e7eb;
+        overflow-x: hidden;
       }
-      .display-font {
+
+      /* ИЗМЕНЕНИЕ: Контейнер для Canvas фона */
+      .stars-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      #starfield {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .header-font {
         font-family: "Playfair Display", serif;
       }
+      .body-font {
+        font-family: "Roboto Slab", serif;
+      }
       .glass-card {
-        background: rgba(28, 28, 30, 0.7);
+        background: rgba(20, 20, 22, 0.6);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.08);
@@ -39,18 +61,24 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+
       .article-content {
-        background-color: #1c1c1e; /* Article background */
+        background: rgba(10, 5, 15, 0.75); /* Более темный и насыщенный фон */
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1rem;
-        padding: 2rem 3rem;
+        padding: 2.5rem 3.5rem; /* Увеличены отступы */
+        /* ИЗМЕНЕНИЕ: Более выразительная подсветка */
+        box-shadow: 0 0 60px rgba(138, 43, 226, 0.3),
+          0 0 100px rgba(255, 105, 180, 0.2);
       }
       .article-content h2 {
         font-family: "Playfair Display", serif;
-        font-size: 2.25rem; /* 36px */
+        font-size: 2.25rem;
         font-weight: 700;
-        margin-top: 3rem; /* 48px */
-        margin-bottom: 1.5rem; /* 24px */
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
         line-height: 1.2;
         border-left: 4px solid #8a2be2;
         padding-left: 1rem;
@@ -58,28 +86,30 @@
       }
       .article-content h3 {
         font-family: "Playfair Display", serif;
-        font-size: 1.5rem; /* 24px */
+        font-size: 1.5rem;
         font-weight: 600;
-        margin-top: 2.5rem; /* 40px */
-        margin-bottom: 1rem; /* 16px */
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
         color: #f3f4f6;
       }
       .article-content p {
-        font-family: Georgia, serif; /* Newspaper font */
-        font-size: 1.125rem; /* 18px */
-        line-height: 1.8;
+        font-family: "Roboto Slab", serif;
+        font-size: 1.125rem;
+        line-height: 1.9; /* Увеличен межстрочный интервал */
         margin-bottom: 1.5rem;
-        color: #d1d5db; /* Slightly lighter than body text */
+        color: #d1d5db;
+        text-align: justify;
+        text-shadow: 0 0 5px rgba(229, 231, 235, 0.1);
       }
-      /* Drop cap for the first paragraph */
       .article-body > p:first-of-type::first-letter {
         font-family: "Playfair Display", serif;
-        font-size: 4.5rem;
+        font-size: 5rem;
         float: left;
         line-height: 0.8;
         padding-right: 0.75rem;
         padding-bottom: 0.25rem;
         color: #a78bfa;
+        font-weight: 900;
       }
       .article-content blockquote {
         border-left: 4px solid #4f46e5;
@@ -87,6 +117,7 @@
         margin: 2rem 0;
         font-style: italic;
         font-size: 1.25rem;
+        font-family: "Playfair Display", serif;
         color: #c7d2fe;
       }
       .article-content a {
@@ -105,7 +136,7 @@
         list-style: disc;
         padding-left: 2rem;
         margin-bottom: 1.5rem;
-        font-family: Georgia, serif;
+        font-family: "Roboto Slab", serif;
         font-size: 1.125rem;
         line-height: 1.8;
         color: #d1d5db;
@@ -116,6 +147,11 @@
     </style>
   </head>
   <body>
+    <!-- ИЗМЕНЕНИЕ: Canvas для звездного фона -->
+    <div class="stars-container">
+      <canvas id="starfield"></canvas>
+    </div>
+
     <!-- Navigation -->
     <nav
       class="glass-card fixed top-4 left-4 right-4 max-w-7xl mx-auto z-50 px-6 py-4 rounded-2xl"
@@ -134,20 +170,20 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container mx-auto max-w-5xl px-4 pt-40 pb-24">
+    <main class="container mx-auto max-w-4xl px-4 pt-40 pb-24 relative z-10">
       <article class="article-content">
         <header class="text-center mb-12">
           <p class="text-purple-400 font-semibold mb-2">Психология отношений</p>
           <h1
-            class="display-font text-4xl md:text-6xl font-bold mb-4 leading-tight"
+            class="header-font text-4xl md:text-6xl font-bold mb-4 leading-tight"
           >
             <span class="gradient-text">Газлайтинг:</span> Как распознать и
-            обезвредить ментального поджигателя в вашей жизни
+            обезвредить ментального поджигателя
           </h1>
           <p class="text-gray-400 mt-4">Дата публикации: 4 августа 2025 г.</p>
         </header>
 
-        <div class="article-body md:columns-2 md:gap-12">
+        <div class="article-body">
           <p>
             «Ты уверена, что правильно помнишь? Мне кажется, ты всё
             выдумываешь». Знакомая фраза? Возможно, вы слышали ее от партнера,
@@ -169,7 +205,7 @@
             топливом служат ваши эмоции, а пеплом становится ваша самооценка.
           </p>
 
-          <hr class="md:hidden" />
+          <hr />
 
           <h2>Анатомия ментального поджога</h2>
           <p>
@@ -217,7 +253,7 @@
             все более искаженным.
           </p>
 
-          <hr class="md:hidden" />
+          <hr />
 
           <h2>Портрет поджигателя: кто такие газлайтеры?</h2>
           <p>
@@ -250,7 +286,7 @@
             становится идеальным инструментом для такой «починки».
           </p>
 
-          <hr class="md:hidden" />
+          <hr />
 
           <h2>Тревожные звонки: фразы-маркеры газлайтинга</h2>
           <p>
@@ -292,7 +328,7 @@
             способны разрушить самый прочный камень — вашу веру в себя.
           </p>
 
-          <hr class="md:hidden" />
+          <hr />
 
           <h2>Выход из пламени: как вернуть себе реальность</h2>
           <p>
@@ -355,8 +391,9 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        // ИЗМЕНЕНИЕ: Настройка Lenis для ультра-плавной прокрутки
         const lenis = new Lenis({
-          lerp: 0.1,
+          lerp: 0.07, // Меньшее значение для большей плавности
           smoothWheel: true,
         });
 
@@ -365,6 +402,96 @@
           requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
+
+        // ИЗМЕНЕНИЕ: Скрипт для Canvas фона
+        const canvas = document.getElementById("starfield");
+        const ctx = canvas.getContext("2d");
+
+        let width, height, stars;
+        const numStars = 500; // Количество звезд
+
+        function init() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+
+          stars = [];
+          for (let i = 0; i < numStars; i++) {
+            stars.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              radius: Math.random() * 1.5 + 0.5, // Разные размеры звезд
+              // Скорость зависит от размера (эффект параллакса)
+              vx: (Math.random() - 0.5) * 0.1,
+              vy: Math.random() * 0.3 + 0.1,
+              opacity: Math.random() * 0.5 + 0.5,
+            });
+          }
+        }
+
+        function animate() {
+          // Создаем градиентные туманности
+          const gradient1 = ctx.createRadialGradient(
+            width * 0.25,
+            height * 0.25,
+            0,
+            width * 0.25,
+            height * 0.25,
+            width * 0.5
+          );
+          gradient1.addColorStop(0, "rgba(138, 43, 226, 0.1)");
+          gradient1.addColorStop(1, "rgba(138, 43, 226, 0)");
+
+          const gradient2 = ctx.createRadialGradient(
+            width * 0.75,
+            height * 0.75,
+            0,
+            width * 0.75,
+            height * 0.75,
+            width * 0.4
+          );
+          gradient2.addColorStop(0, "rgba(255, 105, 180, 0.08)");
+          gradient2.addColorStop(1, "rgba(255, 105, 180, 0)");
+
+          // Очищаем и рисуем фон
+          ctx.fillStyle = "#000000";
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = gradient1;
+          ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = gradient2;
+          ctx.fillRect(0, 0, width, height);
+
+          // Рисуем звезды
+          ctx.fillStyle = "white";
+          stars.forEach((star) => {
+            ctx.beginPath();
+            ctx.globalAlpha = star.opacity;
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Движение звезд
+            star.x += star.vx;
+            star.y += star.vy;
+
+            // Пересоздаем звезды, ушедшие за экран
+            if (star.y > height + star.radius) {
+              star.x = Math.random() * width;
+              star.y = -star.radius;
+            }
+            if (star.x > width + star.radius) {
+              star.x = -star.radius;
+            } else if (star.x < -star.radius) {
+              star.x = width + star.radius;
+            }
+          });
+          ctx.globalAlpha = 1; // Сбрасываем прозрачность
+          requestAnimationFrame(animate);
+        }
+
+        window.addEventListener("resize", init);
+        init();
+        animate();
       });
     </script>
   </body>

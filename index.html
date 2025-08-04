@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BPD tests - Понимание Себя</title>
+    <!-- ИЗМЕНЕНИЕ: Добавлен скрипт отслеживания Umami -->
+    <script
+      async
+      defer
+      src="https://analytics.umami.is/script.js"
+      data-website-id="b5d4a86a-11c7-4c4f-9a99-90c3e164426c"
+      data-domains="bpd-tests.com"
+    ></script>
+    <!-- ВАЖНО: Замените data-website-id выше на ваш реальный ID из панели Umami -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -374,7 +383,6 @@
             <a href="#tests" class="premium-button inline-block">
               Начать тестирование
             </a>
-            <!-- ИЗМЕНЕНИЕ: Ссылка теперь ведет на страницу со статьями -->
             <a
               href="articles/index.html"
               class="glass-card px-8 py-4 rounded-xl hover:bg-white/10 transition-all duration-300"
@@ -777,14 +785,12 @@
         // --- Optimized Preloader Logic ---
         const preloader = document.getElementById("preloader");
 
-        // Faster preloader dismissal
         const hidePreloader = () => {
           document.body.classList.add("content-loaded");
           document.body.classList.remove("loading");
           preloader.classList.add("fade-out");
         };
 
-        // Use a shorter timeout as fallback
         const preloaderTimeout = setTimeout(hidePreloader, 1500);
 
         window.addEventListener(
@@ -798,14 +804,13 @@
 
         // --- Lenis Smooth Scroll - Optimized Settings ---
         const lenis = new Lenis({
-          lerp: 0.1, // Slightly higher for snappier response
+          lerp: 0.1,
           smoothWheel: true,
           wheelMultiplier: 1,
           touchMultiplier: 2,
           infinite: false,
         });
 
-        // Handle anchor links
         document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
           anchor.addEventListener("click", function (e) {
             e.preventDefault();
@@ -816,7 +821,6 @@
           });
         });
 
-        // Optimized RAF loop
         let rafId;
         function raf(time) {
           lenis.raf(time);
@@ -824,30 +828,85 @@
         }
         rafId = requestAnimationFrame(raf);
 
-        // Clean up on page unload
         window.addEventListener("beforeunload", () => {
           if (rafId) {
             cancelAnimationFrame(rafId);
           }
         });
 
-        // --- Analytics Placeholder - Simplified ---
-        function updateAnalytics() {
+        // --- ИЗМЕНЕНИЕ: Интеграция с API Umami для получения РЕАЛЬНЫХ данных ---
+        const UMAMI_WEBSITE_ID = "b5d4a86a-11c7-4c4f-9a99-90c3e164426c"; // <-- ВАЖНО: Замените на ваш реальный Website ID из панели Umami
+        const UMAMI_API_KEY = "api_L4JLoiOjV7N8ScYNQETOlRuJx2sTsqqS"; // Ваш API-ключ
+        const UMAMI_API_HOST = "https://cloud.umami.is"; // Укажите ваш хост, если используете self-hosted версию
+
+        async function fetchUmamiStats() {
           const currentVisitorsEl = document.getElementById("current-visitors");
           const totalVisitorsEl = document.getElementById("total-visitors");
-          if (currentVisitorsEl && totalVisitorsEl) {
-            currentVisitorsEl.textContent = Math.floor(Math.random() * 50) + 10;
-            totalVisitorsEl.textContent = (
-              Math.floor(Math.random() * 5000) + 1000
-            ).toLocaleString("ru-RU");
+
+          // Проверка, что элементы существуют и ID сайта был изменен
+          if (
+            !currentVisitorsEl ||
+            !totalVisitorsEl ||
+            UMAMI_WEBSITE_ID === "b5d4a86a-11c7-4c4f-9a99-90c3e164426c"
+          ) {
+            if (currentVisitorsEl) currentVisitorsEl.textContent = "n/a";
+            if (totalVisitorsEl) totalVisitorsEl.textContent = "n/a";
+            console.warn(
+              "Umami Website ID не установлен. Замените плейсхолдер в скрипте для активации статистики."
+            );
+            return;
+          }
+
+          const headers = { Authorization: `Bearer ${UMAMI_API_KEY}` };
+
+          // Запрос активных посетителей
+          try {
+            const activeResponse = await fetch(
+              `${UMAMI_API_HOST}/api/websites/${UMAMI_WEBSITE_ID}/active`,
+              { headers }
+            );
+            if (!activeResponse.ok)
+              throw new Error(`Umami Active API: ${activeResponse.statusText}`);
+            const activeData = await activeResponse.json();
+            currentVisitorsEl.textContent = activeData.length || 0;
+          } catch (error) {
+            console.error(
+              "Ошибка при загрузке активных посетителей Umami:",
+              error
+            );
+            currentVisitorsEl.textContent = "—"; // Отображаем прочерк при ошибке
+          }
+
+          // Запрос общей статистики (уникальные посетители за все время)
+          try {
+            // Устанавливаем даты от начала эпохи до текущего момента
+            const startDate = new Date(0).getTime();
+            const endDate = new Date().getTime();
+            const statsResponse = await fetch(
+              `${UMAMI_API_HOST}/api/websites/${UMAMI_WEBSITE_ID}/stats?start_at=${startDate}&end_at=${endDate}`,
+              { headers }
+            );
+            if (!statsResponse.ok)
+              throw new Error(`Umami Stats API: ${statsResponse.statusText}`);
+            const statsData = await statsResponse.json();
+
+            // Проверяем, что данные существуют и отображаем их
+            if (statsData.uniques && statsData.uniques.value !== undefined) {
+              totalVisitorsEl.textContent =
+                statsData.uniques.value.toLocaleString("ru-RU");
+            } else {
+              totalVisitorsEl.textContent = "—";
+            }
+          } catch (error) {
+            console.error("Ошибка при загрузке общей статистики Umami:", error);
+            totalVisitorsEl.textContent = "—"; // Отображаем прочерк при ошибке
           }
         }
 
-        // Initial update
-        updateAnalytics();
-
-        // Update less frequently to reduce overhead
-        setInterval(updateAnalytics, 60000); // Every 60 seconds instead of 30
+        // Запускаем функцию получения реальных данных при загрузке страницы
+        fetchUmamiStats();
+        // Устанавливаем интервал для обновления данных каждые 30 секунд
+        setInterval(fetchUmamiStats, 30000);
       });
     </script>
   </body>

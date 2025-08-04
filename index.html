@@ -343,19 +343,18 @@
         class="glass-card nav-glass-card fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 px-6 py-4 rounded-2xl fade-in-section"
       >
         <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-3">
+          <a href="../index.html" class="flex items-center space-x-3">
             <div
               class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
             >
               <span class="text-white font-bold text-xl">Ψ</span>
             </div>
             <span class="text-xl font-semibold">BPD tests</span>
-          </div>
+          </a>
           <div class="hidden md:flex space-x-8">
-            <a href="#">Главная</a>
-            <a href="#tests">Тесты</a>
-            <a href="#about">О проекте</a>
-            <a href="#contact">Контакты</a>
+            <a href="../index.html" class="hover:text-purple-400"
+              >← Вернуться к тестам</a
+            >
           </div>
         </div>
       </nav>
@@ -403,9 +402,9 @@
 
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Comorbid Test - NEW -->
-            <div
-              class="glass-card test-card rounded-2xl p-8 group"
-              onclick="window.location.href='comorbid.html'"
+            <a
+              href="comorbid.html"
+              class="glass-card test-card rounded-2xl p-8 group block"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
@@ -483,12 +482,12 @@
                   ></path>
                 </svg>
               </div>
-            </div>
+            </a>
 
             <!-- Narcissism Test -->
-            <div
-              class="glass-card test-card rounded-2xl p-8 group"
-              onclick="window.location.href='tests/narcissism-test.html'"
+            <a
+              href="narcissism-test.html"
+              class="glass-card test-card rounded-2xl p-8 group block"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
@@ -567,12 +566,12 @@
                   ></path>
                 </svg>
               </div>
-            </div>
+            </a>
 
             <!-- Children Test -->
-            <div
-              class="glass-card test-card rounded-2xl p-8 group"
-              onclick="window.location.href='tests/children-test.html'"
+            <a
+              href="children-test.html"
+              class="glass-card test-card rounded-2xl p-8 group block"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
@@ -652,12 +651,12 @@
                   ></path>
                 </svg>
               </div>
-            </div>
+            </a>
 
             <!-- Sex Test -->
-            <div
-              class="glass-card test-card rounded-2xl p-8 group"
-              onclick="window.location.href='tests/sex-test.html'"
+            <a
+              href="sex-test.html"
+              class="glass-card test-card rounded-2xl p-8 group block"
             >
               <div class="flex items-start justify-between mb-6">
                 <div
@@ -737,7 +736,7 @@
                   ></path>
                 </svg>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </section>

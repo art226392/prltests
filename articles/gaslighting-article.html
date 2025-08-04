@@ -16,12 +16,12 @@
     <style>
       body {
         font-family: "Inter", sans-serif;
-        background-color: #000000; /* Глубокий черный для космоса */
+        background-color: #02000a; /* Еще более глубокий черный */
         color: #e5e7eb;
         overflow-x: hidden;
       }
 
-      /* ИЗМЕНЕНИЕ: Контейнер для Canvas фона */
+      /* ИЗМЕНЕНИЕ: Полностью переработанный фон на CSS для производительности и эстетики */
       .stars-container {
         position: fixed;
         top: 0;
@@ -29,13 +29,52 @@
         width: 100%;
         height: 100%;
         z-index: -1;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 100%
+        );
         overflow: hidden;
       }
 
-      #starfield {
-        display: block;
-        width: 100%;
-        height: 100%;
+      /* Функция для генерации звезд с помощью box-shadow */
+      @function multiple-box-shadow($n) {
+        $value: "#{random(2000)}px #{random(2000)}px #FFF";
+        @for $i from 2 through $n {
+          $value: "#{$value} , #{random(2000)}px #{random(2000)}px #FFF";
+        }
+        @return unquote($value);
+      }
+
+      .stars {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: multiple-box-shadow(700);
+        animation: animStar 50s linear infinite;
+      }
+      .stars2 {
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: multiple-box-shadow(200);
+        animation: animStar 100s linear infinite;
+      }
+      .stars3 {
+        width: 3px;
+        height: 3px;
+        background: transparent;
+        box-shadow: multiple-box-shadow(50);
+        animation: animStar 150s linear infinite;
+      }
+
+      @keyframes animStar {
+        from {
+          transform: translateY(0px);
+        }
+        to {
+          transform: translateY(-2000px);
+        }
       }
 
       .header-font {
@@ -53,7 +92,7 @@
       .gradient-text {
         background: linear-gradient(
           125deg,
-          #8a2be2 0%,
+          #c084fc 0%,
           #ff69b4 50%,
           #f093fb 100%
         );
@@ -62,14 +101,17 @@
         -webkit-text-fill-color: transparent;
       }
 
+      .article-wrapper {
+        will-change: transform; /* Подсказка браузеру для оптимизации анимации */
+      }
+
       .article-content {
-        background: rgba(10, 5, 15, 0.75); /* Более темный и насыщенный фон */
+        background: rgba(10, 5, 15, 0.75);
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1rem;
-        padding: 2.5rem 3.5rem; /* Увеличены отступы */
-        /* ИЗМЕНЕНИЕ: Более выразительная подсветка */
+        padding: 2.5rem 3.5rem;
         box-shadow: 0 0 60px rgba(138, 43, 226, 0.3),
           0 0 100px rgba(255, 105, 180, 0.2);
       }
@@ -95,7 +137,7 @@
       .article-content p {
         font-family: "Roboto Slab", serif;
         font-size: 1.125rem;
-        line-height: 1.9; /* Увеличен межстрочный интервал */
+        line-height: 1.9;
         margin-bottom: 1.5rem;
         color: #d1d5db;
         text-align: justify;
@@ -144,12 +186,33 @@
       .article-content li {
         margin-bottom: 0.75rem;
       }
+
+      /* ИЗМЕНЕНИЕ: Адаптация для мобильных устройств */
+      @media (max-width: 768px) {
+        .article-content {
+          padding: 1.5rem;
+        }
+        .article-content h1 {
+          font-size: 2.5rem;
+        }
+        .article-content h2 {
+          font-size: 1.75rem;
+        }
+        .article-content p {
+          font-size: 1rem;
+          line-height: 1.8;
+        }
+        .article-body > p:first-of-type::first-letter {
+          font-size: 4rem;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- ИЗМЕНЕНИЕ: Canvas для звездного фона -->
     <div class="stars-container">
-      <canvas id="starfield"></canvas>
+      <div class="stars"></div>
+      <div class="stars2"></div>
+      <div class="stars3"></div>
     </div>
 
     <!-- Navigation -->
@@ -170,7 +233,9 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container mx-auto max-w-4xl px-4 pt-40 pb-24 relative z-10">
+    <main
+      class="container mx-auto max-w-4xl px-4 pt-40 pb-24 relative z-10 article-wrapper"
+    >
       <article class="article-content">
         <header class="text-center mb-12">
           <p class="text-purple-400 font-semibold mb-2">Психология отношений</p>
@@ -393,7 +458,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         // ИЗМЕНЕНИЕ: Настройка Lenis для ультра-плавной прокрутки
         const lenis = new Lenis({
-          lerp: 0.07, // Меньшее значение для большей плавности
+          lerp: 0.08, // Оптимальное значение для плавности и отзывчивости
           smoothWheel: true,
         });
 
@@ -402,96 +467,6 @@
           requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
-
-        // ИЗМЕНЕНИЕ: Скрипт для Canvas фона
-        const canvas = document.getElementById("starfield");
-        const ctx = canvas.getContext("2d");
-
-        let width, height, stars;
-        const numStars = 500; // Количество звезд
-
-        function init() {
-          width = window.innerWidth;
-          height = window.innerHeight;
-          canvas.width = width;
-          canvas.height = height;
-
-          stars = [];
-          for (let i = 0; i < numStars; i++) {
-            stars.push({
-              x: Math.random() * width,
-              y: Math.random() * height,
-              radius: Math.random() * 1.5 + 0.5, // Разные размеры звезд
-              // Скорость зависит от размера (эффект параллакса)
-              vx: (Math.random() - 0.5) * 0.1,
-              vy: Math.random() * 0.3 + 0.1,
-              opacity: Math.random() * 0.5 + 0.5,
-            });
-          }
-        }
-
-        function animate() {
-          // Создаем градиентные туманности
-          const gradient1 = ctx.createRadialGradient(
-            width * 0.25,
-            height * 0.25,
-            0,
-            width * 0.25,
-            height * 0.25,
-            width * 0.5
-          );
-          gradient1.addColorStop(0, "rgba(138, 43, 226, 0.1)");
-          gradient1.addColorStop(1, "rgba(138, 43, 226, 0)");
-
-          const gradient2 = ctx.createRadialGradient(
-            width * 0.75,
-            height * 0.75,
-            0,
-            width * 0.75,
-            height * 0.75,
-            width * 0.4
-          );
-          gradient2.addColorStop(0, "rgba(255, 105, 180, 0.08)");
-          gradient2.addColorStop(1, "rgba(255, 105, 180, 0)");
-
-          // Очищаем и рисуем фон
-          ctx.fillStyle = "#000000";
-          ctx.fillRect(0, 0, width, height);
-          ctx.fillStyle = gradient1;
-          ctx.fillRect(0, 0, width, height);
-          ctx.fillStyle = gradient2;
-          ctx.fillRect(0, 0, width, height);
-
-          // Рисуем звезды
-          ctx.fillStyle = "white";
-          stars.forEach((star) => {
-            ctx.beginPath();
-            ctx.globalAlpha = star.opacity;
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Движение звезд
-            star.x += star.vx;
-            star.y += star.vy;
-
-            // Пересоздаем звезды, ушедшие за экран
-            if (star.y > height + star.radius) {
-              star.x = Math.random() * width;
-              star.y = -star.radius;
-            }
-            if (star.x > width + star.radius) {
-              star.x = -star.radius;
-            } else if (star.x < -star.radius) {
-              star.x = width + star.radius;
-            }
-          });
-          ctx.globalAlpha = 1; // Сбрасываем прозрачность
-          requestAnimationFrame(animate);
-        }
-
-        window.addEventListener("resize", init);
-        init();
-        animate();
       });
     </script>
   </body>

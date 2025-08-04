@@ -571,6 +571,8 @@
       const form = document.getElementById("narcissism-form");
       const testContainer = document.getElementById("test-container");
       const resultsContainer = document.getElementById("results-container");
+      // --- НОВОЕ: Ключ для localStorage ---
+      const storageKey = "narcissismTestAnswers";
       let answeredQuestions = 0;
 
       // --- Lenis Smooth Scroll Initialization ---
@@ -584,6 +586,44 @@
         requestAnimationFrame(raf);
       }
       requestAnimationFrame(raf);
+
+      // --- НОВОЕ: Функция сохранения состояния ---
+      function saveState() {
+        const formData = new FormData(form);
+        const answers = {};
+        for (const [name, value] of formData.entries()) {
+          answers[name] = value;
+        }
+        localStorage.setItem(storageKey, JSON.stringify(answers));
+      }
+
+      // --- НОВОЕ: Функция загрузки состояния ---
+      function loadState() {
+        const savedAnswers = localStorage.getItem(storageKey);
+        if (savedAnswers) {
+          const answers = JSON.parse(savedAnswers);
+          Object.entries(answers).forEach(([name, value]) => {
+            const radio = form.querySelector(
+              `input[name="${name}"][value="${value}"]`
+            );
+            if (radio) {
+              radio.checked = true;
+              const container = radio.closest(".grid");
+              container
+                .querySelectorAll(".option-card")
+                .forEach((card) => card.classList.remove("selected"));
+              radio.parentElement.classList.add("selected");
+
+              const questionBlock = radio.closest(".question-block");
+              if (!questionBlock.hasAttribute("data-answered")) {
+                questionBlock.setAttribute("data-answered", "true");
+                answeredQuestions++;
+              }
+            }
+          });
+          updateProgress();
+        }
+      }
 
       function updateProgress() {
         const progress = (answeredQuestions / questions.length) * 100;
@@ -623,6 +663,8 @@
           block.appendChild(optionsContainer);
           form.appendChild(block);
         });
+        // --- НОВОЕ: Загружаем состояние после отрисовки ---
+        loadState();
       }
 
       form.addEventListener("change", (e) => {
@@ -639,6 +681,8 @@
             answeredQuestions++;
             updateProgress();
           }
+          // --- НОВОЕ: Сохраняем состояние при каждом изменении ---
+          saveState();
         }
       });
 
@@ -655,6 +699,8 @@
         }
         const scores = calculateScores();
         renderResults(scores);
+        // --- НОВОЕ: Очищаем хранилище после завершения теста ---
+        localStorage.removeItem(storageKey);
       });
 
       function calculateScores() {

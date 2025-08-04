@@ -511,6 +511,8 @@
       const testContainer = document.getElementById("test-container");
       const resultsContainer = document.getElementById("results-container");
       const form = document.getElementById("children-test-form");
+      // --- НОВОЕ: Ключ для localStorage ---
+      const storageKey = "childrenTestAnswers";
 
       let answeredQuestions = 0;
 
@@ -526,9 +528,57 @@
       }
       requestAnimationFrame(raf);
 
+      // --- НОВОЕ: Функция сохранения состояния ---
+      function saveState() {
+        const formData = new FormData(form);
+        const answers = {};
+        // Собираем все выбранные ответы в объект
+        for (const [name, value] of formData.entries()) {
+          answers[name] = value;
+        }
+        // Сохраняем объект в localStorage в виде строки
+        localStorage.setItem(storageKey, JSON.stringify(answers));
+      }
+
+      // --- НОВОЕ: Функция загрузки состояния ---
+      function loadState() {
+        const savedAnswers = localStorage.getItem(storageKey);
+        if (savedAnswers) {
+          const answers = JSON.parse(savedAnswers);
+          // Проходим по сохраненным ответам
+          Object.entries(answers).forEach(([name, value]) => {
+            // Находим соответствующий input
+            const radio = form.querySelector(
+              `input[name="${name}"][value="${value}"]`
+            );
+            if (radio) {
+              radio.checked = true; // Отмечаем его как выбранный
+
+              // Обновляем визуальное выделение карточки
+              const container = radio.closest(".grid");
+              container
+                .querySelectorAll(".option-card")
+                .forEach((card) => card.classList.remove("selected"));
+              radio.parentElement.classList.add("selected");
+
+              // Обновляем счетчик отвеченных вопросов
+              const questionBlock = radio.closest(".question-block");
+              if (!questionBlock.hasAttribute("data-answered")) {
+                questionBlock.setAttribute("data-answered", "true");
+                answeredQuestions++;
+              }
+            }
+          });
+          // Обновляем прогресс-бар
+          updateProgress();
+        }
+      }
+
       function startTest() {
         testContainer.classList.add("fade-in");
         renderQuestions();
+        // --- НОВОЕ: Загружаем состояние после отрисовки вопросов ---
+        loadState();
       }
 
       function updateProgress() {
@@ -587,6 +637,8 @@
             answeredQuestions++;
             updateProgress();
           }
+          // --- НОВОЕ: Сохраняем состояние при каждом изменении ---
+          saveState();
         }
       });
 
@@ -603,6 +655,8 @@
         }
         const score = calculateScore();
         renderResults(score);
+        // --- НОВОЕ: Очищаем хранилище после завершения теста ---
+        localStorage.removeItem(storageKey);
       });
 
       function calculateScore() {

@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест: Спектр Личности - BPD tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: #0a0a0a;
+        overflow: hidden;
+      }
+
+      .dynamic-bg::before {
+        content: "";
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(147, 51, 234, 0.1) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(217, 70, 239, 0.1) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(99, 102, 241, 0.05) 0%,
+            transparent 60%
+          );
+      }
+
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .disclaimer-panel {
+        background: rgba(147, 51, 234, 0.1);
+        border: 2px solid rgba(147, 51, 234, 0.3);
+      }
+
+      a,
+      .transition-colors {
+        transition: color 0.4s ease;
+      }
+
+      .transition-transform {
+        transition: transform 0.4s ease;
+      }
+
+      .option-card,
+      .btn-premium {
+        will-change: transform, background, border-color;
+      }
+
+      .option-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 70px;
+      }
+
+      .option-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(147, 51, 234, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .option-card.selected {
+        background: linear-gradient(
+          135deg,
+          rgba(147, 51, 234, 0.2),
+          rgba(217, 70, 239, 0.2)
+        );
+        border-color: rgba(147, 51, 234, 0.6);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      .btn-premium {
+        position: relative;
+        background: linear-gradient(135deg, #9333ea 0%, #d946ef 100%);
+        color: white;
+        padding: 20px 60px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 18px;
+        transition: all 0.4s ease;
+      }
+
+      .progress-container {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        padding: 1rem 0;
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(8px);
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+
+      .progress-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #9333ea, #d946ef);
+        border-radius: 3px;
+        transition: width 0.5s ease;
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #9333ea 0%,
+          #d946ef 50%,
+          #6366f1 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .fade-out {
+        animation: fadeOut 0.5s ease-in forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+          visibility: hidden;
+        }
+      }
+
+      .disorder-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .disorder-card:hover {
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-2px);
+      }
+
+      .severity-indicator {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .severity-low {
+        background: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+      }
+
+      .severity-moderate {
+        background: rgba(250, 204, 21, 0.2);
+        color: #facc15;
+      }
+
+      .severity-high {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+      }
+
+      .radar-chart-container {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin: 0 auto;
+      }
+
+      /* --- Mobile Optimizations --- */
+      @media (max-width: 768px) {
+        .glass-panel,
+        .progress-container {
+          backdrop-filter: none;
+          background: rgba(20, 20, 22, 0.85);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+        .dynamic-bg {
+          display: none;
+        }
+        .radar-chart-container {
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Navigation -->
+      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="../index.html" class="flex items-center space-x-2 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-fuchsia-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">BPD tests</span>
+          </a>
+          <div class="flex items-center space-x-6">
+            <a href="../index.html" class="hover:text-purple-400"
+              >← Вернуться к тестам</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div
+        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
+      >
+        <!-- Test Header -->
+        <header class="text-center mb-12 fade-in" style="margin-top: 80px">
+          <h1
+            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
+          >
+            Тест: <span class="gradient-text">Спектр Личности</span>
+          </h1>
+          <p class="text-xl text-gray-400 mb-8">
+            Клинически-ориентированный анализ сопутствующих расстройств
+          </p>
+        </header>
+
+        <!-- Disclaimer Panel -->
+        <div
+          id="disclaimer-panel"
+          class="disclaimer-panel glass-panel rounded-2xl p-6 mb-12 fade-in"
+        >
+          <h2 class="text-2xl font-bold mb-4 text-purple-400">
+            Важная информация
+          </h2>
+          <p class="text-gray-300 mb-4">
+            Этот тест основан на признанных международных диагностических
+            критериях и научных работах ведущих специалистов в области
+            психиатрии и клинической психологии:
+          </p>
+          <div class="grid md:grid-cols-2 gap-2 text-sm text-gray-400 mb-4">
+            <div>• DSM-5-TR (2022)</div>
+            <div>• МКБ-11 (2022)</div>
+            <div>• Работы Aaron T. Beck (когнитивная триада депрессии)</div>
+            <div>
+              • Исследования Kay Redfield Jamison (биполярное расстройство)
+            </div>
+            <div>• Труды Edna B. Foa (ПТСР и ОКР)</div>
+            <div>• Методология David H. Barlow (тревожные расстройства)</div>
+            <div>
+              • Работы Christopher Fairburn (расстройства пищевого поведения)
+            </div>
+            <div>• Исследования Marc N. Potenza (зависимости)</div>
+            <div>• Труды Russell A. Barkley (СДВГ)</div>
+            <div>• Работы Otto Kernberg (расстройства личности)</div>
+          </div>
+          <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+            <p class="text-red-400 font-semibold mb-2">⚠️ Предупреждение:</p>
+            <p class="text-gray-300 text-sm">
+              Этот тест НЕ является медицинским диагнозом. Результаты
+              предназначены только для информационных целей. При наличии
+              беспокоящих симптомов обязательно обратитесь к квалифицированному
+              специалисту — психиатру или клиническому психологу.
+            </p>
+          </div>
+          <div class="mt-6 text-center">
+            <button id="start-test-btn" class="btn-premium">
+              Я понимаю, начать тест
+            </button>
+          </div>
+        </div>
+
+        <!-- Test Container -->
+        <main id="test-container" class="hidden">
+          <!-- Progress Bar Container -->
+          <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar">
+              <div
+                class="progress-fill"
+                id="progress-fill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <form
+            id="comorbid-test-form"
+            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
+          ></form>
+
+          <div class="mt-16 text-center">
+            <button type="submit" form="comorbid-test-form" class="btn-premium">
+              <span class="relative z-10">Получить результаты анализа</span>
+            </button>
+          </div>
+        </main>
+
+        <!-- Results Container -->
+        <div id="results-container" class="hidden mt-16">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+            <h2
+              class="display-font text-4xl md:text-5xl font-bold mb-4 text-center"
+            >
+              Ваш <span class="gradient-text">Психологический Профиль</span>
+            </h2>
+
+            <!-- Radar Chart -->
+            <div class="my-12">
+              <div class="radar-chart-container">
+                <canvas id="radarChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Overall Summary -->
+            <div
+              id="overall-summary"
+              class="mb-12 p-6 bg-purple-900/20 rounded-2xl border border-purple-500/30"
+            >
+              <!-- Content will be injected here -->
+            </div>
+
+            <!-- Detailed Results -->
+            <h3 class="text-2xl font-bold mb-6">
+              Детальный анализ по категориям
+            </h3>
+            <div id="detailed-results" class="space-y-4">
+              <!-- Disorder cards will be injected here -->
+            </div>
+
+            <!-- Recommendations -->
+            <div
+              id="recommendations"
+              class="mt-12 p-6 bg-blue-900/20 rounded-2xl border border-blue-500/30"
+            >
+              <h3 class="text-2xl font-bold mb-4 text-blue-400">
+                Рекомендации
+              </h3>
+              <div id="recommendations-content">
+                <!-- Content will be injected here -->
+              </div>
+            </div>
+
+            <!-- Resources -->
+            <div class="mt-8 p-6 bg-gray-900/30 rounded-2xl">
+              <h4 class="text-lg font-semibold mb-3">Полезные ресурсы:</h4>
+              <ul class="space-y-2 text-gray-400">
+                <li>• Горячая линия психологической помощи: 8-800-2000-122</li>
+                <li>
+                  • Центр экстренной психологической помощи МЧС: +7 (495)
+                  989-50-50
+                </li>
+                <li>• Кризисная линия доверия: +7 (495) 988-44-34</li>
+                <li>• Телефон доверия для подростков: 8-800-2000-122</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-12 text-center space-y-4">
+            <button onclick="location.reload()" class="btn-premium">
+              Пройти тест заново
+            </button>
+            <div>
+              <a
+                href="../index.html"
+                class="text-purple-400 hover:text-purple-300"
+              >
+                Вернуться к списку тестов →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="glass-panel mt-auto py-8 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+              <p class="text-gray-400">© 2025 BPD tests. Все права защищены.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Question structure: d = disorder category, q = question text, a = answer type
+        const questions = [
+          // Depression (МДР - Мажорное депрессивное расстройство)
+          {
+            d: "depression",
+            q: "За последние 2 недели, как часто вы просыпались с чувством безысходности, не видя смысла вставать с постели?",
+            a: "frequency",
+          },
+          {
+            d: "depression",
+            q: "Когда близкие предлагают любимое развлечение (фильм, прогулка, встреча), ваша типичная реакция:",
+            a: "depression_pleasure",
+          },
+          {
+            d: "depression",
+            q: 'Ловили ли вы себя на мыслях типа "Я никчемный", "Все было бы лучше без меня", "Я всех подвожу"?',
+            a: "depression_guilt",
+          },
+
+          // Bipolar (Биполярное расстройство)
+          {
+            d: "bipolar",
+            q: "Были ли у вас периоды (минимум 4 дня), когда вы спали 3-4 часа, но чувствовали невероятный прилив сил и кучу гениальных идей?",
+            a: "bipolar_mania",
+          },
+          {
+            d: "bipolar",
+            q: "Случалось ли вам за одну ночь решить кардинально изменить жизнь (бросить работу, переехать, начать 5 проектов одновременно)?",
+            a: "bipolar_impulsive",
+          },
+          {
+            d: "bipolar",
+            q: 'Как резко может измениться ваше состояние от "Я могу всё!" до "Жизнь кончена"?',
+            a: "bipolar_swings",
+          },
+
+          // PTSD (Посттравматическое стрессовое расстройство)
+          {
+            d: "ptsd",
+            q: "Преследуют ли вас яркие, детальные воспоминания о травмирующем событии, возникающие против вашей воли?",
+            a: "ptsd_intrusions",
+          },
+          {
+            d: "ptsd",
+            q: "Насколько вы избегаете триггеры травмы (места, запахи, звуки, даты, людей)?",
+            a: "ptsd_avoidance",
+          },
+          {
+            d: "ptsd",
+            q: "Испытываете ли вы ночные кошмары или внезапные флешбэки, где заново переживаете травму?",
+            a: "ptsd_reexperiencing",
+          },
+
+          // OCD (Обсессивно-компульсивное расстройство)
+          {
+            d: "ocd",
+            q: "Мучают ли вас навязчивые мысли о загрязнении, симметрии, причинении вреда или кощунстве?",
+            a: "ocd_obsessions",
+          },
+          {
+            d: "ocd",
+            q: 'Выполняете ли вы ритуалы (счет, мытье рук, раскладывание вещей) чтобы предотвратить "плохое"?',
+            a: "ocd_compulsions",
+          },
+          {
+            d: "ocd",
+            q: "Сколько раз вы можете проверить замок/плиту/сообщение прежде чем успокоиться?",
+            a: "ocd_checking",
+          },
+
+          // Anxiety (Генерализованное тревожное расстройство)
+          {
+            d: "anxiety",
+            q: 'В течение дня вас преследуют мысли "А что если..." о работе, здоровье, отношениях, деньгах?',
+            a: "anxiety_worry",
+          },
+          {
+            d: "anxiety",
+            q: "Когда тревога накрывает, можете ли вы её остановить усилием воли?",
+            a: "anxiety_control",
+          },
+          {
+            d: "anxiety",
+            q: "Какие физические симптомы тревоги вы испытываете?",
+            a: "anxiety_physical",
+          },
+
+          // Eating Disorders (Расстройства пищевого поведения)
+          {
+            d: "eating",
+            q: 'Как часто вы проверяете свое отражение, щупаете "проблемные зоны", взвешиваетесь?',
+            a: "eating_preoccupation",
+          },
+          {
+            d: "eating",
+            q: "Случаются ли эпизоды, когда вы съедаете огромное количество еды, не в силах остановиться?",
+            a: "eating_binge",
+          },
+          {
+            d: "eating",
+            q: 'Используете ли вы методы "компенсации" после еды?',
+            a: "eating_compensation",
+          },
+
+          // Substance Use (Расстройства, связанные с употреблением веществ)
+          {
+            d: "substance",
+            q: 'Когда вы обещаете себе "только один бокал/одну сигарету", удается ли сдержать обещание?',
+            a: "substance_control",
+          },
+          {
+            d: "substance",
+            q: "Продолжаете ли употреблять, даже если это уже привело к проблемам (конфликты, здоровье, работа)?",
+            a: "substance_consequences",
+          },
+          {
+            d: "substance",
+            q: "Как часто мысли об употреблении мешают сосредоточиться на других делах?",
+            a: "substance_craving",
+          },
+
+          // ADHD (Синдром дефицита внимания и гиперактивности)
+          {
+            d: "adhd",
+            q: 'Читая важный текст, сколько раз вы "уплываете" мыслями и перечитываете один абзац?',
+            a: "adhd_attention",
+          },
+          {
+            d: "adhd",
+            q: "За последний месяц что из этого вы потеряли/забыли?",
+            a: "adhd_forgetfulness",
+          },
+          {
+            d: "adhd",
+            q: 'Как часто вы перебиваете других или принимаете решения "с горяча", о которых потом жалеете?',
+            a: "adhd_impulsivity",
+          },
+
+          // BPD (Пограничное расстройство личности)
+          {
+            d: "bpd",
+            q: 'В отношениях вы можете за день перейти от "Это любовь всей моей жизни" к "Я ненавижу этого человека"?',
+            a: "bpd_relationships",
+          },
+          {
+            d: "bpd",
+            q: 'Меняется ли ваше ощущение себя от "Я крутой" до "Я никто" в течение часов?',
+            a: "bpd_identity",
+          },
+          {
+            d: "bpd",
+            q: "Когда партнер не отвечает на сообщения, какие мысли вас посещают?",
+            a: "bpd_abandonment",
+          },
+
+          // Social Anxiety (Социальное тревожное расстройство)
+          {
+            d: "social",
+            q: "Перед встречей/звонком/выходом в людное место, за сколько времени начинается паника?",
+            a: "social_anticipation",
+          },
+          {
+            d: "social",
+            q: "Что из этого вы избегаете из-за страха оценки?",
+            a: "social_avoidance",
+          },
+          {
+            d: "social",
+            q: "В социальной ситуации вы думаете:",
+            a: "social_thoughts",
+          },
+        ];
+
+        // Detailed answer options for each question type
+        const answerOptions = {
+          frequency: [
+            { text: "Ни разу за 2 недели", value: 0 },
+            { text: "1-3 дня", value: 1 },
+            { text: "4-6 дней", value: 2 },
+            { text: "7-10 дней", value: 3 },
+            { text: "Почти каждый день", value: 4 },
+          ],
+          depression_pleasure: [
+            { text: "С радостью соглашаюсь", value: 0 },
+            { text: "Иду, но без энтузиазма", value: 1 },
+            { text: "Заставляю себя, чтобы не обидеть", value: 2 },
+            { text: "Отказываюсь под предлогом", value: 3 },
+            { text: "Даже мысль об этом утомляет", value: 4 },
+          ],
+          depression_guilt: [
+            { text: "Никогда или очень редко", value: 0 },
+            { text: "Иногда в плохие дни", value: 1 },
+            { text: "Довольно часто", value: 2 },
+            { text: "Большую часть времени", value: 3 },
+            { text: "Постоянно, это мой внутренний голос", value: 4 },
+          ],
+          bipolar_mania: [
+            { text: "Никогда не было такого", value: 0 },
+            { text: "Может 1-2 дня, но не уверен(а)", value: 1 },
+            { text: "Да, было пару раз", value: 2 },
+            { text: "Случается регулярно", value: 3 },
+            { text: "Это про меня прямо сейчас", value: 4 },
+          ],
+          bipolar_impulsive: [
+            { text: "Нет, я всё обдумываю", value: 0 },
+            { text: "Были мысли, но не действия", value: 1 },
+            { text: "1-2 раза было что-то подобное", value: 2 },
+            { text: "Да, и не раз", value: 3 },
+            { text: "Это мой обычный стиль", value: 4 },
+          ],
+          bipolar_swings: [
+            { text: "Мое настроение стабильно", value: 0 },
+            { text: "Меняется плавно за дни/недели", value: 1 },
+            { text: "Может поменяться за день", value: 2 },
+            { text: "Скачет несколько раз в день", value: 3 },
+            { text: "Как американские горки каждый час", value: 4 },
+          ],
+          ptsd_intrusions: [
+            { text: "Нет травмирующих событий / Не беспокоят", value: 0 },
+            { text: "Редко, в особые даты/триггеры", value: 1 },
+            { text: "Несколько раз в неделю", value: 2 },
+            { text: "Почти ежедневно", value: 3 },
+            { text: "Много раз в день, изматывает", value: 4 },
+          ],
+          ptsd_avoidance: [
+            { text: "Не избегаю / Нет триггеров", value: 0 },
+            { text: "Стараюсь не думать об этом", value: 1 },
+            { text: "Избегаю очевидные напоминания", value: 2 },
+            { text: "Серьезно ограничиваю жизнь", value: 3 },
+            { text: "Моя жизнь построена вокруг избегания", value: 4 },
+          ],
+          ptsd_reexperiencing: [
+            { text: "Никогда", value: 0 },
+            { text: "Изредка тревожные сны", value: 1 },
+            { text: "Кошмары 1-2 раза в неделю", value: 2 },
+            { text: "Частые кошмары и/или флешбэки днем", value: 3 },
+            { text: "Ежедневно, боюсь спать", value: 4 },
+          ],
+          ocd_obsessions: [
+            { text: "Нет навязчивых мыслей", value: 0 },
+            { text: "Иногда застреваю на мыслях", value: 1 },
+            { text: "Есть 1-2 темы, которые беспокоят", value: 2 },
+            { text: "Множество навязчивых мыслей", value: 3 },
+            { text: "Голова забита ими постоянно", value: 4 },
+          ],
+          ocd_compulsions: [
+            { text: "Нет ритуалов", value: 0 },
+            { text: "Есть привычки, но не ритуалы", value: 1 },
+            { text: "1-2 ритуала при стрессе", value: 2 },
+            { text: "Несколько ритуалов ежедневно", value: 3 },
+            { text: "Ритуалы занимают часы", value: 4 },
+          ],
+          ocd_checking: [
+            { text: "1 раз и успокаиваюсь", value: 0 },
+            { text: "2-3 раза для уверенности", value: 1 },
+            { text: "5-10 раз", value: 2 },
+            { text: "15-20 раз или больше", value: 3 },
+            { text: "Могу проверять часами", value: 4 },
+          ],
+          anxiety_worry: [
+            { text: "Редко, только при реальных проблемах", value: 0 },
+            { text: "Пару раз в неделю", value: 1 },
+            { text: "Ежедневно, но не весь день", value: 2 },
+            { text: "Большую часть дня", value: 3 },
+            { text: "Нон-стоп поток тревог", value: 4 },
+          ],
+          anxiety_control: [
+            { text: "Да, легко переключаюсь", value: 0 },
+            { text: "С усилием, но могу", value: 1 },
+            { text: "Очень сложно, но иногда удается", value: 2 },
+            { text: "Почти невозможно", value: 3 },
+            { text: "Нет, тревога сильнее меня", value: 4 },
+          ],
+          anxiety_physical: [
+            { text: "Никаких симптомов", value: 0 },
+            { text: "Легкое напряжение", value: 1 },
+            { text: "Сердцебиение + потливость", value: 2 },
+            { text: "Дрожь + удушье + головокружение", value: 3 },
+            { text: "Все вышеперечисленное + страх умереть", value: 4 },
+          ],
+          eating_preoccupation: [
+            { text: "Редко, без зацикливания", value: 0 },
+            { text: "1-2 раза в день", value: 1 },
+            { text: "Несколько раз в день", value: 2 },
+            { text: "Каждый час", value: 3 },
+            { text: "Постоянно, это obsession", value: 4 },
+          ],
+          eating_binge: [
+            { text: "Никогда", value: 0 },
+            { text: "Очень редко при стрессе", value: 1 },
+            { text: "1-2 раза в месяц", value: 2 },
+            { text: "Еженедельно", value: 3 },
+            { text: "Несколько раз в неделю", value: 4 },
+          ],
+          eating_compensation: [
+            { text: "Никогда", value: 0 },
+            { text: "Изредка пропускаю прием пищи", value: 1 },
+            { text: "Голодание или изнурительные тренировки", value: 2 },
+            { text: "Слабительные/мочегонные", value: 3 },
+            { text: "Вызываю рвоту", value: 4 },
+          ],
+          substance_control: [
+            { text: "Всегда держу слово", value: 0 },
+            { text: "Обычно удается", value: 1 },
+            { text: "50/50", value: 2 },
+            { text: "Редко получается", value: 3 },
+            { text: "Никогда, всегда больше", value: 4 },
+          ],
+          substance_consequences: [
+            { text: "Нет проблем / Не употребляю", value: 0 },
+            { text: "Были мелкие неприятности", value: 1 },
+            { text: "Есть проблемы, стараюсь контролировать", value: 2 },
+            { text: "Серьезные проблемы, но не могу бросить", value: 3 },
+            { text: "Разрушило жизнь, но продолжаю", value: 4 },
+          ],
+          substance_craving: [
+            { text: "Никогда / Не употребляю", value: 0 },
+            { text: "Изредка в компании", value: 1 },
+            { text: "Несколько раз в неделю", value: 2 },
+            { text: "Ежедневно", value: 3 },
+            { text: "Постоянно, мешает жить", value: 4 },
+          ],
+          adhd_attention: [
+            { text: "0-1 раз, хорошо концентрируюсь", value: 0 },
+            { text: "2-3 раза", value: 1 },
+            { text: "4-5 раз", value: 2 },
+            { text: "Больше 5 раз", value: 3 },
+            { text: "Читать невозможно", value: 4 },
+          ],
+          adhd_forgetfulness: [
+            { text: "Ничего важного", value: 0 },
+            { text: "Мелочи (ручка, зарядка)", value: 1 },
+            { text: "Ключи/кошелек/телефон", value: 2 },
+            { text: "Важные встречи/дедлайны", value: 3 },
+            { text: "Все вышеперечисленное", value: 4 },
+          ],
+          adhd_impulsivity: [
+            { text: "Редко, я сдержанный человек", value: 0 },
+            { text: "Иногда в эмоциях", value: 1 },
+            { text: "Довольно часто", value: 2 },
+            { text: "Почти всегда", value: 3 },
+            { text: "Это моя главная проблема", value: 4 },
+          ],
+          bpd_relationships: [
+            { text: "Нет, мои чувства стабильны", value: 0 },
+            { text: "Небольшие колебания", value: 1 },
+            { text: "Бывает при конфликтах", value: 2 },
+            { text: "Да, часто мечусь между крайностями", value: 3 },
+            { text: "Каждый день как на качелях", value: 4 },
+          ],
+          bpd_identity: [
+            { text: "Стабильное ощущение себя", value: 0 },
+            { text: "Меняется медленно с опытом", value: 1 },
+            { text: "Зависит от окружения", value: 2 },
+            { text: "Резко меняется несколько раз в день", value: 3 },
+            { text: "Я не знаю, кто я", value: 4 },
+          ],
+          bpd_abandonment: [
+            { text: "Спокойно жду ответа", value: 0 },
+            { text: "Может занят(а), напишу позже", value: 1 },
+            { text: "Начинаю волноваться через час", value: 2 },
+            { text: "Паника: меня бросают!", value: 3 },
+            { text: "Готов(а) на всё, лишь бы не бросили", value: 4 },
+          ],
+          social_anticipation: [
+            { text: "Не паникую", value: 0 },
+            { text: "За 10-30 минут", value: 1 },
+            { text: "За несколько часов", value: 2 },
+            { text: "За день-два", value: 3 },
+            { text: "За неделю начинается ад", value: 4 },
+          ],
+          social_avoidance: [
+            { text: "Ничего не избегаю", value: 0 },
+            { text: "Публичные выступления", value: 1 },
+            { text: "Вечеринки и встречи", value: 2 },
+            { text: "Телефонные звонки и магазины", value: 3 },
+            { text: "Вообще все, сижу дома", value: 4 },
+          ],
+          social_thoughts: [
+            { text: "Нормально общаюсь", value: 0 },
+            { text: "Надеюсь, все пройдет хорошо", value: 1 },
+            { text: "Они видят, как я нервничаю", value: 2 },
+            { text: "Все думают, что я странный(ая)", value: 3 },
+            { text: "Хочу провалиться сквозь землю", value: 4 },
+          ],
+        };
+
+        const disorderInfo = {
+          depression: {
+            name: "Депрессия",
+            color: "#3b82f6",
+            description:
+              "Мажорное депрессивное расстройство характеризуется стойким снижением настроения, потерей интереса к жизни и снижением энергии.",
+            recommendations: [
+              "Когнитивно-поведенческая терапия (КПТ)",
+              "Консультация психиатра для оценки необходимости медикаментозного лечения",
+              "Регулярная физическая активность",
+              "Нормализация режима сна",
+            ],
+          },
+          bipolar: {
+            name: "Биполярные черты",
+            color: "#8b5cf6",
+            description:
+              "Биполярное расстройство характеризуется чередованием эпизодов мании/гипомании и депрессии.",
+            recommendations: [
+              "Обязательная консультация психиатра",
+              "Ведение дневника настроения",
+              "Стабилизация режима дня",
+              "Психообразование о расстройстве",
+            ],
+          },
+          ptsd: {
+            name: "ПТСР",
+            color: "#ef4444",
+            description:
+              "Посттравматическое стрессовое расстройство развивается после переживания травматического события.",
+            recommendations: [
+              "Травма-фокусированная терапия",
+              "EMDR (десенсибилизация движениями глаз)",
+              "Техники заземления и стабилизации",
+              "Групповая терапия с людьми с похожим опытом",
+            ],
+          },
+          ocd: {
+            name: "ОКР",
+            color: "#f59e0b",
+            description:
+              "Обсессивно-компульсивное расстройство характеризуется навязчивыми мыслями и компульсивными действиями.",
+            recommendations: [
+              "Экспозиционная терапия с предотвращением реакций",
+              "КПТ, специализированная для ОКР",
+              "Консультация психиатра (СИОЗС часто эффективны)",
+              "Психообразование для семьи",
+            ],
+          },
+          anxiety: {
+            name: "Тревожность",
+            color: "#10b981",
+            description:
+              "Генерализованное тревожное расстройство проявляется чрезмерным беспокойством о различных сферах жизни.",
+            recommendations: [
+              "Техники релаксации и дыхательные упражнения",
+              "КПТ для управления тревожными мыслями",
+              "Майндфулнесс и медитация",
+              "Ограничение кофеина",
+            ],
+          },
+          eating: {
+            name: "РПП",
+            color: "#ec4899",
+            description:
+              "Расстройства пищевого поведения включают анорексию, булимию и компульсивное переедание.",
+            recommendations: [
+              "Специализированная терапия РПП",
+              "Консультация диетолога",
+              "Семейная терапия (особенно для подростков)",
+              "Мониторинг физического здоровья",
+            ],
+          },
+          substance: {
+            name: "Зависимости",
+            color: "#6366f1",
+            description:
+              "Расстройства, связанные с употреблением психоактивных веществ.",
+            recommendations: [
+              "Программа детоксикации при необходимости",
+              "Мотивационное интервьюирование",
+              "Группы поддержки (АА/АН)",
+              "Терапия по профилактике срывов",
+            ],
+          },
+          adhd: {
+            name: "СДВГ",
+            color: "#14b8a6",
+            description:
+              "Синдром дефицита внимания с гиперактивностью влияет на концентрацию и импульсивный контроль.",
+            recommendations: [
+              "Структурирование окружения и распорядка дня",
+              "КПТ для СДВГ",
+              "Консультация психиатра по поводу медикаментозной терапии",
+              "Использование планировщиков и напоминаний",
+            ],
+          },
+          bpd: {
+            name: "ПРЛ",
+            color: "#a855f7",
+            description:
+              "Пограничное расстройство личности характеризуется нестабильностью в отношениях, самооценке и эмоциях.",
+            recommendations: [
+              "Диалектическая поведенческая терапия (DBT)",
+              "Схема-терапия",
+              "Навыки эмоциональной регуляции",
+              "Долгосрочная психотерапия",
+            ],
+          },
+          social: {
+            name: "Социальная тревога",
+            color: "#f97316",
+            description:
+              "Социальное тревожное расстройство проявляется интенсивным страхом социальных ситуаций.",
+            recommendations: [
+              "Градуированная экспозиция к социальным ситуациям",
+              "Тренинг социальных навыков",
+              "КПТ для работы с негативными убеждениями",
+              "Групповая терапия",
+            ],
+          },
+        };
+
+        const testContainer = document.getElementById("test-container");
+        const resultsContainer = document.getElementById("results-container");
+        const form = document.getElementById("comorbid-test-form");
+        const disclaimerPanel = document.getElementById("disclaimer-panel");
+        const startTestBtn = document.getElementById("start-test-btn");
+
+        let answeredQuestions = 0;
+
+        // --- Lenis Smooth Scroll Initialization ---
+        const lenis = new Lenis({
+          lerp: 0.07,
+          smoothWheel: true,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        startTestBtn.addEventListener("click", () => {
+          disclaimerPanel.classList.add("fade-out");
+          disclaimerPanel.addEventListener(
+            "animationend",
+            () => {
+              disclaimerPanel.classList.add("hidden");
+              testContainer.classList.remove("hidden");
+              testContainer.classList.add("fade-in");
+              renderQuestions();
+            },
+            { once: true }
+          );
+        });
+
+        function updateProgress() {
+          const progress = (answeredQuestions / questions.length) * 100;
+          document.getElementById("progress-fill").style.width = progress + "%";
+        }
+
+        function renderQuestions() {
+          form.innerHTML = "";
+          questions.forEach((qData, index) => {
+            const block = document.createElement("div");
+            block.className = "question-block fade-in";
+            block.style.animationDelay = `${index * 0.03}s`;
+
+            const questionText = document.createElement("p");
+            questionText.className = "font-medium text-lg text-gray-100 mb-4";
+            questionText.textContent = `${index + 1}. ${qData.q}`;
+            block.appendChild(questionText);
+
+            const optionsContainer = document.createElement("div");
+            optionsContainer.className =
+              "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3";
+
+            const currentAnswerSet = answerOptions[qData.a];
+
+            currentAnswerSet.forEach((opt) => {
+              const label = document.createElement("label");
+              label.className =
+                "option-card p-4 rounded-xl text-center cursor-pointer flex items-center justify-center";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = `q${index}`;
+              radio.value = opt.value;
+              radio.required = true;
+              label.appendChild(radio);
+              label.append(opt.text);
+              optionsContainer.appendChild(label);
+            });
+
+            block.appendChild(optionsContainer);
+            form.appendChild(block);
+          });
+        }
+
+        form.addEventListener("change", (e) => {
+          if (e.target.type === "radio") {
+            const container = e.target.closest(".grid");
+            container
+              .querySelectorAll(".option-card")
+              .forEach((card) => card.classList.remove("selected"));
+            e.target.parentElement.classList.add("selected");
+
+            const questionBlock = e.target.closest(".question-block");
+            if (!questionBlock.hasAttribute("data-answered")) {
+              questionBlock.setAttribute("data-answered", "true");
+              answeredQuestions++;
+              updateProgress();
+            }
+          }
+        });
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (answeredQuestions < questions.length) {
+            const unansweredBlock = form.querySelector(
+              ".question-block:not([data-answered])"
+            );
+            if (unansweredBlock) {
+              lenis.scrollTo(unansweredBlock, { offset: -150 });
+            }
+            return;
+          }
+          const scores = calculateScores();
+          renderResults(scores);
+        });
+
+        function calculateScores() {
+          const formData = new FormData(form);
+          let disorderScores = {};
+
+          // Initialize scores for each disorder
+          Object.keys(disorderInfo).forEach((disorder) => {
+            disorderScores[disorder] = { total: 0, count: 0, percentage: 0 };
+          });
+
+          // Calculate scores
+          questions.forEach((q, index) => {
+            const value = parseInt(formData.get(`q${index}`), 10) || 0;
+            disorderScores[q.d].total += value;
+            disorderScores[q.d].count++;
+          });
+
+          // Calculate percentages
+          Object.keys(disorderScores).forEach((disorder) => {
+            const maxScore = disorderScores[disorder].count * 4;
+            disorderScores[disorder].percentage =
+              maxScore > 0
+                ? Math.round((disorderScores[disorder].total / maxScore) * 100)
+                : 0;
+          });
+
+          return disorderScores;
+        }
+
+        function getSeverity(percentage) {
+          if (percentage >= 70)
+            return {
+              level: "high",
+              text: "Высокий уровень",
+              class: "severity-high",
+            };
+          if (percentage >= 40)
+            return {
+              level: "moderate",
+              text: "Умеренный уровень",
+              class: "severity-moderate",
+            };
+          return {
+            level: "low",
+            text: "Низкий уровень",
+            class: "severity-low",
+          };
+        }
+
+        function renderResults(scores) {
+          testContainer.classList.add("fade-out");
+          testContainer.addEventListener(
+            "animationend",
+            () => {
+              testContainer.classList.add("hidden");
+              resultsContainer.classList.remove("hidden");
+              resultsContainer.classList.add("fade-in");
+              lenis.scrollTo(0);
+            },
+            { once: true }
+          );
+
+          // Prepare data for radar chart
+          const labels = [];
+          const data = [];
+
+          Object.keys(disorderInfo).forEach((disorder) => {
+            labels.push(disorderInfo[disorder].name);
+            data.push(scores[disorder].percentage);
+          });
+
+          // Create radar chart
+          const ctx = document.getElementById("radarChart").getContext("2d");
+          new Chart(ctx, {
+            type: "radar",
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: "Ваш профиль",
+                  data: data,
+                  fill: true,
+                  backgroundColor: "rgba(147, 51, 234, 0.2)",
+                  borderColor: "rgb(147, 51, 234)",
+                  pointBackgroundColor: "rgb(147, 51, 234)",
+                  pointBorderColor: "#fff",
+                  pointHoverBackgroundColor: "#fff",
+                  pointHoverBorderColor: "rgb(147, 51, 234)",
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              elements: {
+                line: {
+                  borderWidth: 3,
+                },
+              },
+              scales: {
+                r: {
+                  angleLines: {
+                    display: true,
+                    color: "rgba(255, 255, 255, 0.1)",
+                  },
+                  grid: {
+                    color: "rgba(255, 255, 255, 0.1)",
+                  },
+                  pointLabels: {
+                    color: "white",
+                    font: {
+                      size: 12,
+                    },
+                  },
+                  ticks: {
+                    display: false,
+                    backdropColor: "rgba(0, 0, 0, 0)",
+                  },
+                  suggestedMin: 0,
+                  suggestedMax: 100,
+                },
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            },
+          });
+
+          // Generate overall summary
+          const overallSummary = document.getElementById("overall-summary");
+          const highScoreDisorders = Object.entries(scores)
+            .filter(([_, score]) => score.percentage >= 70)
+            .sort((a, b) => b[1].percentage - a[1].percentage);
+
+          const moderateScoreDisorders = Object.entries(scores)
+            .filter(
+              ([_, score]) => score.percentage >= 40 && score.percentage < 70
+            )
+            .sort((a, b) => b[1].percentage - a[1].percentage);
+
+          let summaryHTML =
+            '<h3 class="text-xl font-bold mb-3">Общая оценка</h3>';
+
+          if (highScoreDisorders.length > 0) {
+            summaryHTML += `
+            <p class="text-gray-300 mb-3">
+              <span class="text-red-400 font-semibold">Внимание:</span> 
+              Обнаружены высокие показатели по ${highScoreDisorders.length} категориям. 
+              Настоятельно рекомендуется консультация со специалистом.
+            </p>
+          `;
+          } else if (moderateScoreDisorders.length > 0) {
+            summaryHTML += `
+            <p class="text-gray-300 mb-3">
+              <span class="text-yellow-400 font-semibold">Обратите внимание:</span> 
+              Выявлены умеренные показатели по ${moderateScoreDisorders.length} категориям. 
+              Рекомендуется наблюдение и профилактические меры.
+            </p>
+          `;
+          } else {
+            summaryHTML += `
+            <p class="text-gray-300 mb-3">
+              <span class="text-green-400 font-semibold">Хорошие новости:</span> 
+              Все показатели находятся в пределах нормы. Продолжайте заботиться о своем психическом здоровье.
+            </p>
+          `;
+          }
+
+          overallSummary.innerHTML = summaryHTML;
+
+          // Generate detailed results
+          const detailedResults = document.getElementById("detailed-results");
+          detailedResults.innerHTML = "";
+
+          // Sort disorders by percentage (highest first)
+          const sortedDisorders = Object.entries(scores).sort(
+            (a, b) => b[1].percentage - a[1].percentage
+          );
+
+          sortedDisorders.forEach(([disorder, score], index) => {
+            const info = disorderInfo[disorder];
+            const severity = getSeverity(score.percentage);
+
+            const disorderCard = document.createElement("div");
+            disorderCard.className = "disorder-card fade-in";
+            disorderCard.style.animationDelay = `${index * 0.1}s`;
+
+            disorderCard.innerHTML = `
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-xl font-bold" style="color: ${info.color}">${
+              info.name
+            }</h4>
+              <span class="severity-indicator ${severity.class}">${
+              severity.text
+            }</span>
+            </div>
+            <div class="mb-3">
+              <div class="flex justify-between text-sm mb-1">
+                <span class="text-gray-400">Выраженность симптомов</span>
+                <span class="font-semibold">${score.percentage}%</span>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-2">
+                <div class="h-2 rounded-full transition-all duration-1000" 
+                     style="width: 0%; background-color: ${info.color}"></div>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm mb-3">${info.description}</p>
+            ${
+              severity.level !== "low"
+                ? `
+              <details class="text-sm">
+                <summary class="cursor-pointer text-purple-400 hover:text-purple-300">
+                  Показать рекомендации
+                </summary>
+                <ul class="mt-2 space-y-1 text-gray-400">
+                  ${info.recommendations
+                    .map((rec) => `<li>• ${rec}</li>`)
+                    .join("")}
+                </ul>
+              </details>
+            `
+                : ""
+            }
+          `;
+
+            detailedResults.appendChild(disorderCard);
+          });
+
+          // Generate recommendations
+          const recommendationsContent = document.getElementById(
+            "recommendations-content"
+          );
+          let recsHTML = "";
+
+          if (highScoreDisorders.length > 0) {
+            recsHTML += `
+            <div class="mb-4">
+              <h4 class="font-semibold text-red-400 mb-2">Первоочередные действия:</h4>
+              <ul class="space-y-2 text-gray-300">
+                <li>• Запишитесь на консультацию к психиатру или клиническому психологу</li>
+                <li>• Не откладывайте визит к специалисту — раннее вмешательство улучшает прогноз</li>
+                <li>• Подготовьте список беспокоящих симптомов для врача</li>
+              </ul>
+            </div>
+          `;
+          }
+
+          recsHTML += `
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Общие рекомендации для психического здоровья:</h4>
+            <ul class="space-y-2 text-gray-300">
+              <li>• Поддерживайте регулярный режим сна (7-9 часов)</li>
+              <li>• Занимайтесь физической активностью минимум 30 минут в день</li>
+              <li>• Практикуйте техники релаксации и управления стрессом</li>
+              <li>• Поддерживайте социальные связи</li>
+              <li>• Ограничьте употребление алкоголя и кофеина</li>
+              <li>• Ведите дневник эмоций и настроения</li>
+            </ul>
+          </div>
+        `;
+
+          recommendationsContent.innerHTML = recsHTML;
+
+          // Animate progress bars after a short delay
+          setTimeout(() => {
+            document
+              .querySelectorAll(".disorder-card .rounded-full")
+              .forEach((bar) => {
+                const parent = bar.parentElement.parentElement;
+                const percentage =
+                  parent.querySelector(".font-semibold").textContent;
+                bar.style.width = percentage;
+              });
+          }, 300);
+        }
+      });
+    </script>
+  </body>
+</html>

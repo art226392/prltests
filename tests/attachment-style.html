@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест: Мой тип привязанности в отношениях - BPD tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: #0a0a0a;
+        overflow: hidden;
+      }
+
+      .dynamic-bg::before {
+        content: "";
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        top: -25%;
+        left: -25%;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(168, 85, 247, 0.1) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(236, 72, 153, 0.1) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(59, 130, 246, 0.05) 0%,
+            transparent 60%
+          );
+      }
+
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(25px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .option-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 80px;
+      }
+
+      .option-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(168, 85, 247, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .option-card.selected {
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
+        border-color: rgba(168, 85, 247, 0.6);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      .btn-premium {
+        position: relative;
+        background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        color: white;
+        padding: 20px 60px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 18px;
+        transition: all 0.4s ease;
+      }
+
+      .progress-container {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        padding: 1rem 0;
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(8px);
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+
+      .progress-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        width: 90%;
+        margin: 0 auto;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #a855f7, #ec4899);
+        border-radius: 3px;
+        transition: width 0.5s ease;
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          #a855f7 0%,
+          #ec4899 50%,
+          #3b82f6 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-shift 3s ease infinite;
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .fade-out {
+        animation: fadeOut 0.5s ease-in forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+          visibility: hidden;
+        }
+      }
+
+      .attachment-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .attachment-card:hover {
+        background: rgba(255, 255, 255, 0.04);
+        transform: translateY(-2px);
+      }
+
+      .radar-chart-container {
+        width: 100%;
+        max-width: 400px;
+        height: 400px;
+        margin: 0 auto;
+      }
+
+      /* Mobile Optimizations */
+      @media (max-width: 768px) {
+        .glass-panel,
+        .progress-container {
+          backdrop-filter: none;
+          background: rgba(20, 20, 22, 0.85);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+        .dynamic-bg {
+          display: none;
+        }
+        .radar-chart-container {
+          max-width: 300px;
+          height: 300px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Navigation -->
+      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="../index.html" class="flex items-center space-x-2 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">BPD tests</span>
+          </a>
+          <div class="flex items-center space-x-6">
+            <a href="../index.html" class="hover:text-purple-400"
+              >← Вернуться к тестам</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div
+        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
+      >
+        <!-- Test Header -->
+        <header class="text-center mb-12 fade-in" style="margin-top: 80px">
+          <h1
+            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
+          >
+            Тест: <span class="gradient-text">Мой тип привязанности</span>
+          </h1>
+          <p class="text-xl text-gray-400 mb-8">
+            Глубокий анализ вашего стиля построения близких отношений
+          </p>
+        </header>
+
+        <!-- Test Container -->
+        <main id="test-container" class="fade-in">
+          <!-- Progress Bar Container -->
+          <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar">
+              <div
+                class="progress-fill"
+                id="progress-fill"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <form
+            id="attachment-test-form"
+            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
+          ></form>
+
+          <div class="mt-16 text-center">
+            <button
+              type="submit"
+              form="attachment-test-form"
+              class="btn-premium"
+            >
+              <span class="relative z-10">Узнать мой тип привязанности</span>
+            </button>
+          </div>
+        </main>
+
+        <!-- Results Container -->
+        <div id="results-container" class="hidden mt-16">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+            <h2
+              class="display-font text-4xl md:text-5xl font-bold mb-4 text-center"
+            >
+              Ваш <span class="gradient-text">Профиль Привязанности</span>
+            </h2>
+
+            <!-- Radar Chart -->
+            <div class="my-12">
+              <div class="radar-chart-container">
+                <canvas id="attachmentRadar"></canvas>
+              </div>
+            </div>
+
+            <!-- Primary Attachment Style -->
+            <div
+              id="primary-style"
+              class="mb-12 p-6 bg-purple-900/20 rounded-2xl border border-purple-500/30"
+            >
+              <!-- Content will be injected here -->
+            </div>
+
+            <!-- Detailed Analysis -->
+            <h3 class="text-2xl font-bold mb-6">Детальный анализ</h3>
+            <div id="detailed-analysis" class="space-y-4">
+              <!-- Analysis cards will be injected here -->
+            </div>
+
+            <!-- Relationship Patterns -->
+            <div
+              id="relationship-patterns"
+              class="mt-12 p-6 bg-blue-900/20 rounded-2xl border border-blue-500/30"
+            >
+              <h3 class="text-2xl font-bold mb-4 text-blue-400">
+                Ваши паттерны в отношениях
+              </h3>
+              <div id="patterns-content">
+                <!-- Content will be injected here -->
+              </div>
+            </div>
+
+            <!-- Growth Path -->
+            <div
+              id="growth-path"
+              class="mt-12 p-6 bg-green-900/20 rounded-2xl border border-green-500/30"
+            >
+              <h3 class="text-2xl font-bold mb-4 text-green-400">
+                Путь к надежной привязанности
+              </h3>
+              <div id="growth-content">
+                <!-- Content will be injected here -->
+              </div>
+            </div>
+
+            <!-- Resources -->
+            <div class="mt-8 p-6 bg-gray-900/30 rounded-2xl">
+              <h4 class="text-lg font-semibold mb-3">
+                Рекомендуемая литература:
+              </h4>
+              <ul class="space-y-2 text-gray-400">
+                <li>• "Привязанность" - Джон Боулби</li>
+                <li>• "Attached" - Амир Левин и Рэйчел Хеллер</li>
+                <li>• "Hold Me Tight" - Сью Джонсон</li>
+                <li>• "Becoming Attached" - Роберт Карен</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mt-12 text-center space-y-4">
+            <button onclick="location.reload()" class="btn-premium">
+              Пройти тест заново
+            </button>
+            <div>
+              <a
+                href="../index.html"
+                class="text-purple-400 hover:text-purple-300"
+              >
+                Вернуться к списку тестов →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="glass-panel mt-auto py-8 px-6">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+              <p class="text-gray-400">© 2025 BPD tests. Все права защищены.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Questions mapping to attachment dimensions
+      const questions = [
+        {
+          q: "Когда партнер не отвечает на сообщения несколько часов, ваша первая мысль:",
+          d: ["anxiety", "avoidance"],
+          a: "message_response",
+        },
+        {
+          q: "После интимной ночи с новым человеком утром вы чувствуете:",
+          d: ["anxiety", "avoidance", "disorganized"],
+          a: "morning_after",
+        },
+        {
+          q: "В детстве, когда вы плакали или были расстроены, родители чаще всего:",
+          d: ["secure", "anxiety", "avoidance", "disorganized"],
+          a: "childhood_comfort",
+        },
+        {
+          q: "Идеальная дистанция в отношениях для вас — это когда:",
+          d: ["secure", "avoidance"],
+          a: "ideal_distance",
+        },
+        {
+          q: "Когда партнер говорит 'нам нужно поговорить', вы:",
+          d: ["anxiety", "avoidance", "disorganized"],
+          a: "need_to_talk",
+        },
+        {
+          q: "Вы склонны влюбляться в людей, которые:",
+          d: ["anxiety", "avoidance", "fearful_avoidant"],
+          a: "attraction_pattern",
+        },
+        {
+          q: "После ссоры с партнером вам хочется:",
+          d: ["secure", "anxiety", "avoidance", "disorganized"],
+          a: "after_conflict",
+        },
+        {
+          q: "Фраза 'Я люблю тебя' в отношениях:",
+          d: ["secure", "anxiety", "avoidance"],
+          a: "saying_love",
+        },
+        {
+          q: "Когда отношения становятся серьезными, вы:",
+          d: ["secure", "avoidance", "fearful_avoidant"],
+          a: "getting_serious",
+        },
+        {
+          q: "Ваше отношение к личному пространству в паре:",
+          d: ["secure", "anxiety", "avoidance"],
+          a: "personal_space",
+        },
+        {
+          q: "Если партнер хочет познакомить вас с родителями через месяц отношений:",
+          d: ["anxiety", "avoidance", "fearful_avoidant"],
+          a: "meet_parents",
+        },
+        {
+          q: "В отношениях вы чаще всего боитесь:",
+          d: ["anxiety", "avoidance", "fearful_avoidant", "disorganized"],
+          a: "relationship_fear",
+        },
+        {
+          q: "Когда партнер просит больше близости и времени вместе:",
+          d: ["secure", "avoidance", "dismissive"],
+          a: "closeness_request",
+        },
+        {
+          q: "Ваша реакция на неожиданный подарок от партнера:",
+          d: ["secure", "anxiety", "avoidance", "fearful_avoidant"],
+          a: "unexpected_gift",
+        },
+        {
+          q: "В прошлых отношениях партнеры чаще говорили вам:",
+          d: ["anxiety", "avoidance", "dismissive"],
+          a: "partner_feedback",
+        },
+        {
+          q: "Когда вы чувствуете себя уязвимым(ой) в отношениях:",
+          d: ["secure", "avoidance", "fearful_avoidant", "disorganized"],
+          a: "vulnerability",
+        },
+        {
+          q: "Мысль о совместном проживании с партнером вызывает:",
+          d: ["secure", "anxiety", "avoidance"],
+          a: "moving_together",
+        },
+        {
+          q: "Если честно, глубоко внутри вы верите, что:",
+          d: ["secure", "anxiety", "dismissive", "fearful_avoidant"],
+          a: "core_belief",
+        },
+      ];
+
+      // Answer options with scores for different attachment dimensions
+      const answerOptions = {
+        message_response: [
+          {
+            text: "Наверное занят(а), отпишется когда сможет",
+            scores: { secure: 3, anxiety: 0, avoidance: 1 },
+          },
+          {
+            text: "Начинаю переживать — может что-то случилось?",
+            scores: { anxiety: 3, secure: 0, avoidance: 0 },
+          },
+          {
+            text: "Даже не замечаю, у меня свои дела",
+            scores: { avoidance: 3, dismissive: 2, secure: 1 },
+          },
+          {
+            text: "Сразу накручиваю: потерял(а) интерес, нашел(ла) другую",
+            scores: { anxiety: 4, fearful_avoidant: 2 },
+          },
+          {
+            text: "Злюсь, но делаю вид, что все нормально",
+            scores: { disorganized: 3, fearful_avoidant: 2 },
+          },
+        ],
+        morning_after: [
+          {
+            text: "Тепло и спокойствие, хочется обнять",
+            scores: { secure: 4, anxiety: 0, avoidance: 0 },
+          },
+          {
+            text: "Тревогу — увижу ли его(её) снова?",
+            scores: { anxiety: 4, fearful_avoidant: 2 },
+          },
+          {
+            text: "Неловкость, хочется быстрее уйти",
+            scores: { avoidance: 4, dismissive: 2 },
+          },
+          {
+            text: "Панику и желание сбежать",
+            scores: { fearful_avoidant: 4, disorganized: 3 },
+          },
+          {
+            text: "Смесь нежности и страха",
+            scores: { fearful_avoidant: 3, anxiety: 2, disorganized: 2 },
+          },
+        ],
+        childhood_comfort: [
+          { text: "Обнимали и успокаивали", scores: { secure: 4 } },
+          {
+            text: "Говорили 'не плачь' или отвлекали",
+            scores: { avoidance: 3, dismissive: 2 },
+          },
+          {
+            text: "Были непредсказуемы — то жалели, то злились",
+            scores: { disorganized: 4, fearful_avoidant: 3 },
+          },
+          {
+            text: "Игнорировали или уходили",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Тревожились больше меня",
+            scores: { anxiety: 4, disorganized: 2 },
+          },
+        ],
+        ideal_distance: [
+          {
+            text: "Мы независимы, но эмоционально близки",
+            scores: { secure: 4 },
+          },
+          {
+            text: "Мы неразлучны, делимся всем",
+            scores: { anxiety: 4, secure: 1 },
+          },
+          {
+            text: "У каждого своя жизнь, встречаемся когда хочется",
+            scores: { avoidance: 4, dismissive: 3 },
+          },
+          {
+            text: "Близко, но с возможностью отступить",
+            scores: { fearful_avoidant: 4, secure: 1 },
+          },
+          {
+            text: "Зависит от настроения",
+            scores: { disorganized: 4, fearful_avoidant: 2 },
+          },
+        ],
+        need_to_talk: [
+          { text: "Спокойно спрашиваю 'о чем?'", scores: { secure: 4 } },
+          {
+            text: "Паника — меня бросают!",
+            scores: { anxiety: 4, fearful_avoidant: 2 },
+          },
+          {
+            text: "Раздражение — опять драма",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Готовлюсь к худшему",
+            scores: { fearful_avoidant: 4, anxiety: 2 },
+          },
+          { text: "Эмоциональные качели", scores: { disorganized: 4 } },
+        ],
+        attraction_pattern: [
+          { text: "Эмоционально доступны и стабильны", scores: { secure: 4 } },
+          {
+            text: "Немного недоступны, приходится завоевывать",
+            scores: { anxiety: 4, fearful_avoidant: 2 },
+          },
+          {
+            text: "Независимы и самодостаточны как я",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Нуждаются в моей заботе",
+            scores: { anxiety: 3, secure: 1 },
+          },
+          {
+            text: "Сложные и непредсказуемые",
+            scores: { disorganized: 4, fearful_avoidant: 3 },
+          },
+        ],
+        after_conflict: [
+          { text: "Обсудить и помириться", scores: { secure: 4 } },
+          {
+            text: "Немедленно все исправить, извиниться",
+            scores: { anxiety: 4 },
+          },
+          {
+            text: "Побыть в одиночестве",
+            scores: { avoidance: 4, dismissive: 2 },
+          },
+          {
+            text: "Уйти, но потом вернуться",
+            scores: { fearful_avoidant: 4, disorganized: 2 },
+          },
+          {
+            text: "Делать вид, что ничего не было",
+            scores: { dismissive: 3, avoidance: 2 },
+          },
+        ],
+        saying_love: [
+          { text: "Говорю, когда чувствую", scores: { secure: 4 } },
+          {
+            text: "Говорю часто, нужно подтверждение в ответ",
+            scores: { anxiety: 4 },
+          },
+          {
+            text: "Сложно произнести, даже если чувствую",
+            scores: { avoidance: 4, fearful_avoidant: 2 },
+          },
+          {
+            text: "Слова не важны, важны поступки",
+            scores: { dismissive: 4, avoidance: 2 },
+          },
+          {
+            text: "Говорю, потом жалею",
+            scores: { disorganized: 3, fearful_avoidant: 3 },
+          },
+        ],
+        getting_serious: [
+          { text: "Радуюсь углублению связи", scores: { secure: 4 } },
+          {
+            text: "Хочу еще больше близости и гарантий",
+            scores: { anxiety: 4 },
+          },
+          {
+            text: "Начинаю дистанцироваться",
+            scores: { avoidance: 4, dismissive: 3 },
+          },
+          {
+            text: "Одновременно хочу близости и боюсь её",
+            scores: { fearful_avoidant: 4, disorganized: 2 },
+          },
+          {
+            text: "Ищу недостатки в партнере",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+        ],
+        personal_space: [
+          { text: "Важно, но не в ущерб близости", scores: { secure: 4 } },
+          {
+            text: "Готов(а) от него отказаться ради партнера",
+            scores: { anxiety: 4 },
+          },
+          {
+            text: "Это священно и неприкосновенно",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Меняется — то нужно, то душит",
+            scores: { disorganized: 4, fearful_avoidant: 2 },
+          },
+          {
+            text: "Нужно, но чувствую вину за это",
+            scores: { fearful_avoidant: 3, anxiety: 2 },
+          },
+        ],
+        meet_parents: [
+          {
+            text: "Рановато, но если важно для него(неё) — почему нет",
+            scores: { secure: 4 },
+          },
+          {
+            text: "Отлично! Значит все серьезно",
+            scores: { anxiety: 4, secure: 1 },
+          },
+          {
+            text: "Слишком быстро, мне некомфортно",
+            scores: { avoidance: 4, dismissive: 2 },
+          },
+          {
+            text: "Паника, но соглашусь",
+            scores: { fearful_avoidant: 4, anxiety: 2 },
+          },
+          {
+            text: "Найду причину отказаться",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+        ],
+        relationship_fear: [
+          { text: "Потерять себя", scores: { dismissive: 3, avoidance: 4 } },
+          {
+            text: "Быть брошенным(ой)",
+            scores: { anxiety: 4, fearful_avoidant: 3 },
+          },
+          {
+            text: "Быть непонятым(ой)",
+            scores: { secure: 2, fearful_avoidant: 2 },
+          },
+          {
+            text: "Одновременно быть брошенным(ой) и поглощенным(ой)",
+            scores: { fearful_avoidant: 4, disorganized: 3 },
+          },
+          {
+            text: "Повторить паттерны родителей",
+            scores: { disorganized: 4, secure: 1 },
+          },
+        ],
+        closeness_request: [
+          { text: "Обсуждаем компромисс", scores: { secure: 4 } },
+          { text: "С радостью соглашаюсь", scores: { anxiety: 4 } },
+          {
+            text: "Чувствую давление, сопротивляюсь",
+            scores: { avoidance: 4, dismissive: 3 },
+          },
+          {
+            text: "Соглашаюсь, но внутри паникую",
+            scores: { fearful_avoidant: 4, disorganized: 2 },
+          },
+          {
+            text: "Объясняю, что мне достаточно как есть",
+            scores: { dismissive: 4, secure: 1 },
+          },
+        ],
+        unexpected_gift: [
+          { text: "Искренне радуюсь и благодарю", scores: { secure: 4 } },
+          {
+            text: "Счастлив(а), но переживаю что мой подарок хуже",
+            scores: { anxiety: 4, fearful_avoidant: 1 },
+          },
+          {
+            text: "Неловко, не люблю сюрпризы",
+            scores: { avoidance: 3, dismissive: 2 },
+          },
+          {
+            text: "Подозреваю скрытые мотивы",
+            scores: { fearful_avoidant: 4, disorganized: 3 },
+          },
+          {
+            text: "Говорю, что не нужно было",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+        ],
+        partner_feedback: [
+          {
+            text: "Что я слишком требователен(льна) и ревнив(а)",
+            scores: { anxiety: 4 },
+          },
+          {
+            text: "Что я холодный(ая) и отстраненный(ая)",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Что со мной сложно",
+            scores: { fearful_avoidant: 4, disorganized: 3 },
+          },
+          { text: "Что я надежный(ая) партнер", scores: { secure: 4 } },
+          {
+            text: "Противоречивые вещи",
+            scores: { disorganized: 4, fearful_avoidant: 2 },
+          },
+        ],
+        vulnerability: [
+          { text: "Делюсь с партнером", scores: { secure: 4 } },
+          { text: "Еще больше цепляюсь за партнера", scores: { anxiety: 4 } },
+          {
+            text: "Закрываюсь и справляюсь сам(а)",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Хочу поддержки, но не могу попросить",
+            scores: { fearful_avoidant: 4, avoidance: 2 },
+          },
+          {
+            text: "Показываю то злость, то слезы",
+            scores: { disorganized: 4, anxiety: 2 },
+          },
+        ],
+        moving_together: [
+          { text: "Радость, если мы оба готовы", scores: { secure: 4 } },
+          { text: "Восторг! Наконец-то!", scores: { anxiety: 4, secure: 1 } },
+          {
+            text: "Тревогу о потере свободы",
+            scores: { avoidance: 4, dismissive: 3 },
+          },
+          {
+            text: "Хочу, но боюсь",
+            scores: { fearful_avoidant: 4, anxiety: 2 },
+          },
+          {
+            text: "Это конец моей независимости",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+        ],
+        core_belief: [
+          {
+            text: "Любовь существует и я её достоин(на)",
+            scores: { secure: 4 },
+          },
+          {
+            text: "Я недостаточно хорош(а), чтобы меня любили",
+            scores: { anxiety: 4, fearful_avoidant: 3 },
+          },
+          {
+            text: "Полагаться можно только на себя",
+            scores: { dismissive: 4, avoidance: 3 },
+          },
+          {
+            text: "Хочу близости, но люди опасны",
+            scores: { fearful_avoidant: 4, disorganized: 3 },
+          },
+          { text: "Отношения — это хаос", scores: { disorganized: 4 } },
+        ],
+      };
+
+      // Attachment style descriptions
+      const attachmentStyles = {
+        secure: {
+          name: "Надежный тип привязанности",
+          emoji: "🌟",
+          color: "#10b981",
+          description:
+            "Вы обладаете здоровой моделью привязанности. Вам комфортно с близостью и независимостью, вы умеете доверять и быть уязвимым в отношениях.",
+          percentage: 0,
+        },
+        anxiety: {
+          name: "Тревожный тип привязанности",
+          emoji: "💔",
+          color: "#ef4444",
+          description:
+            "Вы жаждете близости, но боитесь быть покинутым. Часто ищете подтверждения любви и можете быть эмоционально зависимым.",
+          percentage: 0,
+        },
+        avoidance: {
+          name: "Избегающий тип привязанности",
+          emoji: "🛡️",
+          color: "#3b82f6",
+          description:
+            "Вы цените независимость и самодостаточность. Близость может вызывать дискомфорт, вы предпочитаете держать эмоциональную дистанцию.",
+          percentage: 0,
+        },
+        dismissive: {
+          name: "Избегающе-отвергающий тип",
+          emoji: "🚪",
+          color: "#6366f1",
+          description:
+            "Вы крайне самодостаточны и не нуждаетесь в близких отношениях. Считаете себя сильнее других и редко показываете уязвимость.",
+          percentage: 0,
+        },
+        fearful_avoidant: {
+          name: "Тревожно-избегающий тип",
+          emoji: "🎭",
+          color: "#a855f7",
+          description:
+            "Вы одновременно жаждете и боитесь близости. Хотите близких отношений, но страх быть раненым заставляет держать дистанцию.",
+          percentage: 0,
+        },
+        disorganized: {
+          name: "Дезорганизованный тип",
+          emoji: "🌀",
+          color: "#ec4899",
+          description:
+            "Ваш стиль привязанности хаотичен и непредсказуем. Часто это результат травматичного опыта в детстве.",
+          percentage: 0,
+        },
+      };
+
+      const testContainer = document.getElementById("test-container");
+      const resultsContainer = document.getElementById("results-container");
+      const form = document.getElementById("attachment-test-form");
+      const storageKey = "attachmentTestAnswers";
+
+      let answeredQuestions = 0;
+
+      // Lenis Smooth Scroll
+      const lenis = new Lenis({
+        lerp: 0.07,
+        smoothWheel: true,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      function saveState() {
+        const formData = new FormData(form);
+        const answers = {};
+        for (const [name, value] of formData.entries()) {
+          answers[name] = value;
+        }
+        localStorage.setItem(storageKey, JSON.stringify(answers));
+      }
+
+      function loadState() {
+        const savedAnswers = localStorage.getItem(storageKey);
+        if (savedAnswers) {
+          const answers = JSON.parse(savedAnswers);
+          Object.entries(answers).forEach(([name, value]) => {
+            const radio = form.querySelector(
+              `input[name="${name}"][value="${value}"]`
+            );
+            if (radio) {
+              radio.checked = true;
+              const container = radio.closest(".grid");
+              container
+                .querySelectorAll(".option-card")
+                .forEach((card) => card.classList.remove("selected"));
+              radio.parentElement.classList.add("selected");
+
+              const questionBlock = radio.closest(".question-block");
+              if (!questionBlock.hasAttribute("data-answered")) {
+                questionBlock.setAttribute("data-answered", "true");
+                answeredQuestions++;
+              }
+            }
+          });
+          updateProgress();
+        }
+      }
+
+      function updateProgress() {
+        const progress = (answeredQuestions / questions.length) * 100;
+        document.getElementById("progress-fill").style.width = progress + "%";
+      }
+
+      function renderQuestions() {
+        form.innerHTML = "";
+        questions.forEach((qData, index) => {
+          const block = document.createElement("div");
+          block.className = "question-block fade-in";
+          block.style.animationDelay = `${index * 0.03}s`;
+
+          const questionText = document.createElement("p");
+          questionText.className = "font-medium text-lg text-gray-100 mb-4";
+          questionText.textContent = `${index + 1}. ${qData.q}`;
+          block.appendChild(questionText);
+
+          const optionsContainer = document.createElement("div");
+          optionsContainer.className = "grid grid-cols-1 gap-3";
+
+          const currentAnswerSet = answerOptions[qData.a];
+
+          currentAnswerSet.forEach((opt, optIndex) => {
+            const label = document.createElement("label");
+            label.className =
+              "option-card p-4 rounded-xl cursor-pointer flex items-center";
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = `q${index}`;
+            radio.value = optIndex;
+            radio.required = true;
+            label.appendChild(radio);
+            label.append(opt.text);
+            optionsContainer.appendChild(label);
+          });
+
+          block.appendChild(optionsContainer);
+          form.appendChild(block);
+        });
+        loadState();
+      }
+
+      form.addEventListener("change", (e) => {
+        if (e.target.type === "radio") {
+          const container = e.target.closest(".grid");
+          container
+            .querySelectorAll(".option-card")
+            .forEach((card) => card.classList.remove("selected"));
+          e.target.parentElement.classList.add("selected");
+
+          const questionBlock = e.target.closest(".question-block");
+          if (!questionBlock.hasAttribute("data-answered")) {
+            questionBlock.setAttribute("data-answered", "true");
+            answeredQuestions++;
+            updateProgress();
+          }
+          saveState();
+        }
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (answeredQuestions < questions.length) {
+          const unansweredBlock = form.querySelector(
+            ".question-block:not([data-answered])"
+          );
+          if (unansweredBlock) {
+            lenis.scrollTo(unansweredBlock, { offset: -150 });
+          }
+          return;
+        }
+        const scores = calculateScores();
+        renderResults(scores);
+        localStorage.removeItem(storageKey);
+      });
+
+      function calculateScores() {
+        const formData = new FormData(form);
+        let styleScores = {};
+
+        // Initialize scores
+        Object.keys(attachmentStyles).forEach((style) => {
+          styleScores[style] = 0;
+        });
+
+        // Calculate scores based on answers
+        questions.forEach((q, index) => {
+          const answerIndex = parseInt(formData.get(`q${index}`), 10);
+          if (!isNaN(answerIndex)) {
+            const answer = answerOptions[q.a][answerIndex];
+            if (answer && answer.scores) {
+              Object.entries(answer.scores).forEach(([style, score]) => {
+                if (styleScores.hasOwnProperty(style)) {
+                  styleScores[style] += score;
+                }
+              });
+            }
+          }
+        });
+
+        // Calculate percentages
+        const maxPossibleScore = questions.length * 4;
+        Object.keys(styleScores).forEach((style) => {
+          attachmentStyles[style].percentage = Math.round(
+            (styleScores[style] / maxPossibleScore) * 100
+          );
+        });
+
+        return attachmentStyles;
+      }
+
+      function renderResults(styles) {
+        testContainer.classList.add("fade-out");
+        testContainer.addEventListener(
+          "animationend",
+          () => {
+            testContainer.classList.add("hidden");
+            resultsContainer.classList.remove("hidden");
+            resultsContainer.classList.add("fade-in");
+            lenis.scrollTo(0);
+          },
+          { once: true }
+        );
+
+        // Find primary attachment style
+        let primaryStyle = null;
+        let maxPercentage = 0;
+        Object.entries(styles).forEach(([key, style]) => {
+          if (style.percentage > maxPercentage) {
+            maxPercentage = style.percentage;
+            primaryStyle = { key, ...style };
+          }
+        });
+
+        // Render primary style
+        const primaryStyleEl = document.getElementById("primary-style");
+        primaryStyleEl.innerHTML = `
+          <h3 class="text-2xl font-bold mb-4" style="color: ${primaryStyle.color}">
+            ${primaryStyle.emoji} ${primaryStyle.name}
+          </h3>
+          <p class="text-gray-300 text-lg mb-4">${primaryStyle.description}</p>
+          <div class="text-3xl font-bold" style="color: ${primaryStyle.color}">
+            ${primaryStyle.percentage}% выраженность
+          </div>
+        `;
+
+        // Create radar chart
+        const ctx = document.getElementById("attachmentRadar").getContext("2d");
+        const labels = Object.values(styles).map((s) => s.name.split(" ")[0]);
+        const data = Object.values(styles).map((s) => s.percentage);
+        const colors = Object.values(styles).map((s) => s.color);
+
+        new Chart(ctx, {
+          type: "radar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Ваш профиль",
+                data: data,
+                fill: true,
+                backgroundColor: "rgba(168, 85, 247, 0.2)",
+                borderColor: "rgb(168, 85, 247)",
+                pointBackgroundColor: colors,
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: colors,
+                pointRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            elements: {
+              line: {
+                borderWidth: 3,
+              },
+            },
+            scales: {
+              r: {
+                angleLines: {
+                  display: true,
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                pointLabels: {
+                  color: "white",
+                  font: {
+                    size: 11,
+                  },
+                },
+                ticks: {
+                  display: false,
+                },
+                suggestedMin: 0,
+                suggestedMax: 100,
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+          },
+        });
+
+        // Render detailed analysis
+        const detailedAnalysis = document.getElementById("detailed-analysis");
+        detailedAnalysis.innerHTML = "";
+
+        Object.entries(styles)
+          .sort((a, b) => b[1].percentage - a[1].percentage)
+          .forEach(([key, style], index) => {
+            if (style.percentage > 20) {
+              const card = document.createElement("div");
+              card.className = "attachment-card fade-in";
+              card.style.animationDelay = `${index * 0.1}s`;
+              card.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                  <h4 class="text-xl font-bold flex items-center">
+                    <span class="text-2xl mr-3">${style.emoji}</span>
+                    <span style="color: ${style.color}">${style.name}</span>
+                  </h4>
+                  <span class="font-bold text-lg" style="color: ${style.color}">${style.percentage}%</span>
+                </div>
+                <div class="mb-3">
+                  <div class="w-full bg-gray-700 rounded-full h-2">
+                    <div class="h-2 rounded-full transition-all duration-1000" 
+                         style="width: ${style.percentage}%; background-color: ${style.color}"></div>
+                  </div>
+                </div>
+                <p class="text-gray-400 text-sm">${style.description}</p>
+              `;
+              detailedAnalysis.appendChild(card);
+            }
+          });
+
+        // Render relationship patterns
+        const patternsContent = document.getElementById("patterns-content");
+        patternsContent.innerHTML = getRelationshipPatterns(
+          primaryStyle.key,
+          styles
+        );
+
+        // Render growth path
+        const growthContent = document.getElementById("growth-content");
+        growthContent.innerHTML = getGrowthPath(primaryStyle.key, styles);
+      }
+
+      function getRelationshipPatterns(primaryType, allStyles) {
+        const patterns = {
+          secure: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Сильные стороны:</strong> Вы легко устанавливаете близость и доверие</li>
+              <li>• <strong>В конфликтах:</strong> Конструктивно решаете проблемы</li>
+              <li>• <strong>Совместимость:</strong> Хорошо уживаетесь со всеми типами</li>
+              <li>• <strong>Триггеры:</strong> Редко испытываете иррациональные страхи</li>
+            </ul>
+          `,
+          anxiety: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Сильные стороны:</strong> Глубокая эмоциональная вовлеченность</li>
+              <li>• <strong>В конфликтах:</strong> Можете преувеличивать угрозы отношениям</li>
+              <li>• <strong>Совместимость:</strong> Лучше всего с надежным типом</li>
+              <li>• <strong>Триггеры:</strong> Задержки ответов, изменения в поведении партнера</li>
+              <li>• <strong>Паттерн:</strong> "Протестное поведение" для привлечения внимания</li>
+            </ul>
+          `,
+          avoidance: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Сильные стороны:</strong> Независимость и самодостаточность</li>
+              <li>• <strong>В конфликтах:</strong> Склонны уходить и замыкаться</li>
+              <li>• <strong>Совместимость:</strong> Сложности с тревожным типом</li>
+              <li>• <strong>Триггеры:</strong> Требования большей близости</li>
+              <li>• <strong>Паттерн:</strong> Деактивация привязанности при стрессе</li>
+            </ul>
+          `,
+          dismissive: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Сильные стороны:</strong> Эмоциональная стабильность</li>
+              <li>• <strong>В конфликтах:</strong> Минимизируют важность проблем</li>
+              <li>• <strong>Совместимость:</strong> Трудности с эмоциональной близостью</li>
+              <li>• <strong>Триггеры:</strong> Эмоциональные требования партнера</li>
+              <li>• <strong>Паттерн:</strong> Идеализация одиночества</li>
+            </ul>
+          `,
+          fearful_avoidant: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Сильные стороны:</strong> Глубина чувств и понимание сложности отношений</li>
+              <li>• <strong>В конфликтах:</strong> Колебания между сближением и отдалением</li>
+              <li>• <strong>Совместимость:</strong> Нужен терпеливый и понимающий партнер</li>
+              <li>• <strong>Триггеры:</strong> Любая угроза отвержения или поглощения</li>
+              <li>• <strong>Паттерн:</strong> "Приходи ближе / уходи" динамика</li>
+            </ul>
+          `,
+          disorganized: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Сильные стороны:</strong> Способность к глубоким трансформациям</li>
+              <li>• <strong>В конфликтах:</strong> Непредсказуемые реакции</li>
+              <li>• <strong>Совместимость:</strong> Нужна профессиональная поддержка</li>
+              <li>• <strong>Триггеры:</strong> Ситуации, напоминающие травму</li>
+              <li>• <strong>Паттерн:</strong> Хаотичные эмоциональные состояния</li>
+            </ul>
+          `,
+        };
+        return patterns[primaryType] || patterns.secure;
+      }
+
+      function getGrowthPath(primaryType, allStyles) {
+        const paths = {
+          secure: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• Продолжайте развивать эмоциональный интеллект</li>
+              <li>• Помогайте партнеру чувствовать себя в безопасности</li>
+              <li>• Используйте свою стабильность для поддержки других</li>
+            </ul>
+          `,
+          anxiety: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Самоуспокоение:</strong> Развивайте техники эмоциональной регуляции</li>
+              <li>• <strong>Пауза перед реакцией:</strong> Дайте себе время обдумать, реальна ли угроза</li>
+              <li>• <strong>Личные границы:</strong> Сохраняйте собственные интересы вне отношений</li>
+              <li>• <strong>Работа с самооценкой:</strong> Вы достойны любви независимо от поведения партнера</li>
+              <li>• <strong>Терапия:</strong> EFT (эмоционально-фокусированная терапия) особенно эффективна</li>
+            </ul>
+          `,
+          avoidance: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Признание потребности в близости:</strong> Это не слабость, а человеческая природа</li>
+              <li>• <strong>Постепенное раскрытие:</strong> Делитесь чувствами малыми шагами</li>
+              <li>• <strong>Остановка деактивации:</strong> Замечайте, когда начинаете отдаляться</li>
+              <li>• <strong>Практика уязвимости:</strong> Позвольте партнеру видеть настоящего вас</li>
+              <li>• <strong>Работа с детскими воспоминаниями:</strong> Исследуйте корни недоверия</li>
+            </ul>
+          `,
+          dismissive: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Признание важности отношений:</strong> Связь с другими — это не слабость</li>
+              <li>• <strong>Развитие эмпатии:</strong> Учитесь видеть перспективу партнера</li>
+              <li>• <strong>Выражение эмоций:</strong> Практикуйтесь называть свои чувства</li>
+              <li>• <strong>Принятие помощи:</strong> Позвольте другим заботиться о вас</li>
+              <li>• <strong>Терапия:</strong> Работа с сопротивлением близости</li>
+            </ul>
+          `,
+          fearful_avoidant: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Стабилизация:</strong> Работа с эмоциональными качелями</li>
+              <li>• <strong>Mindfulness:</strong> Осознанность помогает замечать триггеры</li>
+              <li>• <strong>Безопасность в теле:</strong> Соматические практики для регуляции</li>
+              <li>• <strong>Постоянство объекта:</strong> Помните, что партнер существует, даже когда его нет рядом</li>
+              <li>• <strong>Длительная терапия:</strong> DBT или схема-терапия могут быть очень эффективны</li>
+            </ul>
+          `,
+          disorganized: `
+            <ul class="space-y-3 text-gray-300">
+              <li>• <strong>Профессиональная помощь:</strong> Обязательна работа с травма-информированным терапевтом</li>
+              <li>• <strong>Стабилизация нервной системы:</strong> EMDR, соматическая терапия</li>
+              <li>• <strong>Создание безопасности:</strong> Работа с внутренними частями</li>
+              <li>• <strong>Психообразование:</strong> Понимание влияния травмы</li>
+              <li>• <strong>Группы поддержки:</strong> Связь с другими выжившими</li>
+            </ul>
+          `,
+        };
+        return paths[primaryType] || paths.secure;
+      }
+
+      // Initialize test
+      document.addEventListener("DOMContentLoaded", () => {
+        renderQuestions();
+      });
+    </script>
+  </body>
+</html>

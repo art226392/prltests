@@ -179,6 +179,10 @@
         transition: all 0.4s ease;
         cursor: pointer;
       }
+      .btn-premium:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
       .progress-container {
         position: sticky;
         top: 80px;
@@ -302,6 +306,41 @@
         border-radius: 8px;
         transition: width 1s ease-out;
         box-shadow: 0 0 15px var(--bar-color);
+      }
+      /* --- Review Section Styles --- */
+      .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      .star-rating input {
+        display: none;
+      }
+      .star-rating label {
+        font-size: 3rem;
+        color: #4a4a4a;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+      .star-rating input:checked ~ label,
+      .star-rating label:hover,
+      .star-rating label:hover ~ label {
+        color: #f59e0b;
+      }
+      textarea.review-textarea {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 1rem;
+        width: 100%;
+        min-height: 120px;
+        color: #fff;
+        transition: border-color 0.3s ease;
+      }
+      textarea.review-textarea:focus {
+        outline: none;
+        border-color: #8b5cf6;
       }
     </style>
   </head>
@@ -698,7 +737,6 @@
           );
         });
 
-        // The rest of the functions (saveState, loadState, etc.) remain the same
         function saveState() {
           const formData = new FormData(form);
           const answers = {};
@@ -899,6 +937,28 @@
                 <h3 class="text-2xl font-bold text-center mb-8">Детальная разбивка по критериям</h3>
                 <div id="detailed-interpretation-placeholder" class="space-y-6"></div>
               </div>
+
+              <!-- Review Section Start -->
+              <div id="review-section" class="mt-12 glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+                  <h3 class="text-2xl font-bold text-center mb-2">Оцените этот тест</h3>
+                  <p class="text-gray-400 text-center mb-6">Ваш отзыв поможет нам стать лучше</p>
+                  <div id="review-form-container">
+                      <div class="star-rating mb-6">
+                          <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+                          <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+                          <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+                          <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+                          <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+                      </div>
+                      <textarea id="review-text" class="review-textarea mb-6" placeholder="Напишите ваш отзыв здесь... (необязательно)"></textarea>
+                      <div class="text-center">
+                          <button id="submit-review-btn" class="btn-premium">Отправить отзыв</button>
+                      </div>
+                  </div>
+                  <div id="review-message" class="text-center text-green-400 font-semibold text-lg hidden"></div>
+              </div>
+              <!-- Review Section End -->
+
               <div class="mt-12 text-center space-y-4">
                 <button onclick="location.reload()" class="btn-premium">Пройти тест заново</button>
                 <div><a href="../../index.html" class="text-purple-400 hover:text-purple-300">Вернуться к списку тестов →</a></div>
@@ -939,6 +999,65 @@
                 bar.style.width = `${percentage}%`;
               });
           }, 100);
+
+          // Add event listener for the new review form
+          setupReviewForm();
+        }
+
+        function setupReviewForm() {
+          const submitBtn = document.getElementById("submit-review-btn");
+          const reviewFormContainer = document.getElementById(
+            "review-form-container"
+          );
+          const reviewMessage = document.getElementById("review-message");
+
+          submitBtn.addEventListener("click", () => {
+            const ratingInput = document.querySelector(
+              'input[name="rating"]:checked'
+            );
+            const reviewText = document.getElementById("review-text").value;
+
+            if (!ratingInput) {
+              alert("Пожалуйста, поставьте оценку.");
+              return;
+            }
+
+            const rating = parseInt(ratingInput.value, 10);
+
+            // !!! ВАЖНО: Замените URL на адрес вашей Cloud Function после развертывания
+            const functionUrl =
+              "https://us-central1-your-project-id.cloudfunctions.net/submitReview";
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Отправка...";
+
+            fetch(functionUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ rating: rating, text: reviewText }),
+            })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return response.json();
+              })
+              .then((data) => {
+                reviewFormContainer.classList.add("hidden");
+                reviewMessage.textContent = "Спасибо за ваш отзыв!";
+                reviewMessage.classList.remove("hidden");
+              })
+              .catch((error) => {
+                console.error("Error submitting review:", error);
+                reviewMessage.textContent =
+                  "Произошла ошибка. Попробуйте позже.";
+                reviewMessage.classList.remove("hidden", "text-green-400");
+                reviewMessage.classList.add("text-red-400");
+                reviewFormContainer.classList.add("hidden");
+              });
+          });
         }
       });
     </script>

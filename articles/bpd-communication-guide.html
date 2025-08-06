@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Как объяснить ПРЛ близким: гайд по выживанию - BPD tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Roboto+Slab:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #02000a;
+        color: #e5e7eb;
+        overflow-x: hidden;
+      }
+      .stars-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1b2735 0%,
+          #090a0f 100%
+        );
+        overflow: hidden;
+      }
+      .header-font {
+        font-family: "Playfair Display", serif;
+      }
+      .body-font {
+        font-family: "Roboto Slab", serif;
+      }
+      .glass-card {
+        background: rgba(20, 20, 22, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .gradient-text {
+        background: linear-gradient(
+          125deg,
+          #22d3ee 0%,
+          #34d399 50%,
+          #a3e635 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .article-content {
+        background: rgba(5, 15, 10, 0.75);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 2.5rem 3.5rem;
+        box-shadow: 0 0 60px rgba(34, 197, 94, 0.2),
+          0 0 100px rgba(163, 230, 53, 0.1);
+      }
+      .article-content h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        border-left: 4px solid #34d399;
+        padding-left: 1rem;
+        color: #f9fafb;
+      }
+      .article-content p {
+        font-family: "Roboto Slab", serif;
+        font-size: 1.125rem;
+        line-height: 1.9;
+        margin-bottom: 1.5rem;
+        color: #d1d5db;
+        text-align: justify;
+      }
+      .article-body > p:first-of-type::first-letter {
+        font-family: "Playfair Display", serif;
+        font-size: 5rem;
+        float: left;
+        line-height: 0.8;
+        padding-right: 0.75rem;
+        padding-bottom: 0.25rem;
+        color: #6ee7b7;
+        font-weight: 900;
+      }
+      .article-content blockquote {
+        border-left: 4px solid #22d3ee;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        font-size: 1.25rem;
+        font-family: "Playfair Display", serif;
+        color: #a5f3fc;
+      }
+      .article-content hr {
+        border-color: rgba(255, 255, 255, 0.1);
+        margin: 3rem 0;
+      }
+      .article-content ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 1.5rem;
+        font-family: "Roboto Slab", serif;
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: #d1d5db;
+      }
+      .article-content li {
+        margin-bottom: 1rem;
+        padding-left: 2rem;
+        position: relative;
+      }
+      .article-content li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #34d399;
+        font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        .article-content {
+          padding: 1.5rem;
+        }
+        .article-content h1 {
+          font-size: 2.5rem;
+        }
+        .article-content h2 {
+          font-size: 1.75rem;
+        }
+        .article-content p {
+          font-size: 1rem;
+          line-height: 1.8;
+        }
+        .article-body > p:first-of-type::first-letter {
+          font-size: 4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars-container"></div>
+
+    <!-- Navigation -->
+    <nav
+      class="glass-card fixed top-4 left-4 right-4 max-w-7xl mx-auto z-50 px-6 py-4 rounded-2xl"
+    >
+      <div class="flex justify-between items-center">
+        <a href="../index.html" class="flex items-center space-x-3">
+          <div
+            class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
+          >
+            <span class="text-white font-bold text-xl">Ψ</span>
+          </div>
+          <span class="text-xl font-semibold">BPD tests</span>
+        </a>
+        <a href="index.html" class="hover:text-cyan-400">← Все статьи</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto max-w-4xl px-4 pt-40 pb-24 relative z-10">
+      <article class="article-content">
+        <header class="text-center mb-12">
+          <p class="text-cyan-400 font-semibold mb-2">Психология личности</p>
+          <h1
+            class="header-font text-4xl md:text-6xl font-bold mb-4 leading-tight"
+          >
+            <span class="gradient-text"
+              >Как объяснить, что с тобой происходит:</span
+            >
+            гайд по выживанию в социуме для человека с ПРЛ
+          </h1>
+          <p class="text-gray-400 mt-4">Дата публикации: 6 августа 2025 г.</p>
+        </header>
+
+        <div class="article-body">
+          <p>
+            «Просто успокойся», «Ты опять всё преувеличиваешь», «Почему ты не
+            можешь быть нормальным(ой)?». Если у вас пограничное расстройство
+            личности (ПРЛ), вы, вероятно, слышали эти фразы чаще, чем
+            собственное имя. Жить с ПРЛ — это как находиться в эпицентре
+            эмоционального урагана, но для окружающих небо может казаться
+            абсолютно ясным. Эта пропасть в восприятии рождает одиночество, стыд
+            и ведет к социальной изоляции. Объяснить близким невидимую бурю
+            внутри — одна из самых сложных задач. Но это возможно. Этот гайд —
+            ваша карта и компас.
+          </p>
+
+          <hr />
+
+          <h2>Почему это так сложно?</h2>
+          <p>
+            Прежде чем строить мосты, нужно понять, почему между вами и вашими
+            близкими образовалась пропасть. Во-первых, ПРЛ — это «невидимое»
+            расстройство. У вас нет гипса на душе или сыпи на эмоциях. Ваша боль
+            внутренняя, и людям сложно сопереживать тому, чего они не видят.
+            Во-вторых, стигма. Медиа часто изображают людей с ПРЛ как
+            манипулятивных и опасных, что далеко от истины и создает предвзятое
+            отношение. И, наконец, главная причина — страх. Вы боитесь, что вас
+            не поймут, осудят или, что хуже всего, отвергнут, если увидят
+            настоящего вас. Этот страх парализует и заставляет молчать.
+          </p>
+
+          <h2>Метафоры, которые работают</h2>
+          <p>
+            Пытаться объяснить ПРЛ сухими терминами из DSM-5 — все равно что
+            читать лекцию по квантовой физике на детском утреннике. Используйте
+            простые и понятные метафоры, которые обращаются к чувствам, а не к
+            знаниям.
+          </p>
+          <blockquote>
+            Ваша цель — не сделать из близкого человека психиатра, а дать ему
+            почувствовать отголосок ваших переживаний.
+          </blockquote>
+          <ul>
+            <li>
+              <strong>Эмоциональный ожог третьей степени.</strong> «Представь,
+              что у меня нет одного слоя кожи. Любое прикосновение, даже самое
+              нежное, может причинить адскую боль. То же самое с моими эмоциями.
+              Нейтральная для тебя фраза может ранить меня до глубины души. Я не
+              хочу так реагировать, но моя нервная система так устроена».
+            </li>
+            <li>
+              <strong>Сломанный регулятор громкости.</strong> «У большинства
+              людей есть регулятор громкости эмоций. Они могут чувствовать
+              легкую грусть или небольшое раздражение. Мой регулятор сломан. Он
+              работает только в двух режимах: 0 (пустота) и 100 (всепоглощающая
+              эмоция). Промежуточных значений почти нет».
+            </li>
+            <li>
+              <strong>Эмоциональные американские горки без ремней.</strong> «Мое
+              настроение может меняться за считанные минуты без видимой причины.
+              Это как американские горки, на которые меня посадили без ремней
+              безопасности. Я не контролирую эти взлеты и падения, и это очень
+              страшно и изматывающе».
+            </li>
+          </ul>
+
+          <hr />
+
+          <h2>Подготовка к разговору</h2>
+          <p>
+            Спонтанный разговор на пике эмоций обречен на провал. Подготовка —
+            ваш ключ к успеху.
+          </p>
+          <ul>
+            <li>
+              <strong>Выберите правильного человека.</strong> Не нужно
+              рассказывать всем подряд. Начните с одного человека, которому вы
+              больше всего доверяете и который, как вам кажется, способен к
+              эмпатии.
+            </li>
+            <li>
+              <strong>Выберите время и место.</strong> Никаких разговоров на
+              бегу или во время семейного ужина. Выберите спокойное время, когда
+              вас никто не будет торопить, и уединенное место, где вы оба
+              чувствуете себя в безопасности.
+            </li>
+            <li>
+              <strong>Определите цель.</strong> Чего вы хотите достичь? Чтобы
+              вас просто выслушали? Чтобы поняли конкретную модель поведения?
+              Чтобы оказали определенный вид поддержки? Четкая цель поможет не
+              сбиться с пути.
+            </li>
+            <li>
+              <strong>Напишите тезисы.</strong> В состоянии волнения легко
+              забыть важные вещи. Набросайте на бумаге или в телефоне ключевые
+              моменты, которые хотите донести.
+            </li>
+          </ul>
+
+          <h2>Что и как говорить: примерный сценарий</h2>
+          <p>
+            Начните с выражения доверия. Это сразу настраивает собеседника на
+            нужный лад.
+          </p>
+          <p>
+            <strong>Шаг 1: Начало.</strong>
+            <em
+              >«Я хочу поговорить с тобой о чем-то очень важном для меня. Мне
+              сложно, но я тебе доверяю, поэтому хочу поделиться. В последнее
+              время ты мог(ла) заметить, что я бываю очень разным(ой)...»</em
+            >
+          </p>
+          <p>
+            <strong>Шаг 2: Используйте метафору.</strong>
+            <em
+              >«У меня есть диагноз — пограничное расстройство личности. Звучит
+              страшно, но если просто, то мои эмоции похожи на оголенный нерв
+              или ожог. Они намного интенсивнее, чем у большинства людей».</em
+            >
+          </p>
+          <p>
+            <strong>Шаг 3: Объясните конкретное поведение.</strong> Свяжите
+            метафору с реальными ситуациями.
+            <em
+              >«Помнишь, на прошлой неделе ты сказал(а) [конкретная фраза], и я
+              внезапно замолчал(а) и ушел(ла)? Это не потому, что я злился на
+              тебя. Просто эти слова для меня прозвучали как крик, и мне нужно
+              было время, чтобы прийти в себя. Это тот самый 'ожог'».</em
+            >
+          </p>
+          <p>
+            <strong>Шаг 4: Сформулируйте потребность.</strong> Скажите прямо,
+            чего вы ждете.
+            <em
+              >«Мне не нужны советы, как 'стать проще' или 'не накручивать
+              себя'. Самое ценное, что ты можешь сделать — это просто выслушать
+              и, может быть, сказать: 'Я вижу, как тебе больно, и я рядом'. Это
+              помогает мне почувствовать, что я не один(на)».</em
+            >
+          </p>
+
+          <hr />
+
+          <h2>Установка границ: защита своего мира</h2>
+          <p>
+            Даже самые любящие люди могут по незнанию причинить боль. Ваша
+            задача — научить их, как с вами обращаться. Это и есть здоровые
+            границы.
+          </p>
+          <ul>
+            <li>
+              <strong>Право на паузу.</strong> Вы не обязаны объяснять свое
+              состояние 24/7. Научитесь говорить: «Спасибо за твое беспокойство,
+              но сейчас у меня нет сил говорить об этом. Давай вернемся к этому
+              позже».
+            </li>
+            <li>
+              <strong>Стоп-слова.</strong> Договоритесь о стоп-словах или
+              фразах, которые сигнализируют о том, что разговор становится для
+              вас слишком тяжелым. Например: «Мне нужна пауза».
+            </li>
+            <li>
+              <strong>Ограничение общения.</strong> Если кто-то из вашего
+              окружения систематически обесценивает ваши чувства, несмотря на
+              все ваши попытки объяснить, вы имеете полное право ограничить
+              общение с этим человеком ради собственного выживания.
+            </li>
+          </ul>
+          <p>
+            Рассказать о своем ПРЛ — это акт невероятной смелости. Не все и не
+            сразу вас поймут, и это нормально. Но даже один человек, который
+            постарается заглянуть за стену ваших симптомов и увидеть вашу боль,
+            может изменить все. Этот разговор — не признание в слабости, а шаг к
+            построению подлинной близости и созданию безопасного пространства, в
+            котором вы сможете исцеляться.
+          </p>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

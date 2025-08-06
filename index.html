@@ -139,6 +139,9 @@
 
     <style>
       /* Critical CSS - inline for instant render */
+      html {
+        scroll-behavior: smooth;
+      }
       * {
         margin: 0;
         padding: 0;
@@ -410,7 +413,7 @@
       >
         <div class="flex justify-between items-center">
           <a
-            href="https://bpd-tests.com/"
+            href="/"
             class="flex items-center space-x-3"
             aria-label="BPD Tests Homepage"
           >
@@ -475,106 +478,387 @@
               <!-- Новый тест: Анализ Нейромедиаторов -->
               <a
                 href="tests/neuro-test.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 10V9a3 3 0 013-3v0a3 3 0 013 3v1"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm font-semibold"
+                      >Научный</span
+                    >
+                  </div>
+                  <!-- SEO: Use <h3> for card titles within a section -->
+                  <h3 class="text-2xl font-bold mb-3">
+                    Анализ Нейромедиаторов
+                  </h3>
+                  <p class="text-gray-400 mb-6">
+                    Оцените баланс 8 ключевых нейросистем: от дофамина и
+                    серотонина до эндорфинов и ГАМК.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.8 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 96%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.8</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >15-20 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >35 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
+                      class="hover-arrow w-6 h-6 text-cyan-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 10V9a3 3 0 013-3v0a3 3 0 013 3v1"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-sm font-semibold"
-                    >Научный</span
-                  >
-                </div>
-                <!-- SEO: Use <h3> for card titles within a section -->
-                <h3 class="text-2xl font-bold mb-3">Анализ Нейромедиаторов</h3>
-                <p class="text-gray-400 mb-6">
-                  Оцените баланс 8 ключевых нейросистем: от дофамина и
-                  серотонина до эндорфинов и ГАМК.
-                </p>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >15-20 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >35 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-cyan-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
 
               <!-- Спектр Личности -->
               <a
                 href="tests/comorbid.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-fuchsia-500 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-fuchsia-500 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-fuchsia-500/20 text-fuchsia-400 rounded-full text-sm font-semibold"
+                      >Популярный</span
+                    >
+                  </div>
+                  <h3 class="text-2xl font-bold mb-3">Спектр Личности</h3>
+                  <p class="text-gray-400 mb-6">
+                    Клинически-ориентированный анализ сопутствующих расстройств.
+                    Оценка по 10 категориям: депрессия, биполярные черты, ПТСР и
+                    другие.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.9 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 98%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.9</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >15-20 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >30 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
+                      class="hover-arrow w-6 h-6 text-fuchsia-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -583,83 +867,192 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-fuchsia-500/20 text-fuchsia-400 rounded-full text-sm font-semibold"
-                    >Популярный</span
-                  >
-                </div>
-                <h3 class="text-2xl font-bold mb-3">Спектр Личности</h3>
-                <p class="text-gray-400 mb-6">
-                  Клинически-ориентированный анализ сопутствующих расстройств.
-                  Оценка по 10 категориям: депрессия, биполярные черты, ПТСР и
-                  другие.
-                </p>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >15-20 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >30 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-fuchsia-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
 
               <!-- Мой тип привязанности -->
               <a
                 href="tests/attachment-style.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-semibold"
+                      >Новый</span
+                    >
+                  </div>
+                  <h3 class="text-2xl font-bold mb-3">Мой тип привязанности</h3>
+                  <p class="text-gray-400 mb-6">
+                    Глубокий анализ вашего стиля построения близких отношений.
+                    Узнайте свой тип и получите путь к здоровым отношениям.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.7 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 94%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.7</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >10-15 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >18 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
+                      class="hover-arrow w-6 h-6 text-purple-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -668,175 +1061,396 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-semibold"
-                    >Новый</span
-                  >
-                </div>
-                <h3 class="text-2xl font-bold mb-3">Мой тип привязанности</h3>
-                <p class="text-gray-400 mb-6">
-                  Глубокий анализ вашего стиля построения близких отношений.
-                  Узнайте свой тип и получите путь к здоровым отношениям.
-                </p>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >10-15 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >18 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-purple-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
 
               <!-- Тени твоей души -->
               <a
                 href="tests/noir-soul-test.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-700 to-indigo-900 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-700 to-indigo-900 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"
+                        />
+                        <path d="M16 14.5A4 4 0 0 0 12 10a4 4 0 0 0-4 4.5" />
+                        <path d="M12 2v2" />
+                        <path d="M12 20v2" />
+                        <path d="m4.93 4.93 1.41 1.41" />
+                        <path d="m17.66 17.66 1.41 1.41" />
+                        <path d="M2 12h2" />
+                        <path d="M20 12h2" />
+                        <path d="m6.34 17.66-1.41 1.41" />
+                        <path d="m19.07 4.93-1.41 1.41" />
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-indigo-500/20 text-indigo-400 rounded-full text-sm font-semibold"
+                      >Атмосферный</span
+                    >
+                  </div>
+                  <h3 class="text-2xl font-bold mb-3">Тени твоей души</h3>
+                  <p class="text-gray-400 mb-6">
+                    Анализ личности через призму нуара. Узнайте свой архетип в
+                    городе грехов и разбитых надежд.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.5 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 90%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.5</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >10-15 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >15 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
-                      viewBox="0 0 24 24"
+                      class="hover-arrow w-6 h-6 text-indigo-400"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      viewBox="0 0 24 24"
                     >
                       <path
-                        d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"
-                      />
-                      <path d="M16 14.5A4 4 0 0 0 12 10a4 4 0 0 0-4 4.5" />
-                      <path d="M12 2v2" />
-                      <path d="M12 20v2" />
-                      <path d="m4.93 4.93 1.41 1.41" />
-                      <path d="m17.66 17.66 1.41 1.41" />
-                      <path d="M2 12h2" />
-                      <path d="M20 12h2" />
-                      <path d="m6.34 17.66-1.41 1.41" />
-                      <path d="m19.07 4.93-1.41 1.41" />
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-indigo-500/20 text-indigo-400 rounded-full text-sm font-semibold"
-                    >Атмосферный</span
-                  >
-                </div>
-                <h3 class="text-2xl font-bold mb-3">Тени твоей души</h3>
-                <p class="text-gray-400 mb-6">
-                  Анализ личности через призму нуара. Узнайте свой архетип в
-                  городе грехов и разбитых надежд.
-                </p>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >10-15 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >15 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-indigo-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
 
               <!-- Мой Партнер Нарцисс? -->
               <a
                 href="tests/narcissism-test.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm"
+                      >Доступен</span
+                    >
+                  </div>
+                  <h3 class="text-2xl font-bold mb-3">Мой Партнер Нарцисс?</h3>
+                  <p class="text-gray-400 mb-6">
+                    Комплексная оценка нарциссических черт в отношениях. Анализ
+                    по 7 ключевым критериям с детальной интерпретацией.
+                  </p>
+                </div>
+                <!-- Rating Display -->
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.6 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 92%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.6</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >10-15 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >13 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
+                      class="hover-arrow w-6 h-6 text-purple-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -845,296 +1459,405 @@
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm"
-                    >Доступен</span
-                  >
-                </div>
-                <h3 class="text-2xl font-bold mb-3">Мой Партнер Нарцисс?</h3>
-                <p class="text-gray-400 mb-6">
-                  Комплексная оценка нарциссических черт в отношениях. Анализ по
-                  7 ключевым критериям с детальной интерпретацией.
-                </p>
-                <!-- Rating Display -->
-                <div class="flex items-center mb-4">
-                  <div class="flex items-center">
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                      />
-                    </svg>
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                      />
-                    </svg>
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                      />
-                    </svg>
-                    <svg
-                      class="w-5 h-5 text-yellow-400"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                      />
-                    </svg>
-                    <svg
-                      class="w-5 h-5 text-gray-600"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
-                      />
-                    </svg>
-                  </div>
-                  <span class="text-gray-400 text-sm ml-2"
-                    >4.7 (1,234 отзыва)</span
-                  >
-                </div>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >10-15 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >13 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-purple-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
 
               <!-- Сколько у меня будет детей? -->
               <a
                 href="tests/children-test.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-green-500 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-500 to-green-500 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6h6a6 6 0 016 6v1h-3M15 21a3 3 0 11-6 0M12 4.354V1M6 21a3 3 0 11-6 0"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm"
+                      >Популярный</span
+                    >
+                  </div>
+                  <h3 class="text-2xl font-bold mb-3">
+                    Сколько у меня будет детей?
+                  </h3>
+                  <p class="text-gray-400 mb-6">
+                    Шутливый, но проницательный тест, который на основе ваших
+                    взглядов на жизнь и ценностей предскажет ваше семейное
+                    будущее.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.4 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 88%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.4</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >5-10 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >15 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
+                      class="hover-arrow w-6 h-6 text-sky-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 016-6h6a6 6 0 016 6v1h-3M15 21a3 3 0 11-6 0M12 4.354V1M6 21a3 3 0 11-6 0"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm"
-                    >Популярный</span
-                  >
-                </div>
-                <h3 class="text-2xl font-bold mb-3">
-                  Сколько у меня будет детей?
-                </h3>
-                <p class="text-gray-400 mb-6">
-                  Шутливый, но проницательный тест, который на основе ваших
-                  взглядов на жизнь и ценностей предскажет ваше семейное
-                  будущее.
-                </p>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >5-10 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >15 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-sky-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
 
               <!-- Как скоро у меня будет s*x? -->
               <a
                 href="tests/sex-test.html"
-                class="glass-card test-card rounded-2xl p-8 group block"
+                class="glass-card test-card rounded-2xl p-8 group block flex flex-col"
               >
-                <div class="flex items-start justify-between mb-6">
-                  <div
-                    class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center"
-                  >
+                <div class="flex-grow">
+                  <div class="flex items-start justify-between mb-6">
+                    <div
+                      class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center"
+                    >
+                      <svg
+                        class="w-8 h-8 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        ></path>
+                      </svg>
+                    </div>
+                    <span
+                      class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm"
+                      >18+</span
+                    >
+                  </div>
+                  <h3 class="text-2xl font-bold mb-3">
+                    Как скоро у меня будет s*x?
+                  </h3>
+                  <p class="text-gray-400 mb-6">
+                    Узнай свой любовный прогноз! Ответь на 15 вопросов и получи
+                    предсказание, основанное на твоей энергетике и вайбе.
+                  </p>
+                </div>
+                <div class="mt-auto">
+                  <div class="flex items-center mb-4" title="Рейтинг: 4.8 из 5">
+                    <div class="relative flex">
+                      <!-- Background Stars -->
+                      <div class="flex text-gray-600">
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                        <svg
+                          class="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                          />
+                        </svg>
+                      </div>
+                      <!-- Foreground Stars (clipped) -->
+                      <div
+                        class="absolute top-0 left-0 overflow-hidden"
+                        style="width: 96%"
+                      >
+                        <div class="flex text-yellow-400">
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                          <svg
+                            class="w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-gray-400 text-sm ml-2">4.8</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div
+                      class="flex items-center space-x-4 text-sm text-gray-500"
+                    >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >5 мин</span
+                      >
+                      <span class="flex items-center"
+                        ><svg
+                          class="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path></svg
+                        >15 вопросов</span
+                      >
+                    </div>
                     <svg
-                      class="w-8 h-8 text-white"
+                      class="hover-arrow w-6 h-6 text-orange-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        d="M9 5l7 7-7 7"
                       ></path>
                     </svg>
                   </div>
-                  <span
-                    class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm"
-                    >18+</span
-                  >
-                </div>
-                <h3 class="text-2xl font-bold mb-3">
-                  Как скоро у меня будет s*x?
-                </h3>
-                <p class="text-gray-400 mb-6">
-                  Узнай свой любовный прогноз! Ответь на 15 вопросов и получи
-                  предсказание, основанное на твоей энергетике и вайбе.
-                </p>
-                <div class="flex items-center justify-between">
-                  <div
-                    class="flex items-center space-x-4 text-sm text-gray-500"
-                  >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >5 мин</span
-                    >
-                    <span class="flex items-center"
-                      ><svg
-                        class="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                      >15 вопросов</span
-                    >
-                  </div>
-                  <svg
-                    class="hover-arrow w-6 h-6 text-orange-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
                 </div>
               </a>
             </div>
@@ -1185,7 +1908,7 @@
           document.body.classList.remove("loading");
           preloader.classList.add("fade-out");
         };
-        const preloaderTimeout = setTimeout(hidePreloader, 2000);
+        const preloaderTimeout = setTimeout(hidePreloader, 1500); // Faster preloader
         window.addEventListener(
           "load",
           () => {
@@ -1194,18 +1917,6 @@
           },
           { once: true }
         );
-
-        // --- Simplified smooth scroll for anchor links ---
-        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-          anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute("href");
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-              targetElement.scrollIntoView({ behavior: "smooth" });
-            }
-          });
-        });
 
         // --- Umami Analytics Placeholder ---
         const currentVisitorsEl = document.getElementById("current-visitors");

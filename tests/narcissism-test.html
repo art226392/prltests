@@ -3,7 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Тест: Мой Партнер Нарцисс? - BPD_tests</title>
+
+    <!-- // --- SEO: КРИТИЧЕСКИ ВАЖНЫЕ ТЕГИ ДЛЯ СТРАНИЦЫ ТЕСТА --- // -->
+    <title>Тест на нарциссизм: мой партнер нарцисс? - BPD tests</title>
+    <meta
+      name="description"
+      content="Пройдите онлайн-тест на нарциссизм, чтобы оценить нарциссические черты у вашего партнера. Анализ по 7 критериям, основанный на клинических признаках."
+    />
+    <meta
+      name="keywords"
+      content="тест на нарциссизм, мой партнер нарцисс, нарциссическое расстройство личности, признаки нарцисса, психологический тест, bpd tests"
+    />
+    <link
+      rel="canonical"
+      href="https://bpd-tests.com/tests/narcissism-test.html"
+    />
+
+    <!-- // --- SEO: СОЦИАЛЬНЫЕ СЕТИ И ШЕРИНГ (OPEN GRAPH / TWITTER) --- // -->
+    <meta
+      property="og:title"
+      content="Тест: Мой Партнер Нарцисс? - BPD tests"
+    />
+    <meta
+      property="og:description"
+      content="Комплексная оценка нарциссических черт в отношениях. Анализ по 7 ключевым критериям с детальной интерпретацией."
+    />
+    <meta
+      property="og:image"
+      content="https://bpd-tests.com/og-image-narcissism.jpg"
+    />
+    <!-- SEO: Создайте изображение для этой страницы -->
+    <meta
+      property="og:url"
+      content="https://bpd-tests.com/tests/narcissism-test.html"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Тест: Мой Партнер Нарцисс? - BPD tests"
+    />
+    <meta
+      name="twitter:description"
+      content="Пройдите онлайн-тест, чтобы оценить нарциссические черты у вашего партнера."
+    />
+    <meta
+      name="twitter:image"
+      content="https://bpd-tests.com/og-image-narcissism.jpg"
+    />
+
+    <!-- // --- SEO: РАСШИРЕННАЯ РАЗМЕТКА ДЛЯ ТЕСТА (JSON-LD) --- // -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Quiz",
+        "name": "Тест: Мой Партнер Нарцисс?",
+        "description": "Этот тест поможет оценить наличие нарциссических черт у партнера на основе 7 ключевых критериев, таких как грандиозность, отсутствие эмпатии и жажда восхищения.",
+        "url": "https://bpd-tests.com/tests/narcissism-test.html",
+        "timeRequired": "PT10M",
+        "educationalLevel": "Beginner",
+        "publisher": {
+          "@type": "Organization",
+          "name": "BPD Tests"
+        },
+        "hasPart": [
+          {
+            "@type": "Question",
+            "name": "Когда вы делитесь своими достижениями, партнер:"
+          },
+          {
+            "@type": "Question",
+            "name": "Как партнер реагирует на конструктивную критику в свой адрес?"
+          },
+          {
+            "@type": "Question",
+            "name": "Когда вы делитесь своими переживаниями, партнер:"
+          }
+        ]
+      }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -571,11 +650,9 @@
       const form = document.getElementById("narcissism-form");
       const testContainer = document.getElementById("test-container");
       const resultsContainer = document.getElementById("results-container");
-      // --- НОВОЕ: Ключ для localStorage ---
       const storageKey = "narcissismTestAnswers";
       let answeredQuestions = 0;
 
-      // --- Lenis Smooth Scroll Initialization ---
       const lenis = new Lenis({
         lerp: 0.07,
         smoothWheel: true,
@@ -587,7 +664,6 @@
       }
       requestAnimationFrame(raf);
 
-      // --- НОВОЕ: Функция сохранения состояния ---
       function saveState() {
         const formData = new FormData(form);
         const answers = {};
@@ -597,7 +673,6 @@
         localStorage.setItem(storageKey, JSON.stringify(answers));
       }
 
-      // --- НОВОЕ: Функция загрузки состояния ---
       function loadState() {
         const savedAnswers = localStorage.getItem(storageKey);
         if (savedAnswers) {
@@ -663,7 +738,6 @@
           block.appendChild(optionsContainer);
           form.appendChild(block);
         });
-        // --- НОВОЕ: Загружаем состояние после отрисовки ---
         loadState();
       }
 
@@ -681,7 +755,6 @@
             answeredQuestions++;
             updateProgress();
           }
-          // --- НОВОЕ: Сохраняем состояние при каждом изменении ---
           saveState();
         }
       });
@@ -699,7 +772,6 @@
         }
         const scores = calculateScores();
         renderResults(scores);
-        // --- НОВОЕ: Очищаем хранилище после завершения теста ---
         localStorage.removeItem(storageKey);
       });
 

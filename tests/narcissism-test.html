@@ -1,1065 +1,309 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- // --- SEO: CRITICAL TAGS --- // -->
-    <title>Тест на нарциссизм: мой партнер нарцисс? - BPD tests</title>
-    <meta
-      name="description"
-      content="Пройдите онлайн-тест на нарциссизм, чтобы оценить нарциссические черты у вашего партнера. Анализ по 7 критериям, основанный на клинических признаках."
-    />
-    <meta
-      name="keywords"
-      content="тест на нарциссизм, мой партнер нарцисс, нарциссическое расстройство личности, признаки нарцисса, психологический тест, bpd tests"
-    />
-    <link
-      rel="canonical"
-      href="https://bpd-tests.com/tests/narcissism-test.html"
-    />
-    <link
-      rel="alternate"
-      hreflang="ru"
-      href="https://bpd-tests.com/tests/narcissism-test.html"
-    />
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href="https://bpd-tests.com/tests/narcissism-test.html"
-    />
-
-    <!-- // --- SEO: SOCIAL MEDIA & SHARING --- // -->
-    <meta
-      property="og:title"
-      content="Тест: Мой Партнер Нарцисс? - BPD tests"
-    />
-    <meta
-      property="og:description"
-      content="Комплексная оценка нарциссических черт в отношениях. Анализ по 7 ключевым критериям с детальной интерпретацией."
-    />
-    <meta
-      property="og:image"
-      content="https://bpd-tests.com/og-image-narcissism.jpg"
-    />
-    <meta
-      property="og:url"
-      content="https://bpd-tests.com/tests/narcissism-test.html"
-    />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <!-- // --- SEO: ADVANCED STRUCTURED DATA (QUIZ + FAQ) --- // -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Quiz",
-        "name": "Тест: Мой Партнер Нарцисс?",
-        "description": "Этот тест поможет оценить наличие нарциссических черт у партнера на основе 7 ключевых критериев, таких как грандиозность, отсутствие эмпатии и жажда восхищения.",
-        "timeRequired": "PT10M",
-        "publisher": {
-          "@type": "Organization",
-          "name": "BPD Tests"
-        },
-        "mainEntity": {
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Является ли этот тест медицинским диагнозом?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Нет, этот тест не является медицинским диагнозом. Он предназначен для самопознания и может помочь выявить тревожные признаки в поведении партнера. Для постановки диагноза 'нарциссическое расстройство личности' необходима консультация квалифицированного специалиста."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Что делать, если результаты теста вызывают беспокойство?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Если результаты теста указывают на высокий уровень нарциссических черт, рекомендуется обратиться за консультацией к психологу или психотерапевту. Специалист поможет вам разобраться в ситуации, выстроить личные границы и принять решение о будущем ваших отношений."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Может ли нарцисс измениться?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Изменения возможны, но требуют от человека с нарциссическими чертами глубокого самосознания и желания работать над собой в рамках долгосрочной психотерапии. Этот процесс сложен и не всегда успешен, так как он противоречит основной структуре их личности."
-              }
-            }
-          ]
-        }
-      }
-    </script>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-        background: #0a0a0a;
-        color: #ffffff;
-        overflow-x: hidden;
-      }
-      .display-font {
-        font-family: "Playfair Display", serif;
-      }
-      .dynamic-bg {
-        position: fixed;
-        inset: 0;
-        background: #0a0a0a;
-        overflow: hidden;
-      }
-      .dynamic-bg::before {
-        content: "";
-        position: absolute;
-        width: 150%;
-        height: 150%;
-        top: -25%;
-        left: -25%;
-        background: radial-gradient(
-            circle at 25% 25%,
-            rgba(139, 92, 246, 0.1) 0%,
-            transparent 40%
-          ),
-          radial-gradient(
-            circle at 75% 75%,
-            rgba(236, 72, 153, 0.1) 0%,
-            transparent 40%
-          ),
-          radial-gradient(
-            circle at 50% 50%,
-            rgba(59, 130, 246, 0.05) 0%,
-            transparent 60%
-          );
-      }
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      }
-      .option-card {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        min-height: 80px;
-      }
-      .option-card:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(139, 92, 246, 0.5);
-        transform: translateY(-2px);
-      }
-      .option-card.selected {
-        background: linear-gradient(
-          135deg,
-          rgba(139, 92, 246, 0.2),
-          rgba(236, 72, 153, 0.2)
-        );
-        border-color: rgba(139, 92, 246, 0.6);
-      }
-      input[type="radio"] {
-        display: none;
-      }
-      .btn-premium {
-        position: relative;
-        background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
-        color: white;
-        padding: 16px 40px;
-        border-radius: 16px;
-        font-weight: 700;
-        font-size: 18px;
-        transition: all 0.4s ease;
-        cursor: pointer;
-      }
-      .btn-premium:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      .progress-container {
-        position: sticky;
-        top: 80px;
-        z-index: 40;
-        padding: 1rem 0;
-        background: rgba(10, 10, 10, 0.7);
-        backdrop-filter: blur(8px);
-        margin-bottom: 2rem;
-        border-radius: 1rem;
-      }
-      .progress-bar {
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        overflow: hidden;
-        width: 90%;
-        margin: 0 auto;
-      }
-      .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #8b5cf6, #ec4899);
-        border-radius: 3px;
-        transition: width 0.5s ease;
-      }
-      .gradient-text {
-        background: linear-gradient(
-          135deg,
-          #8b5cf6 0%,
-          #ec4899 50%,
-          #3b82f6 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-size: 200% 200%;
-        animation: gradient-shift 3s ease infinite;
-      }
-      @keyframes gradient-shift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-      .fade-in {
-        animation: fadeIn 0.5s ease-out forwards;
-      }
-      .fade-out {
-        animation: fadeOut 0.5s ease-in forwards;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeOut {
-        from {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          transform: translateY(-20px);
-          visibility: hidden;
-        }
-      }
-      .gauge-container {
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        position: relative;
-        background: conic-gradient(from 0deg, #8b5cf6, #ec4899, #8b5cf6);
-        animation: spin 5s linear infinite;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .gauge-container::before {
-        content: "";
-        position: absolute;
-        inset: 10px;
-        background: #0a0a0a;
-        border-radius: 50%;
-      }
-      .gauge-value {
-        position: relative;
-        font-size: 4rem;
-        font-weight: 900;
-        color: #fff;
-      }
-      .gauge-value::after {
-        content: "%";
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #a78bfa;
-        position: absolute;
-        top: 1rem;
-        right: -1.5rem;
-      }
-      .criterion-bar-bg {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        overflow: hidden;
-        height: 12px;
-      }
-      .criterion-bar-fill {
-        height: 100%;
-        border-radius: 8px;
-        transition: width 1s ease-out;
-        box-shadow: 0 0 15px var(--bar-color);
-      }
-      /* --- Review Section Styles --- */
-      .star-rating {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-      .star-rating input {
-        display: none;
-      }
-      .star-rating label {
-        font-size: 3rem;
-        color: #4a4a4a;
-        cursor: pointer;
-        transition: color 0.2s ease;
-      }
-      .star-rating input:checked ~ label,
-      .star-rating label:hover,
-      .star-rating label:hover ~ label {
-        color: #f59e0b;
-      }
-      textarea.review-textarea {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 1rem;
-        width: 100%;
-        min-height: 120px;
-        color: #fff;
-        transition: border-color 0.3s ease;
-      }
-      textarea.review-textarea:focus {
-        outline: none;
-        border-color: #8b5cf6;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="dynamic-bg"></div>
-
-    <div class="relative z-10 min-h-screen flex flex-col">
-      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-          <a href="../../index.html" class="flex items-center space-x-2 group">
-            <div
-              class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform"
-            >
-              <span class="text-white font-bold text-xl">Ψ</span>
-            </div>
-            <span class="text-xl font-semibold">BPD_tests</span>
-          </a>
-          <div class="flex items-center space-x-6">
-            <a href="../../index.html" class="hover:text-purple-400"
-              >← Вернуться к тестам</a
-            >
-          </div>
-        </div>
-      </nav>
-
-      <div
-        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
-      >
-        <nav aria-label="Breadcrumb" class="text-sm text-gray-400 mb-8 mt-24">
-          <ol class="list-none p-0 inline-flex">
-            <li class="flex items-center">
-              <a href="../../index.html" class="hover:text-purple-300"
-                >Главная</a
-              >
-              <svg
-                class="fill-current w-3 h-3 mx-3"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 320 512"
-              >
-                <path
-                  d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
-                />
-              </svg>
-            </li>
-            <li class="flex items-center">
-              <a href="../../index.html#tests" class="hover:text-purple-300"
-                >Тесты</a
-              >
-              <svg
-                class="fill-current w-3 h-3 mx-3"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 320 512"
-              >
-                <path
-                  d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
-                />
-              </svg>
-            </li>
-            <li>
-              <span class="text-gray-500">Тест на нарциссизм</span>
-            </li>
-          </ol>
-        </nav>
-
-        <header class="text-center mb-12 fade-in">
-          <h1
-            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
-          >
-            Тест: <span class="gradient-text">Мой Партнер Нарцисс?</span>
-          </h1>
-        </header>
-
-        <section id="intro-section" class="fade-in">
-          <div class="mb-12 glass-panel rounded-2xl p-8">
-            <h2 class="text-2xl font-bold text-purple-300 mb-4">
-              О чем этот тест?
-            </h2>
-            <p class="text-gray-300 leading-relaxed mb-4">
-              Отношения с нарциссической личностью могут быть эмоционально
-              истощающими и запутанными. Нарциссизм — это не просто
-              самовлюбленность, а сложное личностное расстройство,
-              характеризующееся грандиозностью, отсутствием эмпатии и постоянной
-              потребностью в восхищении. Этот тест поможет вам проанализировать
-              поведение вашего партнера через призму 7 ключевых критериев
-              нарциссического расстройства личности (НРЛ).
-            </p>
-            <p class="text-gray-300 leading-relaxed">
-              Отвечая на вопросы, вы сможете получить более ясную картину и
-              понять, присутствуют ли в ваших отношениях тревожные паттерны,
-              требующие внимания. <strong>Важно:</strong> этот опросник не
-              является инструментом для постановки диагноза, а служит лишь для
-              самоанализа и повышения осведомленности.
-            </p>
-            <div class="mt-8 text-center">
-              <button id="start-test-btn" class="btn-premium">
-                Начать тест
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <main id="test-container" class="hidden">
-          <div class="progress-container" id="progress-container">
-            <div class="progress-bar" id="progress-bar">
-              <div
-                class="progress-fill"
-                id="progress-fill"
-                style="width: 0%"
-              ></div>
-            </div>
-          </div>
-          <form
-            id="narcissism-form"
-            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
-          ></form>
-          <div class="mt-16 text-center">
-            <button type="submit" form="narcissism-form" class="btn-premium">
-              <span class="relative z-10">Получить результаты</span>
-            </button>
-          </div>
-        </main>
-
-        <div id="results-container" class="hidden mt-16">
-          <!-- Results display will be injected here -->
-        </div>
-
-        <section
-          id="faq-section"
-          class="hidden mt-16 glass-panel rounded-2xl p-8"
-        >
-          <h2 class="text-3xl font-bold text-center mb-8 gradient-text">
-            Часто задаваемые вопросы
-          </h2>
-          <div class="space-y-6 max-w-3xl mx-auto">
-            <div>
-              <h3 class="font-semibold text-lg text-purple-300 mb-2">
-                Является ли этот тест медицинским диагнозом?
-              </h3>
-              <p class="text-gray-400">
-                Нет, этот тест не является медицинским диагнозом. Он
-                предназначен для самопознания и может помочь выявить тревожные
-                признаки в поведении партнера. Для постановки диагноза
-                'нарциссическое расстройство личности' необходима консультация
-                квалифицированного специалиста.
-              </p>
-            </div>
-            <div>
-              <h3 class="font-semibold text-lg text-purple-300 mb-2">
-                Что делать, если результаты теста вызывают беспокойство?
-              </h3>
-              <p class="text-gray-400">
-                Если результаты теста указывают на высокий уровень
-                нарциссических черт, рекомендуется обратиться за консультацией к
-                психологу или психотерапевту. Специалист поможет вам разобраться
-                в ситуации, выстроить личные границы и принять решение о будущем
-                ваших отношений.
-              </p>
-            </div>
-            <div>
-              <h3 class="font-semibold text-lg text-purple-300 mb-2">
-                Может ли нарцисс измениться?
-              </h3>
-              <p class="text-gray-400">
-                Изменения возможны, но требуют от человека с нарциссическими
-                чертами глубокого самосознания и желания работать над собой в
-                рамках долгосрочной психотерапии. Этот процесс сложен и не
-                всегда успешен, так как он противоречит основной структуре их
-                личности.
-              </p>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <footer class="glass-panel mt-auto py-8 px-6">
-        <div class="max-w-7xl mx-auto">
-          <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center md:text-left mb-4 md:mb-0">
-              <p class="text-gray-400">© 2024 BPD_tests. Все права защищены.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+document.addEventListener("DOMContentLoaded", () => { const introSection =
+document.getElementById("intro-section"); const startTestBtn =
+document.getElementById("start-test-btn"); const testContainer =
+document.getElementById("test-container"); const resultsContainer =
+document.getElementById("results-container"); const form =
+document.getElementById("narcissism-form"); const faqSection =
+document.getElementById("faq-section"); const questions = [ { c: 1, q: "Когда вы
+делитесь своими достижениями, партнер:", a: "reaction_to_success", }, { c: 1, q:
+"Как партнер описывает свои прошлые отношения или неудачи на работе?", a:
+"past_failures", }, { c: 2, q: "Если вы проводите время с друзьями без него/нее,
+как он(а) реагирует?", a: "reaction_to_absence", }, { c: 2, q: "Как партнер
+реагирует, если вы не сразу отвечаете на его/ее сообщения?", a:
+"reaction_to_text", }, { c: 3, q: "Когда вы делитесь своими переживаниями,
+партнер:", a: "reaction_to_feelings", }, { c: 3, q: "Замечает ли партнер, когда
+у вас плохое настроение, без ваших слов?", a: "notice_mood", }, { c: 4, q: "Как
+партнер ведет себя в очередях или в пробках?", a: "patience_in_line", }, { c: 4,
+q: "Когда вы в чем-то не согласны, как партнер доказывает свою правоту?", a:
+"argument_style", }, { c: 5, q: "Как партнер просит о помощи или услуге?", a:
+"asking_for_help", }, { c: 5, q: "После ссоры, кто обычно делает первый шаг к
+примирению?", a: "making_up", }, { c: 6, q: "Как партнер комментирует внешность
+или успех других людей?", a: "commenting_on_others", }, { c: 6, q: "Как партнер
+реагирует на конструктивную критику в свой адрес?", a: "reaction_to_criticism",
+}, { c: 7, q: "Как часто вы слышите о грандиозных планах партнера, которые так и
+не реализуются?", a: "grand_plans", }, ]; const answerOptions = {
+reaction_to_success: [ { text: "Искренне радуется и гордится мной", value: 0 },
+{ text: "Поздравляет, но быстро переводит тему на себя", value: 2 }, { text:
+"Находит способ обесценить: 'Ну, это же легко было'", value: 3, }, { text:
+"Игнорирует или злится", value: 4 }, { text: "Ко мне не относится", value: 0 },
+], past_failures: [ { text: "Признает свои ошибки и извлекает уроки", value: 0
+}, { text: "Рассказывает, но с юмором", value: 1 }, { text: "Всегда виноваты
+другие (бывшие, начальники)", value: 3 }, { text: "Никогда не говорит о
+неудачах, у него(нее) их нет", value: 4, }, { text: "Ко мне не относится",
+value: 0 }, ], reaction_to_absence: [ { text: "Радуется, что я хорошо провожу
+время", value: 0 }, { text: "Немного ревнует, но в шутку", value: 1 }, { text:
+"Требует постоянных отчетов и фото", value: 3 }, { text: "Устраивает скандал или
+наказывает молчанием", value: 4 }, { text: "Ко мне не относится", value: 0 }, ],
+reaction_to_text: [ { text: "Спокойно, понимает, что я могу быть занят(а)",
+value: 0 }, { text: "Спрашивает, все ли в порядке", value: 1 }, { text:
+"Отправляет много сообщений и звонит", value: 3 }, { text: "Обвиняет в
+игнорировании", value: 4 }, { text: "Ко мне не относится", value: 0 }, ],
+reaction_to_feelings: [ { text: "Внимательно слушает и поддерживает", value: 0
+}, { text: "Пытается дать совет, не вникая в суть", value: 2 }, { text: "Говорит
+'не драматизируй' или 'успокойся'", value: 3 }, { text: "Начинает рассказывать,
+как ему(ей) хуже", value: 4 }, ], notice_mood: [ { text: "Да, почти всегда",
+value: 0 }, { text: "Иногда, если все очевидно", value: 1 }, { text: "Редко,
+нужно прямо говорить", value: 3 }, { text: "Никогда, он(а) слишком занят(а)
+собой", value: 4 }, ], patience_in_line: [ { text: "Спокойно ждет, как и все",
+value: 0 }, { text: "Заметно нервничает и вздыхает", value: 2 }, { text:
+"Пытается найти способ пройти без очереди", value: 3 }, { text: "Громко
+возмущается и требует особого отношения", value: 4, }, { text: "Ко мне не
+относится", value: 0 }, ], argument_style: [ { text: "Приводит факты и готов(а)
+к компромиссу", value: 0 }, { text: "Давит авторитетом и громкостью", value: 2
+}, { text: "Переходит на личности и оскорбления", value: 3 }, { text: "Искажает
+мои слова и факты (газлайтинг)", value: 4 }, { text: "Мы не спорим", value: 0 },
+], asking_for_help: [ { text: "Просит вежливо и всегда благодарит", value: 0 },
+{ text: "Формулирует как приказ, но благодарит", value: 2 }, { text: "Требует
+немедленно, злится при отказе", value: 3 }, { text: "Манипулирует: 'Если любишь,
+то сделаешь'", value: 4 }, ], making_up: [ { text: "Тот, кто был неправ,
+извиняется первым", value: 0 }, { text: "Чаще всего я", value: 2 }, { text:
+"Всегда я, иначе будет молчать неделями", value: 3 }, { text: "Он(а) никогда не
+извиняется", value: 4 }, { text: "Мы не ссоримся", value: 0 }, ],
+commenting_on_others: [ { text: "Делает комплименты или нейтрален(льна)", value:
+0 }, { text: "Часто критикует и находит недостатки", value: 2 }, { text:
+"Отпускает злые и завистливые комментарии", value: 3 }, { text: "Сравнивает меня
+с другими (не в мою пользу)", value: 4 }, { text: "Ко мне не относится", value:
+0 }, ], reaction_to_criticism: [ { text: "Прислушивается и благодарит за
+обратную связь", value: 0 }, { text: "Оправдывается и ищет виноватых", value: 2
+}, { text: "Обижается и замыкается в себе", value: 3 }, { text: "Впадает в
+ярость и контратакует", value: 4 }, { text: "Ко мне не относится", value: 0 },
+], grand_plans: [ { text: "Никогда или очень редко", value: 0 }, { text: "Иногда
+мечтает вслух", value: 1 }, { text: "Довольно часто, но ничего не делает",
+value: 3 }, { text: "Постоянно, и злится, что мир его/ее не ценит", value: 4 },
+], }; const criterionData = { 1: { label: "Грандиозность", emoji: "👑", color:
+"#8b5cf6" }, 2: { label: "Жажда восхищения", emoji: "⭐", color: "#ec4899" }, 3:
+{ label: "Отсутствие эмпатии", emoji: "💔", color: "#3b82f6" }, 4: { label:
+"Чувство превосходства", emoji: "🧐", color: "#f59e0b" }, 5: { label:
+"Эксплуатация", emoji: "🎭", color: "#10b981" }, 6: { label: "Зависть и
+высокомерие", emoji: "😒", color: "#ef4444" }, 7: { label: "Фантазии о величии",
+emoji: "🚀", color: "#a855f7" }, }; const storageKey = "narcissismTestAnswers";
+let answeredQuestions = 0; const lenis = new Lenis({ lerp: 0.07, smoothWheel:
+true }); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf); startTestBtn.addEventListener("click", () => {
+introSection.classList.add("fade-out"); introSection.addEventListener(
+"animationend", () => { introSection.classList.add("hidden");
+testContainer.classList.remove("hidden");
+testContainer.classList.add("fade-in"); renderQuestions(); }, { once: true } );
+}); function saveState() { const formData = new FormData(form); const answers =
+{}; for (const [name, value] of formData.entries()) { answers[name] = value; }
+localStorage.setItem(storageKey, JSON.stringify(answers)); } function
+loadState() { const savedAnswers = localStorage.getItem(storageKey); if
+(savedAnswers) { const answers = JSON.parse(savedAnswers);
+Object.entries(answers).forEach(([name, value]) => { const radio =
+form.querySelector( `input[name="${name}"][value="${value}"]` ); if (radio) {
+radio.checked = true; const container = radio.closest(".grid"); container
+.querySelectorAll(".option-card") .forEach((card) =>
+card.classList.remove("selected"));
+radio.parentElement.classList.add("selected"); const questionBlock =
+radio.closest(".question-block"); if
+(!questionBlock.hasAttribute("data-answered")) {
+questionBlock.setAttribute("data-answered", "true"); answeredQuestions++; } }
+}); updateProgress(); } } function updateProgress() { const progress =
+(answeredQuestions / questions.length) * 100;
+document.getElementById("progress-fill").style.width = progress + "%"; }
+function renderQuestions() { questions.forEach((qData, index) => { const block =
+document.createElement("div"); block.className = "question-block fade-in"; const
+questionText = document.createElement("p"); questionText.className =
+"font-medium text-lg text-gray-100 mb-4"; questionText.textContent = `${index +
+1}. ${qData.q}`; block.appendChild(questionText); const optionsContainer =
+document.createElement("div"); optionsContainer.className = "grid grid-cols-1
+sm:grid-cols-2 lg:grid-cols-3 gap-3"; const currentAnswerSet =
+answerOptions[qData.a]; currentAnswerSet.forEach((opt) => { const label =
+document.createElement("label"); label.className = "option-card p-4 rounded-xl
+text-center cursor-pointer flex items-center justify-center min-h-[60px]"; const
+radio = document.createElement("input"); radio.type = "radio"; radio.name =
+`q${index}`; radio.value = opt.value; radio.required = true;
+label.appendChild(radio); label.append(opt.text);
+optionsContainer.appendChild(label); }); block.appendChild(optionsContainer);
+form.appendChild(block); }); loadState(); } form.addEventListener("change", (e)
+=> { if (e.target.type === "radio") { const container =
+e.target.closest(".grid"); container .querySelectorAll(".option-card")
+.forEach((card) => card.classList.remove("selected"));
+e.target.parentElement.classList.add("selected"); const questionBlock =
+e.target.closest(".question-block"); if
+(!questionBlock.hasAttribute("data-answered")) {
+questionBlock.setAttribute("data-answered", "true"); answeredQuestions++;
+updateProgress(); } saveState(); } }); form.addEventListener("submit", (e) => {
+e.preventDefault(); if (answeredQuestions < questions.length) { const
+unansweredBlock = form.querySelector( ".question-block:not([data-answered])" );
+if (unansweredBlock) { lenis.scrollTo(unansweredBlock, { offset: -150 }); }
+return; } const scores = calculateScores(); renderResults(scores);
+localStorage.removeItem(storageKey); }); function calculateScores() { const
+formData = new FormData(form); let criterionScores = {};
+Object.keys(criterionData).forEach((key) => { criterionScores[key] = { sum: 0,
+count: 0 }; }); questions.forEach((q, index) => { const value =
+parseInt(formData.get(`q${index}`), 10) || 0; criterionScores[q.c].sum += value;
+criterionScores[q.c].count++; }); let finalScores = {}; let totalScore = 0; let
+maxPossibleScore = 0; Object.keys(criterionData).forEach((key) => { const { sum,
+count } = criterionScores[key]; const maxScore = 4 * count; finalScores[key] = {
+percentage: maxScore > 0 ? (sum / maxScore) * 100 : 0, }; totalScore += sum;
+maxPossibleScore += maxScore; }); finalScores.overallPercentage =
+maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0; return
+finalScores; } function renderResults(scores) {
+testContainer.classList.add("fade-out"); testContainer.addEventListener(
+"animationend", () => { testContainer.classList.add("hidden");
+resultsContainer.classList.remove("hidden");
+resultsContainer.classList.add("fade-in");
+faqSection.classList.remove("hidden"); faqSection.classList.add("fade-in");
+lenis.scrollTo(0); }, { once: true } ); const verdictEl =
+document.createElement("div"); verdictEl.id = "overall-verdict";
+verdictEl.className = "text-2xl md:text-3xl font-bold mb-4"; const descriptionEl
+= document.createElement("p"); descriptionEl.id = "result-description";
+descriptionEl.className = "text-gray-400 leading-relaxed"; const gaugeWrapper =
+document.createElement("div"); gaugeWrapper.id = "gauge-wrapper";
+gaugeWrapper.className = "mx-auto"; const interpretationDiv =
+document.createElement("div"); interpretationDiv.id = "detailed-interpretation";
+interpretationDiv.className = "space-y-6"; const overallPercentage =
+Math.round(scores.overallPercentage); let verdictColorClass; if
+(overallPercentage >= 70) { verdictEl.innerHTML = "Высокая вероятность
+нарциссических черт"; verdictColorClass = "text-red-400";
+descriptionEl.textContent = "Результаты указывают на значительное присутствие
+нарциссических паттернов. Рекомендуется консультация с психологом для более
+глубокого анализа ситуации."; } else if (overallPercentage >= 40) {
+verdictEl.innerHTML = "Умеренные нарциссические черты"; verdictColorClass =
+"text-yellow-400"; descriptionEl.textContent = "Обнаружены некоторые
+нарциссические черты, которые могут влиять на качество отношений. Важно обратить
+внимание на проблемные области."; } else { verdictEl.innerHTML = "Низкий уровень
+нарциссических черт"; verdictColorClass = "text-green-400";
+descriptionEl.textContent = "Нарциссические черты выражены слабо. Это указывает
+на здоровые паттерны поведения в отношениях."; }
+verdictEl.classList.add(verdictColorClass); gaugeWrapper.innerHTML = `
+<div class="gauge-container">
+  <div class="gauge-value">${overallPercentage}</div>
+</div>
+`; resultsContainer.innerHTML = `
+<div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+  <div class="text-center mb-12">
+    <h2 class="display-font text-4xl md:text-5xl font-bold mb-4">
+      Ваш <span class="gradient-text">Результат</span>
+    </h2>
+  </div>
+  <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
+    ${gaugeWrapper.outerHTML}
+    <div class="flex-1 text-center md:text-left">
+      ${verdictEl.outerHTML} ${descriptionEl.outerHTML}
     </div>
+  </div>
+  <h3 class="text-2xl font-bold text-center mb-8">
+    Детальная разбивка по критериям
+  </h3>
+  <div id="detailed-interpretation-placeholder" class="space-y-6"></div>
+</div>
 
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const introSection = document.getElementById("intro-section");
-        const startTestBtn = document.getElementById("start-test-btn");
-        const testContainer = document.getElementById("test-container");
-        const resultsContainer = document.getElementById("results-container");
-        const form = document.getElementById("narcissism-form");
-        const faqSection = document.getElementById("faq-section");
+<!-- Review Section Start -->
+<div
+  id="review-section"
+  class="mt-12 glass-panel rounded-3xl p-8 md:p-12 shadow-2xl"
+>
+  <h3 class="text-2xl font-bold text-center mb-2">Оцените этот тест</h3>
+  <p class="text-gray-400 text-center mb-6">
+    Ваш отзыв поможет нам стать лучше
+  </p>
+  <div id="review-form-container">
+    <div class="star-rating mb-6">
+      <input type="radio" id="star5" name="rating" value="5" /><label
+        for="star5"
+        >★</label
+      >
+      <input type="radio" id="star4" name="rating" value="4" /><label
+        for="star4"
+        >★</label
+      >
+      <input type="radio" id="star3" name="rating" value="3" /><label
+        for="star3"
+        >★</label
+      >
+      <input type="radio" id="star2" name="rating" value="2" /><label
+        for="star2"
+        >★</label
+      >
+      <input type="radio" id="star1" name="rating" value="1" /><label
+        for="star1"
+        >★</label
+      >
+    </div>
+    <input
+      type="text"
+      id="review-name"
+      class="review-input mb-4"
+      placeholder="Ваше имя (необязательно)"
+      maxlength="50"
+    />
+    <textarea
+      id="review-text"
+      class="review-input mb-6"
+      placeholder="Напишите ваш отзыв здесь... (необязательно)"
+    ></textarea>
+    <div class="text-center">
+      <button id="submit-review-btn" class="btn-premium">
+        Отправить отзыв
+      </button>
+    </div>
+  </div>
+  <div
+    id="review-message"
+    class="text-center text-green-400 font-semibold text-lg hidden"
+  ></div>
+</div>
+<!-- Review Section End -->
 
-        const questions = [
-          {
-            c: 1,
-            q: "Когда вы делитесь своими достижениями, партнер:",
-            a: "reaction_to_success",
-          },
-          {
-            c: 1,
-            q: "Как партнер описывает свои прошлые отношения или неудачи на работе?",
-            a: "past_failures",
-          },
-          {
-            c: 2,
-            q: "Если вы проводите время с друзьями без него/нее, как он(а) реагирует?",
-            a: "reaction_to_absence",
-          },
-          {
-            c: 2,
-            q: "Как партнер реагирует, если вы не сразу отвечаете на его/ее сообщения?",
-            a: "reaction_to_text",
-          },
-          {
-            c: 3,
-            q: "Когда вы делитесь своими переживаниями, партнер:",
-            a: "reaction_to_feelings",
-          },
-          {
-            c: 3,
-            q: "Замечает ли партнер, когда у вас плохое настроение, без ваших слов?",
-            a: "notice_mood",
-          },
-          {
-            c: 4,
-            q: "Как партнер ведет себя в очередях или в пробках?",
-            a: "patience_in_line",
-          },
-          {
-            c: 4,
-            q: "Когда вы в чем-то не согласны, как партнер доказывает свою правоту?",
-            a: "argument_style",
-          },
-          {
-            c: 5,
-            q: "Как партнер просит о помощи или услуге?",
-            a: "asking_for_help",
-          },
-          {
-            c: 5,
-            q: "После ссоры, кто обычно делает первый шаг к примирению?",
-            a: "making_up",
-          },
-          {
-            c: 6,
-            q: "Как партнер комментирует внешность или успех других людей?",
-            a: "commenting_on_others",
-          },
-          {
-            c: 6,
-            q: "Как партнер реагирует на конструктивную критику в свой адрес?",
-            a: "reaction_to_criticism",
-          },
-          {
-            c: 7,
-            q: "Как часто вы слышите о грандиозных планах партнера, которые так и не реализуются?",
-            a: "grand_plans",
-          },
-        ];
-
-        const answerOptions = {
-          reaction_to_success: [
-            { text: "Искренне радуется и гордится мной", value: 0 },
-            { text: "Поздравляет, но быстро переводит тему на себя", value: 2 },
-            {
-              text: "Находит способ обесценить: 'Ну, это же легко было'",
-              value: 3,
-            },
-            { text: "Игнорирует или злится", value: 4 },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          past_failures: [
-            { text: "Признает свои ошибки и извлекает уроки", value: 0 },
-            { text: "Рассказывает, но с юмором", value: 1 },
-            { text: "Всегда виноваты другие (бывшие, начальники)", value: 3 },
-            {
-              text: "Никогда не говорит о неудачах, у него(нее) их нет",
-              value: 4,
-            },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          reaction_to_absence: [
-            { text: "Радуется, что я хорошо провожу время", value: 0 },
-            { text: "Немного ревнует, но в шутку", value: 1 },
-            { text: "Требует постоянных отчетов и фото", value: 3 },
-            { text: "Устраивает скандал или наказывает молчанием", value: 4 },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          reaction_to_text: [
-            { text: "Спокойно, понимает, что я могу быть занят(а)", value: 0 },
-            { text: "Спрашивает, все ли в порядке", value: 1 },
-            { text: "Отправляет много сообщений и звонит", value: 3 },
-            { text: "Обвиняет в игнорировании", value: 4 },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          reaction_to_feelings: [
-            { text: "Внимательно слушает и поддерживает", value: 0 },
-            { text: "Пытается дать совет, не вникая в суть", value: 2 },
-            { text: "Говорит 'не драматизируй' или 'успокойся'", value: 3 },
-            { text: "Начинает рассказывать, как ему(ей) хуже", value: 4 },
-          ],
-          notice_mood: [
-            { text: "Да, почти всегда", value: 0 },
-            { text: "Иногда, если все очевидно", value: 1 },
-            { text: "Редко, нужно прямо говорить", value: 3 },
-            { text: "Никогда, он(а) слишком занят(а) собой", value: 4 },
-          ],
-          patience_in_line: [
-            { text: "Спокойно ждет, как и все", value: 0 },
-            { text: "Заметно нервничает и вздыхает", value: 2 },
-            { text: "Пытается найти способ пройти без очереди", value: 3 },
-            {
-              text: "Громко возмущается и требует особого отношения",
-              value: 4,
-            },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          argument_style: [
-            { text: "Приводит факты и готов(а) к компромиссу", value: 0 },
-            { text: "Давит авторитетом и громкостью", value: 2 },
-            { text: "Переходит на личности и оскорбления", value: 3 },
-            { text: "Искажает мои слова и факты (газлайтинг)", value: 4 },
-            { text: "Мы не спорим", value: 0 },
-          ],
-          asking_for_help: [
-            { text: "Просит вежливо и всегда благодарит", value: 0 },
-            { text: "Формулирует как приказ, но благодарит", value: 2 },
-            { text: "Требует немедленно, злится при отказе", value: 3 },
-            { text: "Манипулирует: 'Если любишь, то сделаешь'", value: 4 },
-          ],
-          making_up: [
-            { text: "Тот, кто был неправ, извиняется первым", value: 0 },
-            { text: "Чаще всего я", value: 2 },
-            { text: "Всегда я, иначе будет молчать неделями", value: 3 },
-            { text: "Он(а) никогда не извиняется", value: 4 },
-            { text: "Мы не ссоримся", value: 0 },
-          ],
-          commenting_on_others: [
-            { text: "Делает комплименты или нейтрален(льна)", value: 0 },
-            { text: "Часто критикует и находит недостатки", value: 2 },
-            { text: "Отпускает злые и завистливые комментарии", value: 3 },
-            { text: "Сравнивает меня с другими (не в мою пользу)", value: 4 },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          reaction_to_criticism: [
-            { text: "Прислушивается и благодарит за обратную связь", value: 0 },
-            { text: "Оправдывается и ищет виноватых", value: 2 },
-            { text: "Обижается и замыкается в себе", value: 3 },
-            { text: "Впадает в ярость и контратакует", value: 4 },
-            { text: "Ко мне не относится", value: 0 },
-          ],
-          grand_plans: [
-            { text: "Никогда или очень редко", value: 0 },
-            { text: "Иногда мечтает вслух", value: 1 },
-            { text: "Довольно часто, но ничего не делает", value: 3 },
-            { text: "Постоянно, и злится, что мир его/ее не ценит", value: 4 },
-          ],
-        };
-
-        const criterionData = {
-          1: { label: "Грандиозность", emoji: "👑", color: "#8b5cf6" },
-          2: { label: "Жажда восхищения", emoji: "⭐", color: "#ec4899" },
-          3: { label: "Отсутствие эмпатии", emoji: "💔", color: "#3b82f6" },
-          4: { label: "Чувство превосходства", emoji: "🧐", color: "#f59e0b" },
-          5: { label: "Эксплуатация", emoji: "🎭", color: "#10b981" },
-          6: { label: "Зависть и высокомерие", emoji: "😒", color: "#ef4444" },
-          7: { label: "Фантазии о величии", emoji: "🚀", color: "#a855f7" },
-        };
-
-        const storageKey = "narcissismTestAnswers";
-        let answeredQuestions = 0;
-
-        const lenis = new Lenis({ lerp: 0.07, smoothWheel: true });
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        startTestBtn.addEventListener("click", () => {
-          introSection.classList.add("fade-out");
-          introSection.addEventListener(
-            "animationend",
-            () => {
-              introSection.classList.add("hidden");
-              testContainer.classList.remove("hidden");
-              testContainer.classList.add("fade-in");
-              renderQuestions();
-            },
-            { once: true }
-          );
-        });
-
-        function saveState() {
-          const formData = new FormData(form);
-          const answers = {};
-          for (const [name, value] of formData.entries()) {
-            answers[name] = value;
-          }
-          localStorage.setItem(storageKey, JSON.stringify(answers));
-        }
-
-        function loadState() {
-          const savedAnswers = localStorage.getItem(storageKey);
-          if (savedAnswers) {
-            const answers = JSON.parse(savedAnswers);
-            Object.entries(answers).forEach(([name, value]) => {
-              const radio = form.querySelector(
-                `input[name="${name}"][value="${value}"]`
-              );
-              if (radio) {
-                radio.checked = true;
-                const container = radio.closest(".grid");
-                container
-                  .querySelectorAll(".option-card")
-                  .forEach((card) => card.classList.remove("selected"));
-                radio.parentElement.classList.add("selected");
-                const questionBlock = radio.closest(".question-block");
-                if (!questionBlock.hasAttribute("data-answered")) {
-                  questionBlock.setAttribute("data-answered", "true");
-                  answeredQuestions++;
-                }
-              }
-            });
-            updateProgress();
-          }
-        }
-
-        function updateProgress() {
-          const progress = (answeredQuestions / questions.length) * 100;
-          document.getElementById("progress-fill").style.width = progress + "%";
-        }
-
-        function renderQuestions() {
-          questions.forEach((qData, index) => {
-            const block = document.createElement("div");
-            block.className = "question-block fade-in";
-            const questionText = document.createElement("p");
-            questionText.className = "font-medium text-lg text-gray-100 mb-4";
-            questionText.textContent = `${index + 1}. ${qData.q}`;
-            block.appendChild(questionText);
-            const optionsContainer = document.createElement("div");
-            optionsContainer.className =
-              "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3";
-            const currentAnswerSet = answerOptions[qData.a];
-            currentAnswerSet.forEach((opt) => {
-              const label = document.createElement("label");
-              label.className =
-                "option-card p-4 rounded-xl text-center cursor-pointer flex items-center justify-center min-h-[60px]";
-              const radio = document.createElement("input");
-              radio.type = "radio";
-              radio.name = `q${index}`;
-              radio.value = opt.value;
-              radio.required = true;
-              label.appendChild(radio);
-              label.append(opt.text);
-              optionsContainer.appendChild(label);
-            });
-            block.appendChild(optionsContainer);
-            form.appendChild(block);
-          });
-          loadState();
-        }
-
-        form.addEventListener("change", (e) => {
-          if (e.target.type === "radio") {
-            const container = e.target.closest(".grid");
-            container
-              .querySelectorAll(".option-card")
-              .forEach((card) => card.classList.remove("selected"));
-            e.target.parentElement.classList.add("selected");
-            const questionBlock = e.target.closest(".question-block");
-            if (!questionBlock.hasAttribute("data-answered")) {
-              questionBlock.setAttribute("data-answered", "true");
-              answeredQuestions++;
-              updateProgress();
-            }
-            saveState();
-          }
-        });
-
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          if (answeredQuestions < questions.length) {
-            const unansweredBlock = form.querySelector(
-              ".question-block:not([data-answered])"
-            );
-            if (unansweredBlock) {
-              lenis.scrollTo(unansweredBlock, { offset: -150 });
-            }
-            return;
-          }
-          const scores = calculateScores();
-          renderResults(scores);
-          localStorage.removeItem(storageKey);
-        });
-
-        function calculateScores() {
-          const formData = new FormData(form);
-          let criterionScores = {};
-          Object.keys(criterionData).forEach((key) => {
-            criterionScores[key] = { sum: 0, count: 0 };
-          });
-          questions.forEach((q, index) => {
-            const value = parseInt(formData.get(`q${index}`), 10) || 0;
-            criterionScores[q.c].sum += value;
-            criterionScores[q.c].count++;
-          });
-          let finalScores = {};
-          let totalScore = 0;
-          let maxPossibleScore = 0;
-          Object.keys(criterionData).forEach((key) => {
-            const { sum, count } = criterionScores[key];
-            const maxScore = 4 * count;
-            finalScores[key] = {
-              percentage: maxScore > 0 ? (sum / maxScore) * 100 : 0,
-            };
-            totalScore += sum;
-            maxPossibleScore += maxScore;
-          });
-          finalScores.overallPercentage =
-            maxPossibleScore > 0 ? (totalScore / maxPossibleScore) * 100 : 0;
-          return finalScores;
-        }
-
-        function renderResults(scores) {
-          testContainer.classList.add("fade-out");
-          testContainer.addEventListener(
-            "animationend",
-            () => {
-              testContainer.classList.add("hidden");
-              resultsContainer.classList.remove("hidden");
-              resultsContainer.classList.add("fade-in");
-              faqSection.classList.remove("hidden");
-              faqSection.classList.add("fade-in");
-              lenis.scrollTo(0);
-            },
-            { once: true }
-          );
-
-          const verdictEl = document.createElement("div");
-          verdictEl.id = "overall-verdict";
-          verdictEl.className = "text-2xl md:text-3xl font-bold mb-4";
-
-          const descriptionEl = document.createElement("p");
-          descriptionEl.id = "result-description";
-          descriptionEl.className = "text-gray-400 leading-relaxed";
-
-          const gaugeWrapper = document.createElement("div");
-          gaugeWrapper.id = "gauge-wrapper";
-          gaugeWrapper.className = "mx-auto";
-
-          const interpretationDiv = document.createElement("div");
-          interpretationDiv.id = "detailed-interpretation";
-          interpretationDiv.className = "space-y-6";
-
-          const overallPercentage = Math.round(scores.overallPercentage);
-          let verdictColorClass;
-          if (overallPercentage >= 70) {
-            verdictEl.innerHTML = "Высокая вероятность нарциссических черт";
-            verdictColorClass = "text-red-400";
-            descriptionEl.textContent =
-              "Результаты указывают на значительное присутствие нарциссических паттернов. Рекомендуется консультация с психологом для более глубокого анализа ситуации.";
-          } else if (overallPercentage >= 40) {
-            verdictEl.innerHTML = "Умеренные нарциссические черты";
-            verdictColorClass = "text-yellow-400";
-            descriptionEl.textContent =
-              "Обнаружены некоторые нарциссические черты, которые могут влиять на качество отношений. Важно обратить внимание на проблемные области.";
-          } else {
-            verdictEl.innerHTML = "Низкий уровень нарциссических черт";
-            verdictColorClass = "text-green-400";
-            descriptionEl.textContent =
-              "Нарциссические черты выражены слабо. Это указывает на здоровые паттерны поведения в отношениях.";
-          }
-          verdictEl.classList.add(verdictColorClass);
-
-          gaugeWrapper.innerHTML = `<div class="gauge-container"><div class="gauge-value">${overallPercentage}</div></div>`;
-
-          resultsContainer.innerHTML = `
-              <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
-                <div class="text-center mb-12">
-                  <h2 class="display-font text-4xl md:text-5xl font-bold mb-4">Ваш <span class="gradient-text">Результат</span></h2>
-                </div>
-                <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
-                  ${gaugeWrapper.outerHTML}
-                  <div class="flex-1 text-center md:text-left">
-                    ${verdictEl.outerHTML}
-                    ${descriptionEl.outerHTML}
-                  </div>
-                </div>
-                <h3 class="text-2xl font-bold text-center mb-8">Детальная разбивка по критериям</h3>
-                <div id="detailed-interpretation-placeholder" class="space-y-6"></div>
-              </div>
-
-              <!-- Review Section Start -->
-              <div id="review-section" class="mt-12 glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
-                  <h3 class="text-2xl font-bold text-center mb-2">Оцените этот тест</h3>
-                  <p class="text-gray-400 text-center mb-6">Ваш отзыв поможет нам стать лучше</p>
-                  <div id="review-form-container">
-                      <div class="star-rating mb-6">
-                          <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
-                          <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
-                          <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
-                          <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
-                          <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
-                      </div>
-                      <textarea id="review-text" class="review-textarea mb-6" placeholder="Напишите ваш отзыв здесь... (необязательно)"></textarea>
-                      <div class="text-center">
-                          <button id="submit-review-btn" class="btn-premium">Отправить отзыв</button>
-                      </div>
-                  </div>
-                  <div id="review-message" class="text-center text-green-400 font-semibold text-lg hidden"></div>
-              </div>
-              <!-- Review Section End -->
-
-              <div class="mt-12 text-center space-y-4">
-                <button onclick="location.reload()" class="btn-premium">Пройти тест заново</button>
-                <div><a href="../../index.html" class="text-purple-400 hover:text-purple-300">Вернуться к списку тестов →</a></div>
-              </div>
-            `;
-
-          const interpretationPlaceholder = document.getElementById(
-            "detailed-interpretation-placeholder"
-          );
-          Object.keys(criterionData).forEach((key, index) => {
-            const data = criterionData[key];
-            const scoreData = scores[key];
-            const percentage = Math.round(scoreData.percentage);
-            const criterionEl = document.createElement("div");
-            criterionEl.className = "fade-in";
-            criterionEl.style.animationDelay = `${index * 0.1}s`;
-            criterionEl.innerHTML = `
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center">
-                            <span class="text-2xl mr-3">${data.emoji}</span>
-                            <span class="font-semibold text-white">${data.label}</span>
-                        </div>
-                        <span class="font-bold text-lg" style="color: ${data.color}">${percentage}%</span>
-                    </div>
-                    <div class="criterion-bar-bg">
-                        <div class="criterion-bar-fill" style="width: 0%; background-color: ${data.color}; --bar-color: ${data.color};"></div>
-                    </div>
-                `;
-            interpretationPlaceholder.appendChild(criterionEl);
-          });
-
-          setTimeout(() => {
-            document
-              .querySelectorAll(".criterion-bar-fill")
-              .forEach((bar, index) => {
-                const key = Object.keys(criterionData)[index];
-                const percentage = Math.round(scores[key].percentage);
-                bar.style.width = `${percentage}%`;
-              });
-          }, 100);
-
-          // Add event listener for the new review form
-          setupReviewForm();
-        }
-
-        function setupReviewForm() {
-          const submitBtn = document.getElementById("submit-review-btn");
-          const reviewFormContainer = document.getElementById(
-            "review-form-container"
-          );
-          const reviewMessage = document.getElementById("review-message");
-
-          submitBtn.addEventListener("click", () => {
-            const ratingInput = document.querySelector(
-              'input[name="rating"]:checked'
-            );
-            const reviewText = document.getElementById("review-text").value;
-
-            if (!ratingInput) {
-              alert("Пожалуйста, поставьте оценку.");
-              return;
-            }
-
-            const rating = parseInt(ratingInput.value, 10);
-
-            // !!! ВАЖНО: Замените URL на адрес вашей Cloud Function после развертывания
-            const functionUrl =
-              "https://us-central1-your-project-id.cloudfunctions.net/submitReview";
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Отправка...";
-
-            fetch(functionUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ rating: rating, text: reviewText }),
-            })
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error("Network response was not ok");
-                }
-                return response.json();
-              })
-              .then((data) => {
-                reviewFormContainer.classList.add("hidden");
-                reviewMessage.textContent = "Спасибо за ваш отзыв!";
-                reviewMessage.classList.remove("hidden");
-              })
-              .catch((error) => {
-                console.error("Error submitting review:", error);
-                reviewMessage.textContent =
-                  "Произошла ошибка. Попробуйте позже.";
-                reviewMessage.classList.remove("hidden", "text-green-400");
-                reviewMessage.classList.add("text-red-400");
-                reviewFormContainer.classList.add("hidden");
-              });
-          });
-        }
-      });
-    </script>
-  </body>
-</html>
+<div class="mt-12 text-center space-y-4">
+  <button onclick="location.reload()" class="btn-premium">
+    Пройти тест заново
+  </button>
+  <div>
+    <a href="../../index.html" class="text-purple-400 hover:text-purple-300"
+      >Вернуться к списку тестов →</a
+    >
+  </div>
+</div>
+`; const interpretationPlaceholder = document.getElementById(
+"detailed-interpretation-placeholder" );
+Object.keys(criterionData).forEach((key, index) => { const data =
+criterionData[key]; const scoreData = scores[key]; const percentage =
+Math.round(scoreData.percentage); const criterionEl =
+document.createElement("div"); criterionEl.className = "fade-in";
+criterionEl.style.animationDelay = `${index * 0.1}s`; criterionEl.innerHTML = `
+<div class="flex items-center justify-between mb-2">
+  <div class="flex items-center">
+    <span class="text-2xl mr-3">${data.emoji}</span>
+    <span class="font-semibold text-white">${data.label}</span>
+  </div>
+  <span class="font-bold text-lg" style="color: ${data.color}"
+    >${percentage}%</span
+  >
+</div>
+<div class="criterion-bar-bg">
+  <div
+    class="criterion-bar-fill"
+    style="width: 0%; background-color: ${data.color}; --bar-color: ${data.color};"
+  ></div>
+</div>
+`; interpretationPlaceholder.appendChild(criterionEl); }); setTimeout(() => {
+document .querySelectorAll(".criterion-bar-fill") .forEach((bar, index) => {
+const key = Object.keys(criterionData)[index]; const percentage =
+Math.round(scores[key].percentage); bar.style.width = `${percentage}%`; }); },
+100); setupReviewForm(); } function setupReviewForm() { const submitBtn =
+document.getElementById('submit-review-btn'); const reviewFormContainer =
+document.getElementById('review-form-container'); const reviewMessage =
+document.getElementById('review-message'); submitBtn.addEventListener('click',
+() => { const ratingInput =
+document.querySelector('input[name="rating"]:checked'); const reviewText =
+document.getElementById('review-text').value; const reviewName =
+document.getElementById('review-name').value; if (!ratingInput) {
+alert('Пожалуйста, поставьте оценку.'); return; } const rating =
+parseInt(ratingInput.value, 10); const name = reviewName.trim() === '' ?
+'Аноним' : reviewName; // Вставляем ваш URL из Formspree const formspreeUrl =
+'https://formspree.io/f/xpwloayd'; submitBtn.disabled = true;
+submitBtn.textContent = 'Отправка...'; const formData = { rating: rating, text:
+reviewText, name: name, _subject: `Новый отзыв (${rating}★) для теста на
+нарциссизм`, }; fetch(formspreeUrl, { method: 'POST', headers: { 'Content-Type':
+'application/json', 'Accept': 'application/json' }, body:
+JSON.stringify(formData), }) .then(response => { if (response.ok) {
+reviewFormContainer.classList.add('hidden'); reviewMessage.textContent =
+'Спасибо за ваш отзыв!'; reviewMessage.classList.remove('hidden'); } else {
+throw new Error('Network response was not ok.'); } }) .catch(error => {
+console.error('Error submitting review:', error); reviewMessage.textContent =
+'Произошла ошибка. Попробуйте позже.'; reviewMessage.classList.remove('hidden',
+'text-green-400'); reviewMessage.classList.add('text-red-400');
+reviewFormContainer.classList.add('hidden'); }); }); } });

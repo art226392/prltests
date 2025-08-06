@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Тест: Тени твоей души - BPD tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --brand-purple: #8b5cf6;
+        --brand-pink: #ec4899;
+        --bg-color: #0a0a0a;
+        --text-color: #eaeaea;
+        --border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: "Playfair Display", serif;
+      }
+
+      /* --- Atmospheric Backgrounds --- */
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: var(--bg-color);
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      .dynamic-bg::before,
+      .dynamic-bg::after {
+        content: "";
+        position: absolute;
+        width: 1000px;
+        height: 1000px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--brand-purple),
+          transparent 60%
+        );
+        animation: pulse 20s infinite alternate;
+        opacity: 0.08;
+      }
+
+      .dynamic-bg::after {
+        background: radial-gradient(circle, var(--brand-pink), transparent 60%);
+        animation: pulse 25s infinite alternate-reverse;
+        bottom: -50%;
+        right: -50%;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.8) translate(50px, 50px);
+        }
+        100% {
+          transform: scale(1.2) translate(-50px, -50px);
+        }
+      }
+
+      /* --- Glassmorphism Panels --- */
+      .glass-panel {
+        background: rgba(20, 20, 22, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
+      }
+
+      .option-label {
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .option-label:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--brand-purple);
+      }
+
+      input:checked + .option-label {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
+        border-color: var(--brand-purple);
+        transform: scale(1.03);
+        color: #fff;
+      }
+
+      /* --- Button & UI Styling --- */
+      .site-button {
+        background: linear-gradient(
+          135deg,
+          var(--brand-purple) 0%,
+          var(--brand-pink) 100%
+        );
+        color: white;
+        transition: all 0.3s ease;
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3),
+          0 8px 25px rgba(236, 72, 153, 0.3);
+      }
+
+      .site-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.4),
+          0 12px 30px rgba(236, 72, 153, 0.4);
+      }
+
+      .site-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: translateY(0);
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          var(--brand-purple) 0%,
+          var(--brand-pink) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* --- Result Page Styling --- */
+      .result-image {
+        filter: grayscale(100%) contrast(1.1);
+        transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          opacity 1s ease;
+        object-fit: cover;
+        min-height: 400px;
+        opacity: 0;
+        mix-blend-mode: screen;
+      }
+
+      .result-image.loaded {
+        opacity: 0.5;
+      }
+
+      .result-card:hover .result-image {
+        transform: scale(1.05);
+      }
+
+      /* --- Evidence Board Reimagined --- */
+      .dossier-board {
+        background-color: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-color);
+      }
+
+      .dossier-item {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+      .dossier-item:hover {
+        transform: scale(1.05);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .trait-bar-bg {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .trait-bar-fill {
+        background: linear-gradient(
+          90deg,
+          var(--brand-purple),
+          var(--brand-pink)
+        );
+      }
+
+      /* --- Progress Bar --- */
+      .progress-bar-fill {
+        background: linear-gradient(
+          90deg,
+          var(--brand-purple),
+          var(--brand-pink)
+        );
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* --- Animations --- */
+      .fade-in-deep {
+        animation: fadeInDeep 1s ease-out forwards;
+      }
+      .fade-out-deep {
+        animation: fadeOutDeep 0.7s ease-in forwards;
+      }
+
+      @keyframes fadeInDeep {
+        from {
+          opacity: 0;
+          transform: translateY(30px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      @keyframes fadeOutDeep {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-30px) scale(0.98);
+          visibility: hidden;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col p-4 md:p-8">
+      <nav
+        class="glass-panel fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 px-6 py-4 rounded-2xl"
+      >
+        <div class="flex justify-between items-center">
+          <a href="../../index.html" class="flex items-center space-x-3 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">BPD tests</span>
+          </a>
+          <a
+            href="../../index.html"
+            class="text-gray-300 hover:text-white transition-colors"
+            >← К тестам</a
+          >
+        </div>
+      </nav>
+
+      <main
+        id="test-container"
+        class="w-full max-w-3xl mx-auto my-auto pt-20 fade-in-deep"
+      >
+        <div class="text-center mb-12">
+          <h1
+            class="display-font text-5xl md:text-7xl font-bold mb-4 text-white"
+          >
+            Тени твоей <span class="gradient-text">души</span>
+          </h1>
+          <p class="text-xl text-gray-400">
+            Город ждет. Узнай свою роль в этой бесконечной ночи.
+          </p>
+        </div>
+
+        <div id="quiz-area" class="glass-panel rounded-lg p-6 md:p-10">
+          <!-- Question content is injected here -->
+        </div>
+
+        <div class="mt-8">
+          <div class="bg-black/20 w-full h-2 rounded-full overflow-hidden mb-4">
+            <div
+              id="progress-bar"
+              class="progress-bar-fill h-full"
+              style="width: 0%"
+            ></div>
+          </div>
+          <div class="flex justify-between items-center">
+            <button
+              id="prev-btn"
+              class="site-button text-lg px-8 py-3 rounded-md opacity-50"
+              disabled
+            >
+              Назад
+            </button>
+            <span id="progress-text" class="text-gray-400">Вопрос 1 / 15</span>
+            <button
+              id="next-btn"
+              class="site-button text-lg px-8 py-3 rounded-md opacity-50"
+              disabled
+            >
+              Далее
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <div id="results-container" class="hidden">
+        <!-- Result content is injected here -->
+      </div>
+    </div>
+
+    <script>
+      const quizData = {
+        questions: [
+          {
+            text: "Вы видите, как кто-то роняет крупную сумму денег. Ваши действия:",
+            answers: [
+              {
+                text: "Подниму и присвою. В этом мире каждый сам за себя.",
+                score: { femmeFatale: 2, jadedDetective: 1 },
+              },
+              {
+                text: "Подниму и окликну человека. Честность — лучшая политика.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Задумаюсь, чьи это деньги и как они повлияют на его жизнь. Возможно, напишу об этом.",
+                score: { torturedArtist: 2 },
+              },
+              {
+                text: "Проверю, не подстава ли это. В наше время доверять нельзя никому.",
+                score: { jadedDetective: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ваш близкий друг совершает сомнительный поступок. Ваша реакция:",
+            answers: [
+              {
+                text: "Помогу замести следы. Друзья должны держаться вместе, особенно в плохих делах.",
+                score: { femmeFatale: 1, jadedDetective: 2 },
+              },
+              {
+                text: "Выражу свое неодобрение, но постараюсь понять его мотивы.",
+                score: { innocentPawn: 2, torturedArtist: 1 },
+              },
+              {
+                text: "Разорву с ним всякие отношения. Предательство не прощаю.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Попытаюсь понять, что привело его к этому. Возможно, в этом кроется глубокая драма.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "На вечеринке незнакомец рассказывает вам душераздирающую историю. Вы:",
+            answers: [
+              {
+                text: "Скептически подниму бровь. Люди любят приукрашивать.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Искренне посочувствую и предложу помощь.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Запишу детали в блокнот. Это может стать основой для моего следующего произведения.",
+                score: { torturedArtist: 3 },
+              },
+              {
+                text: "Попытаюсь понять, что он хочет от меня на самом деле.",
+                score: { femmeFatale: 2 },
+              },
+            ],
+          },
+          {
+            text: "Ваше любимое время суток:",
+            answers: [
+              {
+                text: "Глубокая ночь. Время тайн и скрытых возможностей.",
+                score: { femmeFatale: 2, jadedDetective: 2 },
+              },
+              {
+                text: "Рассвет. Начало нового дня, полного надежд.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Сумерки. Время меланхолии и вдохновения.",
+                score: { torturedArtist: 3 },
+              },
+              {
+                text: "Полдень. Время действовать и добиваться своего.",
+                score: { jadedDetective: 1, femmeFatale: 1 },
+              },
+            ],
+          },
+          {
+            text: "Что вы больше всего цените в людях?",
+            answers: [
+              { text: "Власть и влияние.", score: { femmeFatale: 3 } },
+              {
+                text: "Честность и прямоту, хотя это и редкость.",
+                score: { jadedDetective: 3 },
+              },
+              { text: "Доброту и сострадание.", score: { innocentPawn: 3 } },
+              {
+                text: "Глубину чувств и способность к эмпатии.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ваше убежище от проблем:",
+            answers: [
+              {
+                text: "Роскошные апартаменты с видом на ночной город.",
+                score: { femmeFatale: 2 },
+              },
+              {
+                text: "Прокуренный офис с бутылкой виски.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Тихое место на природе, где никто не потревожит.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Собственный внутренний мир, полный фантазий и образов.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ваше отношение к закону:",
+            answers: [
+              {
+                text: "Скорее ограничение, чем защита. Правила созданы, чтобы их нарушать.",
+                score: { femmeFatale: 3, jadedDetective: 1 },
+              },
+              {
+                text: "Несовершенная, но необходимая система для поддержания порядка.",
+                score: { jadedDetective: 2, innocentPawn: 2 },
+              },
+              {
+                text: "Основа справедливого общества, которую нужно неукоснительно соблюдать.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Часто формальность, скрывающая истинную природу человеческих поступков.",
+                score: { torturedArtist: 2 },
+              },
+            ],
+          },
+          {
+            text: "Что вы считаете своим главным оружием?",
+            answers: [
+              {
+                text: "Мой ум и способность очаровывать.",
+                score: { femmeFatale: 3 },
+              },
+              {
+                text: "Мой опыт и интуиция, отточенные годами.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Мое доброе сердце и вера в людей.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Моя способность чувствовать и выражать.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ваша реакция на предательство:",
+            answers: [
+              {
+                text: "Месть будет моим главным блюдом.",
+                score: { femmeFatale: 3 },
+              },
+              {
+                text: "Не удивлен. В этом мире каждый предает рано или поздно.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Не могу поверить! Как он мог так поступить?",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Эта боль вдохновит меня на создание чего-то великого.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ваша цель в жизни:",
+            answers: [
+              { text: "Достичь власти и влияния.", score: { femmeFatale: 3 } },
+              {
+                text: "Найти хоть каплю истины в этом море лжи.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Сделать мир хоть немного лучше.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Постичь глубину человеческой души и выразить ее.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Как вы справляетесь со стрессом?",
+            answers: [
+              {
+                text: "Планирую свой следующий шаг к успеху.",
+                score: { femmeFatale: 2 },
+              },
+              {
+                text: "Заливаю горе крепким алкоголем.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Занимаюсь медитацией или помогаю другим.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Пишу стихи или погружаюсь в искусство.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ваша самая большая слабость:",
+            answers: [
+              {
+                text: "Мое стремление к совершенству и контролю.",
+                score: { femmeFatale: 2 },
+              },
+              {
+                text: "Мое недоверие ко всему и вся.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Моя чрезмерная доверчивость.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Моя эмоциональная нестабильность.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Что вы думаете о будущем?",
+            answers: [
+              {
+                text: "Будущее принадлежит тем, кто умеет его завоевать.",
+                score: { femmeFatale: 3 },
+              },
+              {
+                text: "Будущее туманно и неопределенно, как и прошлое.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Верю, что в будущем все будет хорошо.",
+                score: { innocentPawn: 3 },
+              },
+              {
+                text: "Будущее — это неисчерпаемый источник вдохновения и тревоги.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Ночной город для вас — это:",
+            answers: [
+              { text: "Сцена для моих интриг.", score: { femmeFatale: 3 } },
+              {
+                text: "Джунгли, полные опасностей и тайн.",
+                score: { jadedDetective: 3 },
+              },
+              {
+                text: "Место, где одинокие души ищут утешения.",
+                score: { innocentPawn: 2, torturedArtist: 1 },
+              },
+              {
+                text: "Источник меланхолии и глубоких раздумий.",
+                score: { torturedArtist: 3 },
+              },
+            ],
+          },
+          {
+            text: "Если бы вы могли изменить одну черту своего характера, что бы это было?",
+            answers: [
+              {
+                text: "Мою излишнюю эмоциональность.",
+                score: { femmeFatale: 1, torturedArtist: -2 },
+              },
+              {
+                text: "Мое постоянное ожидание худшего.",
+                score: { jadedDetective: -2, innocentPawn: 1 },
+              },
+              {
+                text: "Мою наивность.",
+                score: { innocentPawn: -2, jadedDetective: 1 },
+              },
+              {
+                text: "Мое стремление к саморазрушению.",
+                score: { torturedArtist: -2, jadedDetective: 1 },
+              },
+            ],
+          },
+        ],
+        results: {
+          femmeFatale: {
+            title: "Игрок в тени",
+            description:
+              "Вы — гроссмейстер этого города, а люди — фигуры на вашей доске. Обольщение — ваше оружие, интрига — ваш воздух. Вы видите слабости других как открытые двери к власти, и входите в них без стука. За ледяным фасадом и безупречным стилем скрывается страх потерять контроль, ведь в вашей игре проигрыш равносилен смерти. Вы одиноки на вершине, потому что сами разрушили все мосты, ведущие к вам.",
+            traits: [
+              { name: "Обаяние", value: 90 },
+              { name: "Расчетливость", value: 95 },
+              { name: "Скрытность", value: 85 },
+              { name: "Безжалостность", value: 70 },
+            ],
+            keywords: "woman,shadow,night,seductive,mystery,dark,portrait",
+          },
+          jadedDetective: {
+            title: "Усталый циник",
+            description:
+              "Дождь — ваш единственный верный спутник, а виски — лекарство от воспоминаний. Вы видели изнанку этого города, и она содрала с вас веру в человечество. Каждое новое дело — лишь очередной гвоздь в крышку гроба ваших иллюзий. Ваш цинизм — это шрам на душе, которая когда-то была способна верить. Теперь вы ищете не справедливость, а хотя бы какой-то смысл в этом проклятом лабиринте улиц.",
+            traits: [
+              { name: "Наблюдательность", value: 92 },
+              { name: "Цинизм", value: 98 },
+              { name: "Одиночество", value: 88 },
+              { name: "Честь", value: 60 },
+            ],
+            keywords: "detective,rain,street,hat,dark,city,smoke",
+          },
+          innocentPawn: {
+            title: "Невинная душа",
+            description:
+              "Вы — заблудившийся мотылек, летящий на неоновый свет большого города. Ваша душа чиста, а сердце открыто, что делает вас одновременно и светом надежды, и идеальной жертвой. Вы верите в обещания и видите добро там, где его нет. Ваша трагедия не в том, что вас обманывают, а в том, что после каждого предательства вы находите в себе силы верить снова, обрекая себя на повторение боли.",
+            traits: [
+              { name: "Доброта", value: 96 },
+              { name: "Наивность", value: 94 },
+              { name: "Эмпатия", value: 90 },
+              { name: "Обреченность", value: 55 },
+            ],
+            keywords: "woman,light,hope,innocent,pure,sad,window",
+          },
+          torturedArtist: {
+            title: "Меланхоличный гений",
+            description:
+              "Вы живете в мире полутонов, где красота неотделима от боли. Ваши чувства — оголенный нерв, реагирующий на малейшую фальшь этого мира. Вы творите, чтобы не сойти с ума, превращая свои страдания в пронзительные шедевры, которые никто не может до конца понять. Одиночество — ваша и муза, и проклятие. Вы ищете спасения в искусстве, но находите лишь временное забвение, прежде чем новая волна эмоций накроет вас с головой.",
+            traits: [
+              { name: "Чувствительность", value: 97 },
+              { name: "Драматизм", value: 93 },
+              { name: "Креативность", value: 91 },
+              { name: "Саморазрушение", value: 80 },
+            ],
+            keywords: "artist,shadows,piano,rainy,window,solitude,dark",
+          },
+        },
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const quizArea = document.getElementById("quiz-area");
+        const testContainer = document.getElementById("test-container");
+        const resultsContainer = document.getElementById("results-container");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const progressText = document.getElementById("progress-text");
+        const progressBar = document.getElementById("progress-bar");
+
+        const numberOfQuestions = quizData.questions.length;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+
+        function updateProgress() {
+          const progress =
+            ((currentQuestionIndex + 1) / numberOfQuestions) * 100;
+          progressBar.style.width = `${progress}%`;
+          progressText.textContent = `Вопрос ${
+            currentQuestionIndex + 1
+          } / ${numberOfQuestions}`;
+
+          prevBtn.disabled = currentQuestionIndex === 0;
+          prevBtn.style.opacity = currentQuestionIndex === 0 ? "0.5" : "1";
+
+          const isAnswered = userAnswers.hasOwnProperty(
+            `q${currentQuestionIndex}`
+          );
+          nextBtn.disabled = !isAnswered;
+          nextBtn.style.opacity = isAnswered ? "1" : "0.5";
+
+          if (isAnswered && currentQuestionIndex === numberOfQuestions - 1) {
+            nextBtn.textContent = "Узнать результат";
+          } else {
+            nextBtn.textContent = "Далее";
+          }
+        }
+
+        function renderQuestion() {
+          const qData = quizData.questions[currentQuestionIndex];
+          const questionHTML = `
+            <div class="fade-in-deep">
+                <p class="text-xl md:text-2xl font-medium mb-6 text-gray-200">${
+                  qData.text
+                }</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    ${qData.answers
+                      .map(
+                        (ans, aIndex) => `
+                        <div>
+                            <input type="radio" id="q${currentQuestionIndex}a${aIndex}" name="q${currentQuestionIndex}" value="${aIndex}" class="hidden" ${
+                          userAnswers[`q${currentQuestionIndex}`] == aIndex
+                            ? "checked"
+                            : ""
+                        }>
+                            <label for="q${currentQuestionIndex}a${aIndex}" class="option-label block p-4 rounded-md text-gray-300 h-full">${
+                          ans.text
+                        }</label>
+                        </div>
+                    `
+                      )
+                      .join("")}
+                </div>
+            </div>
+        `;
+          quizArea.innerHTML = questionHTML;
+
+          quizArea.querySelectorAll('input[type="radio"]').forEach((radio) => {
+            radio.addEventListener("change", (e) => {
+              userAnswers[`q${currentQuestionIndex}`] = e.target.value;
+              updateProgress();
+              setTimeout(showNextQuestion, 300);
+            });
+          });
+          updateProgress();
+        }
+
+        function showNextQuestion() {
+          if (!userAnswers.hasOwnProperty(`q${currentQuestionIndex}`)) return;
+
+          if (currentQuestionIndex < numberOfQuestions - 1) {
+            currentQuestionIndex++;
+            renderQuestion();
+          } else {
+            calculateResultsAndShow();
+          }
+        }
+
+        function showPrevQuestion() {
+          if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            renderQuestion();
+          }
+        }
+
+        function calculateResultsAndShow() {
+          const scores = {
+            femmeFatale: 0,
+            jadedDetective: 0,
+            innocentPawn: 0,
+            torturedArtist: 0,
+          };
+          for (let i = 0; i < numberOfQuestions; i++) {
+            const answerIndex = userAnswers[`q${i}`];
+            if (answerIndex !== undefined) {
+              const answerScore =
+                quizData.questions[i].answers[answerIndex].score;
+              for (const key in answerScore) {
+                if (scores.hasOwnProperty(key)) {
+                  scores[key] += answerScore[key];
+                }
+              }
+            }
+          }
+
+          let maxScore = -Infinity;
+          let resultKey = "";
+          for (const key in scores) {
+            if (scores[key] > maxScore) {
+              maxScore = scores[key];
+              resultKey = key;
+            }
+          }
+
+          const result = quizData.results[resultKey];
+
+          testContainer.classList.add("fade-out-deep");
+          setTimeout(() => {
+            testContainer.classList.add("hidden");
+            resultsContainer.classList.remove("hidden");
+            renderResults(result);
+          }, 700);
+        }
+
+        function renderResults(result) {
+          const imageUrl = `https://source.unsplash.com/random/800x600/?noir,${result.keywords}`;
+
+          resultsContainer.innerHTML = `
+            <div class="w-full max-w-5xl mx-auto my-auto glass-panel rounded-lg overflow-hidden fade-in-deep">
+                <div class="grid grid-cols-1 lg:grid-cols-5">
+                    <div class="lg:col-span-2 result-image-container flex items-center justify-center">
+                        <img id="result-img" src="" data-src="${imageUrl}" alt="${
+            result.title
+          }" class="result-image w-full h-full">
+                        <div id="img-loader" class="text-gray-400">Загрузка кадра...</div>
+                    </div>
+                    <div class="lg:col-span-3 p-8 md:p-10 flex flex-col">
+                        <h2 class="display-font text-4xl md:text-5xl font-bold gradient-text">${
+                          result.title
+                        }</h2>
+                        <p class="text-lg text-gray-300 mt-4 mb-8 flex-grow">${
+                          result.description
+                        }</p>
+                        
+                        <div class="dossier-board rounded-md mt-auto p-4">
+                            <h3 class="font-bold text-gray-200 mb-4 text-center text-lg border-b border-gray-500 pb-2">Досье: Ключевые черты</h3>
+                            <div class="grid grid-cols-2 gap-4 mt-4">
+                                ${result.traits
+                                  .map(
+                                    (trait, i) => `
+                                    <div class="dossier-item rounded-md p-3">
+                                        <p class="font-bold text-lg text-white">${trait.name}</p>
+                                        <div class="w-full trait-bar-bg h-2 rounded-full mt-1">
+                                            <div class="trait-bar-fill h-2 rounded-full" style="width: ${trait.value}%"></div>
+                                        </div>
+                                    </div>
+                                `
+                                  )
+                                  .join("")}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 text-center fade-in-deep" style="animation-delay: 0.5s;">
+                 <button id="restart-button" class="site-button text-xl px-12 py-4 rounded-md">Начать новую историю</button>
+            </div>
+        `;
+
+          const resultImg = document.getElementById("result-img");
+          const imgLoader = document.getElementById("img-loader");
+          resultImg.onload = () => {
+            imgLoader.style.display = "none";
+            resultImg.classList.add("loaded");
+          };
+          resultImg.onerror = () => {
+            imgLoader.textContent = "Не удалось загрузить кадр.";
+          };
+          resultImg.src = resultImg.dataset.src;
+
+          document
+            .getElementById("restart-button")
+            .addEventListener("click", () => {
+              location.reload();
+            });
+        }
+
+        prevBtn.addEventListener("click", showPrevQuestion);
+        nextBtn.addEventListener("click", showNextQuestion);
+
+        renderQuestion();
+      });
+    </script>
+  </body>
+</html>

@@ -418,7 +418,7 @@
                 </div>
                 <span
                   class="px-3 py-1 bg-fuchsia-500/20 text-fuchsia-400 rounded-full text-sm font-semibold"
-                  >Новый</span
+                  >Популярный</span
                 >
               </div>
               <h3 class="text-2xl font-bold mb-3">Тест: Спектр Личности</h3>
@@ -462,6 +462,91 @@
                 </div>
                 <svg
                   class="hover-arrow w-6 h-6 text-fuchsia-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </div>
+            </a>
+
+            <!-- Attachment Style Test Card - ИСПРАВЛЕННАЯ ССЫЛКА -->
+            <a
+              href="tests/attachment-style.html"
+              class="glass-card test-card rounded-2xl p-8 group block"
+            >
+              <div class="flex items-start justify-between mb-6">
+                <div
+                  class="icon-container w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  class="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-sm font-semibold"
+                  >Новый</span
+                >
+              </div>
+              <h3 class="text-2xl font-bold mb-3">
+                Тест: Мой тип привязанности
+              </h3>
+              <p class="text-gray-400 mb-6">
+                Глубокий анализ вашего стиля построения близких отношений. 
+                Узнайте свой тип привязанности и получите путь к здоровым
+                отношениям.
+              </p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <span class="flex items-center"
+                    ><svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path></svg
+                    >10-15 мин</span
+                  >
+                  <span class="flex items-center"
+                    ><svg
+                      class="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path></svg
+                    >18 вопросов</span
+                  >
+                </div>
+                <svg
+                  class="hover-arrow w-6 h-6 text-purple-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -800,11 +885,7 @@
         });
 
         // --- Umami Analytics Fetching (Optimized) ---
-        const UMAMI_WEBSITE_ID = "b5d4a86a-11c7-4c4f-9a99-90c3e164426c";
-        const UMAMI_API_HOST = "https://cloud.umami.is"; // API host might be different, check Umami docs
-
         // This part is client-side and exposes no secrets.
-        // The API key from the original script was a public/dummy one and removed for security best practice.
         // Fetching visitor stats requires a backend proxy to securely use a real API key.
         // For this frontend-only optimization, we'll show placeholder data.
         const currentVisitorsEl = document.getElementById("current-visitors");

@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Продвинутый Анализ Нейромедиаторов - BPD tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-color: #020617;
+        --panel-bg: rgba(15, 23, 42, 0.7);
+        --border-color: rgba(56, 189, 248, 0.2);
+        --text-color: #e2e8f0;
+        --header-font: "Playfair Display", serif;
+        --body-font: "Inter", sans-serif;
+      }
+
+      body {
+        font-family: var(--body-font);
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        overflow-x: hidden;
+      }
+
+      .display-font {
+        font-family: var(--header-font);
+      }
+
+      .dynamic-bg {
+        position: fixed;
+        inset: 0;
+        background: var(--bg-color);
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      .glass-panel {
+        background: var(--panel-bg);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .option-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .option-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(56, 189, 248, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .option-card.selected {
+        background: linear-gradient(
+          135deg,
+          rgba(14, 165, 233, 0.2),
+          rgba(56, 189, 248, 0.2)
+        );
+        border-color: rgba(56, 189, 248, 0.6);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      .btn-premium {
+        background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(14, 165, 233, 0.3);
+      }
+      .btn-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
+      }
+
+      .progress-container {
+        position: sticky;
+        top: 80px;
+        z-index: 40;
+        background: rgba(2, 6, 23, 0.7);
+        backdrop-filter: blur(8px);
+      }
+
+      .progress-fill {
+        background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+        transition: width 0.5s ease;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #38bdf8 0%, #67e8f9 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+      .fade-out {
+        animation: fadeOut 0.5s ease-in forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-20px);
+          visibility: hidden;
+        }
+      }
+
+      /* Result Analyzer Styles */
+      .analyzer-container {
+        position: relative;
+        width: 100%;
+        max-width: 200px;
+        aspect-ratio: 1 / 1;
+        margin: auto;
+      }
+      .analyzer-ring {
+        transform-origin: center;
+        transition: stroke-dasharray 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .analyzer-glow {
+        filter: drop-shadow(0 0 10px var(--glow-color))
+          drop-shadow(0 0 20px var(--glow-color));
+      }
+      .analyzer-value {
+        font-family: "Courier New", Courier, monospace;
+        animation: text-flicker 3s linear infinite;
+      }
+      @keyframes text-flicker {
+        0%,
+        19.9%,
+        22%,
+        62.9%,
+        64%,
+        64.9%,
+        70%,
+        100% {
+          opacity: 0.99;
+        }
+        20%,
+        21.9%,
+        63%,
+        63.9%,
+        65%,
+        69.9% {
+          opacity: 0.4;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dynamic-bg"></div>
+
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Navigation -->
+      <nav class="glass-panel fixed top-0 w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+          <a href="../index.html" class="flex items-center space-x-2 group">
+            <div
+              class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <span class="text-white font-bold text-xl">Ψ</span>
+            </div>
+            <span class="text-xl font-semibold">BPD tests</span>
+          </a>
+          <div class="flex items-center space-x-6">
+            <a href="../index.html" class="hover:text-sky-400"
+              >← Вернуться к тестам</a
+            >
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <div
+        class="container mx-auto max-w-5xl px-4 sm:px-6 md:px-8 pt-24 pb-20 flex-grow"
+      >
+        <!-- Test Header -->
+        <header class="text-center mb-12 fade-in" style="margin-top: 80px">
+          <h1
+            class="display-font text-5xl sm:text-6xl md:text-7xl font-bold mb-4"
+          >
+            Анализ: <span class="gradient-text">Химия твоего мозга</span>
+          </h1>
+          <p class="text-xl text-gray-400 mb-8">
+            Определи, какой из 8 нейросистем требуется поддержка
+          </p>
+        </header>
+
+        <!-- Disclaimer and Instructions -->
+        <div id="disclaimer-container" class="fade-in">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl mb-12">
+            <h2 class="display-font text-3xl font-bold mb-4 text-sky-300">
+              Как это работает и зачем это нужно
+            </h2>
+            <p class="text-gray-300 mb-4">
+              Этот опросник — не медицинский диагноз, а инструмент для
+              самопознания. Он поможет вам лучше понять биохимические тенденции
+              вашего мозга и сформулировать более точные вопросы для обсуждения
+              со специалистом (психиатром или неврологом).
+            </p>
+            <p class="text-gray-400 text-sm mb-6">
+              Методология вдохновлена работами в области клинической
+              психофармакологии и нейробиологии, в частности трудами доктора
+              <strong>Дэниела Амена</strong> (концепция типов мозга),
+              <strong>Стивена М. Шталя</strong> (визуализация действия
+              психотропных препаратов) и нобелевского лауреата
+              <strong>Эрика Канделя</strong> (молекулярные механизмы памяти).
+            </p>
+            <div
+              class="bg-slate-800/50 border border-sky-500/30 rounded-xl p-6"
+            >
+              <h3 class="font-bold text-lg mb-3 text-white">
+                Инструкция по оценке
+              </h3>
+              <p class="text-gray-300 mb-4">
+                Насколько каждое утверждение применимо к вам в последнее время?
+              </p>
+              <ul class="space-y-3 text-gray-300">
+                <li>
+                  <span class="font-bold text-cyan-300">100% Да:</span> Это
+                  точно про меня, без сомнений.
+                </li>
+                <li>
+                  <span class="font-bold text-green-400">Скорее да:</span> В
+                  целом похоже, но бывают исключения.
+                </li>
+                <li>
+                  <span class="font-bold text-yellow-400">Отчасти:</span> 50/50,
+                  зависит от ситуации.
+                </li>
+                <li>
+                  <span class="font-bold text-orange-400">Скорее нет:</span> В
+                  основном не похоже, но что-то в этом есть.
+                </li>
+                <li>
+                  <span class="font-bold text-red-400">Совсем нет:</span> Это
+                  абсолютно не про меня.
+                </li>
+              </ul>
+            </div>
+            <div class="mt-8 text-center">
+              <button
+                id="start-test-btn"
+                class="btn-premium rounded-xl px-12 py-4 text-lg"
+              >
+                Я все понял(а), начать
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Container -->
+        <main id="test-container" class="hidden">
+          <!-- Progress Bar Container -->
+          <div class="progress-container rounded-xl mb-8">
+            <div class="w-full bg-slate-700/50 rounded-full h-2.5">
+              <div
+                id="progress-fill"
+                class="progress-fill h-2.5 rounded-full"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+
+          <form
+            id="neuro-test-form"
+            class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl space-y-10"
+          ></form>
+
+          <div class="mt-16 text-center">
+            <button
+              type="submit"
+              form="neuro-test-form"
+              class="btn-premium rounded-xl px-12 py-4 text-lg"
+            >
+              <span class="relative z-10">Показать результаты</span>
+            </button>
+          </div>
+        </main>
+
+        <!-- Results Container -->
+        <div id="results-container" class="hidden mt-16">
+          <div class="glass-panel rounded-3xl p-8 md:p-12 shadow-2xl">
+            <h2
+              class="display-font text-4xl md:text-5xl font-bold mb-12 text-center"
+            >
+              Ваша <span class="gradient-text">Нейро-Карта</span>
+            </h2>
+
+            <div id="recommendations-grid" class="space-y-8">
+              <!-- Recommendations will be injected here -->
+            </div>
+          </div>
+
+          <div class="mt-12 text-center space-y-4">
+            <button
+              onclick="location.reload()"
+              class="btn-premium rounded-xl px-12 py-4 text-lg"
+            >
+              Пройти тест заново
+            </button>
+            <div>
+              <a href="../index.html" class="text-sky-400 hover:text-sky-300">
+                Вернуться к списку тестов →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const questions = [
+          // Dopamine
+          {
+            q: "Увидев грязную тарелку в раковине, я думаю 'сейчас помою' и делаю это без внутреннего сопротивления.",
+            s: { dopamine: 1 },
+          },
+          {
+            q: "Когда я пробую новую еду или слушаю новый трек, я чувствую яркий всплеск удовольствия.",
+            s: { dopamine: 1, endorphins: 1 },
+          },
+          {
+            q: "Я открываю телефон, чтобы ответить на сообщение, и через 15 минут понимаю, что бесцельно листаю ленту.",
+            s: { dopamine: -1, acetylcholine: -1 },
+          },
+          {
+            q: "Мысль о том, чтобы начать изучать новый сложный навык (например, язык или программирование) вызывает у меня скорее азарт, чем уныние.",
+            s: { dopamine: 1 },
+          },
+
+          // Serotonin
+          {
+            q: "Если кто-то меня раскритиковал, я могу обдумать это и отпустить, не прокручивая ситуацию в голове весь день.",
+            s: { serotonin: 1 },
+          },
+          {
+            q: "Я засыпаю в течение 15-20 минут после того, как ложусь в кровать, без долгих ворочаний и мыслей.",
+            s: { serotonin: 1, gaba: 1 },
+          },
+          {
+            q: "Даже если я голоден(на), я могу спокойно дождаться обеда, не испытывая резкой тяги к булочке или шоколадке.",
+            s: { serotonin: 1 },
+          },
+          {
+            q: "Я чувствую себя комфортно в социальных ситуациях, не анализируя постоянно, что обо мне думают другие.",
+            s: { serotonin: 1, oxytocin: 1 },
+          },
+
+          // Acetylcholine
+          {
+            q: "После просмотра фильма я могу легко вспомнить имена главных героев и ключевые детали сюжета.",
+            s: { acetylcholine: 1 },
+          },
+          {
+            q: "В разговоре я быстро нахожу нужные слова и могу легко переключаться между темами.",
+            s: { acetylcholine: 1, glutamate: 1 },
+          },
+          {
+            q: "Я часто кладу вещи (ключи, телефон) и через минуту не могу вспомнить, куда именно.",
+            s: { acetylcholine: -1 },
+          },
+          {
+            q: "Когда я читаю книгу, я живо представляю себе описываемые сцены и персонажей.",
+            s: { acetylcholine: 1 },
+          },
+
+          // GABA
+          {
+            q: "После напряженного рабочего дня я могу прийти домой и полностью 'отключиться' от рабочих мыслей.",
+            s: { gaba: 1 },
+          },
+          {
+            q: "Я могу сидеть спокойно, не ерзая и не постукивая пальцами, когда приходится ждать.",
+            s: { gaba: 1 },
+          },
+          {
+            q: "Если я слышу резкий звук (сирена, хлопок), я вздрагиваю, но быстро успокаиваюсь.",
+            s: { gaba: 1, norepinephrine: 1 },
+          },
+          {
+            q: "Мысль о предстоящем важном событии вызывает у меня скорее предвкушение, чем панику и напряжение в теле.",
+            s: { gaba: 1, glutamate: -1 },
+          },
+
+          // Glutamate
+          {
+            q: "Я часто чувствую себя настолько 'заведенным(ой)', что мне трудно расслабиться даже в спокойной обстановке.",
+            s: { glutamate: 1, gaba: -1 },
+          },
+          {
+            q: "Я могу быть нетерпеливым(ой) и раздражаться, если люди или техника работают слишком медленно.",
+            s: { glutamate: 1, serotonin: -1 },
+          },
+          {
+            q: "Мой мозг иногда работает так быстро, что мысли перескакивают с одной на другую, и мне трудно их упорядочить.",
+            s: { glutamate: 1 },
+          },
+          {
+            q: "Я легко 'зацикливаюсь' на одной проблеме и могу думать о ней часами, анализируя все детали.",
+            s: { glutamate: 1, serotonin: -1 },
+          },
+
+          // Norepinephrine/Epinephrine
+          {
+            q: "Когда приближается дедлайн, я чувствую прилив энергии и работаю эффективнее.",
+            s: { norepinephrine: 1 },
+          },
+          {
+            q: "Утром, выпив кофе, я чувствую заметный прилив бодрости и готов(а) к работе.",
+            s: { norepinephrine: 1 },
+          },
+          {
+            q: "После сильного стресса или ссоры я чувствую себя полностью истощенным(ой) и 'выжатым(ой)'.",
+            s: { norepinephrine: -1 },
+          },
+          {
+            q: "Я быстро принимаю решения в критических ситуациях, не впадая в ступор.",
+            s: { norepinephrine: 1 },
+          },
+
+          // Endorphins
+          {
+            q: "После интенсивной тренировки, пробежки или даже долгой прогулки я чувствую прилив хорошего настроения.",
+            s: { endorphins: 1 },
+          },
+          {
+            q: "Просмотр трогательного фильма или прослушивание красивой музыки может вызвать у меня 'мурашки' или слезы умиления.",
+            s: { endorphins: 1, oxytocin: 1 },
+          },
+          {
+            q: "Я могу съесть что-то вкусное и вредное, просто потому что хочется, а не потому что мне грустно.",
+            s: { endorphins: 1, serotonin: 1 },
+          },
+          {
+            q: "Я могу посмеяться над собой и своими неудачами.",
+            s: { endorphins: 1, serotonin: 1 },
+          },
+
+          // Oxytocin
+          {
+            q: "Объятия с близким человеком или игра с домашним животным дают мне ощущение тепла и безопасности.",
+            s: { oxytocin: 1 },
+          },
+          {
+            q: "Мне легко выражать свои чувства и сопереживать другим людям.",
+            s: { oxytocin: 1 },
+          },
+          {
+            q: "Я чувствую себя частью команды или группы друзей и ценю это ощущение.",
+            s: { oxytocin: 1 },
+          },
+          {
+            q: "Я готов(а) потратить свое время, чтобы помочь другу, даже если это нарушает мои планы.",
+            s: { oxytocin: 1 },
+          },
+        ];
+
+        const answerOptions = [
+          { text: "100% Да", points: 2 },
+          { text: "Скорее да", points: 1 },
+          { text: "Отчасти", points: 0 },
+          { text: "Скорее нет", points: -1 },
+          { text: "Совсем нет", points: -2 },
+        ];
+
+        const neuroInfo = {
+          dopamine: {
+            name: "Дофамин",
+            color: "#38bdf8",
+            description: "Ваш 'двигатель' мотивации, фокуса и вознаграждения.",
+          },
+          serotonin: {
+            name: "Серотонин",
+            color: "#34d399",
+            description: "Ваш 'стабилизатор' настроения, сна и спокойствия.",
+          },
+          acetylcholine: {
+            name: "Ацетилхолин",
+            color: "#facc15",
+            description:
+              "Ваш 'процессор' для памяти, обучения и скорости мысли.",
+          },
+          gaba: {
+            name: "ГАМК",
+            color: "#fb923c",
+            description: "Ваш 'тормоз' для расслабления и снятия тревоги.",
+          },
+          glutamate: {
+            name: "Глутамат",
+            color: "#f87171",
+            description:
+              "Ваш 'газ', отвечающий за возбуждение и скорость реакции.",
+          },
+          norepinephrine: {
+            name: "Норадреналин",
+            color: "#a78bfa",
+            description: "Ваш 'форсаж' для бодрости и реакции на стресс.",
+          },
+          endorphins: {
+            name: "Эндорфины",
+            color: "#f472b6",
+            description: "Ваше 'обезболивающее' для эйфории и благополучия.",
+          },
+          oxytocin: {
+            name: "Окситоцин",
+            color: "#60a5fa",
+            description:
+              "Ваш 'клей' для доверия, привязанности и социальных связей.",
+          },
+        };
+
+        const disclaimerContainer = document.getElementById(
+          "disclaimer-container"
+        );
+        const startTestBtn = document.getElementById("start-test-btn");
+        const testContainer = document.getElementById("test-container");
+        const resultsContainer = document.getElementById("results-container");
+        const form = document.getElementById("neuro-test-form");
+        const storageKey = "neuroTestConcreteAnswers";
+        let answeredQuestionsCount = 0;
+
+        startTestBtn.addEventListener("click", () => {
+          disclaimerContainer.classList.add("fade-out");
+          disclaimerContainer.addEventListener(
+            "animationend",
+            () => {
+              disclaimerContainer.classList.add("hidden");
+              testContainer.classList.remove("hidden");
+              testContainer.classList.add("fade-in");
+              renderQuestions();
+            },
+            { once: true }
+          );
+        });
+
+        function saveState() {
+          const formData = new FormData(form);
+          const answers = {};
+          for (const [name, value] of formData.entries()) {
+            answers[name] = value;
+          }
+          localStorage.setItem(storageKey, JSON.stringify(answers));
+        }
+
+        function loadState() {
+          const savedAnswers = localStorage.getItem(storageKey);
+          if (!savedAnswers) return;
+          const answers = JSON.parse(savedAnswers);
+          Object.entries(answers).forEach(([name, value]) => {
+            const radio = form.querySelector(
+              `input[name="${name}"][value="${value}"]`
+            );
+            if (radio) {
+              radio.checked = true;
+              radio.parentElement.classList.add("selected");
+              const questionBlock = radio.closest(".question-block");
+              if (!questionBlock.hasAttribute("data-answered")) {
+                questionBlock.setAttribute("data-answered", "true");
+                answeredQuestionsCount++;
+              }
+            }
+          });
+          updateProgress();
+        }
+
+        function updateProgress() {
+          const progress = (answeredQuestionsCount / questions.length) * 100;
+          document.getElementById("progress-fill").style.width = `${progress}%`;
+        }
+
+        function renderQuestions() {
+          form.innerHTML = "";
+          questions.forEach((qData, index) => {
+            const block = document.createElement("div");
+            block.className = "question-block fade-in";
+            block.style.animationDelay = `${index * 0.03}s`;
+
+            const questionText = document.createElement("p");
+            questionText.className = "font-medium text-lg text-gray-300 mb-4";
+            questionText.textContent = `${index + 1}. ${qData.q}`;
+            block.appendChild(questionText);
+
+            const optionsContainer = document.createElement("div");
+            optionsContainer.className =
+              "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3";
+
+            answerOptions.forEach((opt) => {
+              const label = document.createElement("label");
+              label.className =
+                "option-card p-4 rounded-xl text-center cursor-pointer flex items-center justify-center min-h-[60px]";
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = `q${index}`;
+              radio.value = opt.points;
+              radio.required = true;
+              label.appendChild(radio);
+              label.append(opt.text);
+              optionsContainer.appendChild(label);
+            });
+            block.appendChild(optionsContainer);
+            form.appendChild(block);
+          });
+          loadState();
+        }
+
+        form.addEventListener("change", (e) => {
+          if (e.target.type === "radio") {
+            const container = e.target.closest(".grid");
+            container
+              .querySelectorAll(".option-card")
+              .forEach((card) => card.classList.remove("selected"));
+            e.target.parentElement.classList.add("selected");
+
+            const questionBlock = e.target.closest(".question-block");
+            if (!questionBlock.hasAttribute("data-answered")) {
+              questionBlock.setAttribute("data-answered", "true");
+              answeredQuestionsCount++;
+              updateProgress();
+            }
+            saveState();
+          }
+        });
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (answeredQuestionsCount < questions.length) {
+            const unansweredBlock = form.querySelector(
+              ".question-block:not([data-answered])"
+            );
+            if (unansweredBlock) {
+              unansweredBlock.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+            return;
+          }
+          const scores = calculateScores();
+          renderResults(scores);
+          localStorage.removeItem(storageKey);
+        });
+
+        function calculateScores() {
+          let scores = {};
+          let maxScores = {};
+          // Add melatonin for calculation, but not for display
+          const allKeys = [...Object.keys(neuroInfo), "melatonin"];
+          allKeys.forEach((key) => {
+            scores[key] = 0;
+            maxScores[key] = 0;
+          });
+
+          const formData = new FormData(form);
+          questions.forEach((q, index) => {
+            const answerValue = parseInt(formData.get(`q${index}`), 10);
+            if (isNaN(answerValue)) return;
+
+            Object.keys(q.s).forEach((neuro) => {
+              if (scores.hasOwnProperty(neuro)) {
+                const scoreChange = answerValue * q.s[neuro];
+                scores[neuro] += scoreChange;
+                maxScores[neuro] += Math.abs(q.s[neuro] * 2);
+              }
+            });
+          });
+
+          let percentages = {};
+          Object.keys(scores).forEach((neuro) => {
+            const totalPossible = maxScores[neuro];
+            if (totalPossible === 0) {
+              percentages[neuro] = 50; // Default for non-scored items
+              return;
+            }
+            const minPossible = -totalPossible;
+            const range = totalPossible * 2;
+            const normalizedScore = scores[neuro] + totalPossible;
+            percentages[neuro] = Math.round((normalizedScore / range) * 100);
+          });
+
+          return percentages;
+        }
+
+        function renderResults(scores) {
+          testContainer.classList.add("fade-out");
+          testContainer.addEventListener(
+            "animationend",
+            () => {
+              testContainer.classList.add("hidden");
+              resultsContainer.classList.remove("hidden");
+              resultsContainer.classList.add("fade-in");
+              window.scrollTo(0, 0);
+
+              const recommendationsGrid = document.getElementById(
+                "recommendations-grid"
+              );
+              recommendationsGrid.innerHTML = "";
+
+              Object.entries(neuroInfo).forEach(([key, info], index) => {
+                const value = scores[key];
+                const circumference = 2 * Math.PI * 45; // 2 * pi * r
+                const offset = circumference - (value / 100) * circumference;
+
+                let statusText, statusColor;
+                if (key === "glutamate") {
+                  if (value < 30) {
+                    statusText = "Снижена активность";
+                    statusColor = "text-sky-400";
+                  } else if (value > 70) {
+                    statusText = "Повышена активность";
+                    statusColor = "text-red-400";
+                  } else {
+                    statusText = "В балансе";
+                    statusColor = "text-green-400";
+                  }
+                } else {
+                  if (value < 40) {
+                    statusText = "Возможен дефицит";
+                    statusColor = "text-orange-400";
+                  } else {
+                    statusText = "В норме";
+                    statusColor = "text-green-400";
+                  }
+                }
+
+                const resultCard = document.createElement("div");
+                resultCard.className =
+                  "glass-panel rounded-2xl p-6 fade-in flex flex-col md:flex-row items-center gap-6";
+                resultCard.style.animationDelay = `${index * 0.1}s`;
+                resultCard.innerHTML = `
+                    <div class="analyzer-container flex-shrink-0">
+                        <svg class="w-full h-full" viewBox="0 0 100 100">
+                            <!-- Background ring -->
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255, 255, 255, 0.1)" stroke-width="5" />
+                            <!-- Foreground ring -->
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="${info.color}" stroke-width="5"
+                                stroke-dasharray="${circumference}"
+                                stroke-dashoffset="${circumference}"
+                                transform="rotate(-90 50 50)"
+                                class="analyzer-ring analyzer-glow"
+                                style="--glow-color: ${info.color}; stroke-dashoffset: ${offset};"
+                            />
+                            <!-- Text in the middle -->
+                            <text x="50" y="55" text-anchor="middle" class="analyzer-value" fill="${info.color}" font-size="24">${value}%</text>
+                        </svg>
+                    </div>
+                    <div class="flex-grow text-center md:text-left">
+                        <h4 class="font-bold text-2xl mb-1" style="color: ${info.color};">${info.name}</h4>
+                        <p class="text-gray-400 italic text-sm mb-3">${info.description}</p>
+                        <p class="font-semibold text-lg ${statusColor}">${statusText}</p>
+                    </div>
+                `;
+                recommendationsGrid.appendChild(resultCard);
+
+                if (index === 0) {
+                  const disclaimer = document.createElement("p");
+                  disclaimer.className =
+                    "text-xs text-gray-500 mt-8 text-center";
+                  disclaimer.innerHTML = `<strong>Дисклеймер:</strong> Этот тест не является медицинским диагнозом. Результаты носят информационный характер. Для точной диагностики обратитесь к специалисту.`;
+                  recommendationsGrid.appendChild(disclaimer);
+                }
+              });
+            },
+            { once: true }
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
